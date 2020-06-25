@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+    <title>Aniket Mishra</title>
+    <meta charset="UTF-8">
+    <meta name="description" content="A developer learning the ways of the universe to make the world a better place"/>
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1.0, user-scalable=no">
+    
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="static/css/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css" media="screen,projection">
+    
+
+
+    <style>
+        body{
+            background-color: #fafafa;
+        }
+        .dark-text{
+            color: #070707 !important;
+        }
+
+        .bottom-div{
+            color: #070707; 
+            background-color: #eeeeee; 
+            height: 37.5px; 
+            width: 100%; 
+            position: fixed; 
+            bottom: 0; 
+            text-align: center; 
+            padding-top: 5px; 
+        }
+        .pulsate {
+            color: red;
+            -webkit-animation: pulsate 3.5s ease-out;
+            -webkit-animation-iteration-count: infinite; 
+            opacity: 0.3;
+        }
+        @-webkit-keyframes pulsate {
+            0% { 
+                opacity: 0.3;
+            }
+            50% { 
+                opacity: 1.0;
+            }
+            100% { 
+                opacity: 0.3;
+            }
+        }
+
+        @keyframes shadow-pulse
+        {
+            0% {
+                box-shadow: 255 255 255 0px rgba(0, 0, 0, 0.2);
+            }
+            100% {
+                box-shadow: 255 255 255 45px rgba(0, 0, 0, 0);
+            }
+        }
+
+    </style>
+
+</head>
+<body>
+
+    <div class="navbar-fixed" id="home">
+        <nav class="grey lighten-3" > 
+            <div class="container">
+                <div class="">
+                    <a href="#" class="brand-logo dark-text">Aniket Mishra</a>
+                    <a href="#" data-target="mobile-nav" class="sidenav-trigger">
+                        <i class="material-icons" style="color: black;">menu</i>
+                    </a>
+                    <ul class="right hide-on-med-and-down">
+                        <li  style="display: none;">
+                            <a href="#home">home</a>
+                        </li>
+                        <li>
+                            <a href="#about" class="dark-text">About</a>
+                        </li>
+                        <li>
+                            <a href="#projects" class="dark-text">Projects</a>
+                        </li>
+                        <li>
+                            <a href="#experience" class="dark-text">Experience</a>
+                        </li>
+                        <li>
+                            <a href="#certificates" class="dark-text">Certificates</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </div>
+    <ul class="sidenav" id="mobile-nav">
+        <li style="display: none;">
+            <a href="#home" class="dark-text">home</a>
+        </li>
+        <li>
+            <a href="#about" class="dark-text">About</a>
+        </li>
+        <li>
+            <a href="#projects" class="dark-text">Projects</a>
+        </li>
+        <li>
+            <a href="#experience" class="dark-text">Experience</a>
+        </li>
+        <li>
+            <a href="#certificates" class="dark-text">Certificates</a>
+        </li>
+    </ul>
+
+    <div class="container-large" style="">
+        <div class="row" style="width: 95%; margin: 2% auto 2% auto;">
+            <div id="home" class="col s12 scrollspy home" style="height: 100vh; text-align: center; margin:auto; vertical-align: middle;">
+                <div class="home-intro" style="margin-top: 12%;">
+                    <h1>Hello, I'm Aniket Mishra.</h1>
+                    <h1>I'm a data analyst and a web developer.</h1>
+                    <a href="#"><div class="btn">Some things I have worked on</div></a>
+                </div>
+            </div>
+            <div  id="about" class="col s12 scrollspy about">
+                <div class="row">
+                    <div class="col s12 m3 offset-m1">
+                      <div class="card" style="background-color: none;">
+                        <div class="card-image"style="border-radius: 50%;">
+                          <img src="static/images/dp.jpg"style="border-radius: 50%;">
+                        </div>
+                        <div class="card-content">
+                          <span class="card-title">Card Title</span>
+
+                          <p>I am a very simple card. I am good at containing small bits of information.
+                          I am convenient because I require little markup to use effectively.</p>
+                        </div>
+                        <div class="card-action">
+                          <a href="#">This is a link</a>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                
+            </div>
+            <div id="home" class="col s12 scrollspy projects" style="height: 200px;">
+                <img src="static/images/dp.jpg" style="border-radius: 50%;">
+            </div>
+            <div  id="about" class="col s12 scrollspy experience">
+                
+            </div>
+            <div id="home" class="col s12 scrollspy certificates" style="height: 200px;">
+                
+            </div>
+
+        </div>  
+    </div>
+        
+
+
+    <div class="bottom-div" style="">
+        <a target="_blank" href="http://codezoned.com"><div style="color: #070707; font-size: 19px;">Made with <span class="pulsate">&#x2764;</span></div></a>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+
+    <script>
+
+
+        const sideNav = document.querySelector('.sidenav');
+        M.Sidenav.init(sideNav, {});
+
+        // ScrollSpy
+        const ss = document.querySelectorAll('.scrollspy');
+        M.ScrollSpy.init(ss, {});
+
+    </script>
+
+</body>
+</html>
