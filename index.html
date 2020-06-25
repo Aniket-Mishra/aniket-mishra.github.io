@@ -8,9 +8,11 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1.0, user-scalable=no">
     
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.2/animate.min.css">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="static/css/styles.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css" media="screen,projection">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.css" media="screen,projection">
     
 
 
@@ -59,13 +61,38 @@
                 box-shadow: 255 255 255 45px rgba(0, 0, 0, 0);
             }
         }
-
+/* 
+        .project-container{
+            display: grid;
+            grid-column: 1fr 1fr 1fr 1fr;
+        } */
+        .card-content{
+            -webkit-transition: all 1s ease !important;
+        }
+        .card-content:hover{
+            background-color: #eeeeee !important;
+            /* color: #eeeeee !important; */
+            transition: 1s ease !important;
+            -webkit-transform: scale(1.1) translateX(-3px);
+            -ms-transform: scale(1.1) translateX(-3px);
+            transform: scale(1.1) translateX(-3px);
+            box-shadow:
+                1px 1px #373737,
+                2px 2px #373737,
+                3px 3px #373737,
+                4px 4px #373737,
+                5px 5px #373737,
+                6px 6px #373737;
+            -webkit-transform: translateX(-3px);
+            /* transform: translateX(-3px); */
+            /* transition: .5s ease; */
+        }
     </style>
 
 </head>
 <body>
 
-    <div class="navbar-fixed" id="home">
+    <!-- <div class="navbar-fixed" id="home">
         <nav class="grey lighten-3" > 
             <div class="container">
                 <div class="">
@@ -87,7 +114,7 @@
                             <a href="#experience" class="dark-text">Experience</a>
                         </li>
                         <li>
-                            <a href="#certificates" class="dark-text">Certificates</a>
+                            <a href="#resume" class="dark-text">resume</a>
                         </li>
                     </ul>
                 </div>
@@ -108,48 +135,237 @@
             <a href="#experience" class="dark-text">Experience</a>
         </li>
         <li>
-            <a href="#certificates" class="dark-text">Certificates</a>
+            <a href="#resume" class="dark-text">resume</a>
         </li>
-    </ul>
+    </ul> -->
 
-    <div class="container-large" style="">
+    <div class="container-large">
         <div class="row" style="width: 95%; margin: 2% auto 2% auto;">
             <div id="home" class="col s12 scrollspy home" style="height: 100vh; text-align: center; margin:auto; vertical-align: middle;">
                 <div class="home-intro" style="margin-top: 12%;">
                     <h1>Hello, I'm Aniket Mishra.</h1>
-                    <h1>I'm a data analyst and a web developer.</h1>
+                    <h1>I like to play with data. And I build websites for fun.</h1>
                     <a href="#"><div class="btn">Some things I have worked on</div></a>
                 </div>
             </div>
             <div  id="about" class="col s12 scrollspy about">
                 <div class="row">
                     <div class="col s12 m3 offset-m1">
-                      <div class="card" style="background-color: none;">
-                        <div class="card-image"style="border-radius: 50%;">
-                          <img src="static/images/dp.jpg"style="border-radius: 50%;">
-                        </div>
-                        <div class="card-content">
-                          <span class="card-title">Card Title</span>
+                        <div class="card" style="background-color: #fafafa;">
+                            <div class="card-image"style="border-radius: 50%;">
+                                <img src="static/images/dp.jpg"style="border-radius: 50%;">
+                            </div>
+                            <div class="card-content">
+                                <span class="card-title">Something about me?</span>
 
-                          <p>I am a very simple card. I am good at containing small bits of information.
-                          I am convenient because I require little markup to use effectively.</p>
+                                <p>I love to write poems and tell stories. Poems about people and stories about data.</p>
+                            </div>
+                            <!-- <div class="card-action">
+                            <a href="#">Click for more information</a>
+                            </div> -->
                         </div>
-                        <div class="card-action">
-                          <a href="#">This is a link</a>
-                        </div>
-                      </div>
                     </div>
-                  </div>
+                    <div class="col s12 m6 offset-m1" style=" text-align: justify;">
+                        <h3 class="z-depth-5 grey lighten-5" style="padding: 10px; max-width: 250px; text-align: center;">About</h3>
+                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Delectus adipisci dolore ab veritatis facere ex quam iusto enim, quibusdam, magni molestias doloremque hic vitae eius quis. Vitae quae iusto rem tempora quos dolore numquam excepturi pariatur nam laboriosam, odit, quasi architecto consectetur tenetur odio dolorem laborum. Commodi illum amet adipisci numquam iste explicabo officiis nobis ad distinctio blanditiis quidem, aperiam dicta facere facilis? Distinctio, culpa labore ea perspiciatis nesciunt autem ipsum modi fugiat, eveniet numquam quam rerum consectetur officiis accusantium minima non dolores aliquam quia quos porro, facilis veniam placeat. Exercitationem ab velit totam, iusto voluptates dolores non odio perferendis.</p>
+                    </div>
+                </div>
                 
             </div>
-            <div id="home" class="col s12 scrollspy projects" style="height: 200px;">
-                <img src="static/images/dp.jpg" style="border-radius: 50%;">
-            </div>
-            <div  id="about" class="col s12 scrollspy experience">
+            
+            <div  id="project" class="col s12 scrollspy project">
+                <div class="row" style="margin-left: 25px; margin-right: 25px;">
+                    <h3 class="z-depth-5 grey lighten-5" style="margin: 2% auto;padding: 10px; max-width: 250px; text-align: center !important;">Projects</h3>
+
+                    <div class="col s10 offset-s1" style="">
+                            <div class="row" style="">
+                                <div class="col s12 m4">
+                                    <div class="card grey lighten-5" style="color: #070707 !important;">
+                                      <div class="card-content">
+                                        <span class="card-title">Card Title</span>
+                                        <p>I am a very simple card. I am good at containing small bits of information.
+                                        I am convenient because I require little markup to use effectively.</p>
+                                      </div>
+                                    </div>
+                                    <!-- <div class="animated bounceInRight" style="">
+                                        Lorem ipsum, dolor sit amet consectetur adipisicing elit. Dicta molestias facilis sapiente cum mollitia eveniet corrupti. Ea nisi sed iure consectetur ipsam sequi, excepturi pariatur blanditiis aspernatur velit autem, quas qui totam ullam omnis quidem, necessitatibus nostrum delectus consequatur praesentium assumenda. Error possimus, explicabo id neque voluptatum totam facere autem voluptate? Esse officia, sed aspernatur fugiat fuga in similique harum quibusdam id maiores quod ut dolores placeat perferendis blanditiis reiciendis accusantium deserunt est. Non vitae quidem qui at perferendis dicta? Officiis libero quaerat numquam. Nihil natus tenetur dolorum voluptates minus corporis neque doloribus quaerat doloremque sed odit maxime delectus, accusantium excepturi vitae impedit optio, eligendi commodi. Vero autem officia maxime magnam consequatur fugit impedit molestiae dolores ad delectus. Quas ipsa unde eaque et neque velit repudiandae delectus magnam tempora, ullam iusto illum aliquid alias eius est accusamus aperiam mollitia dolor molestiae voluptas eveniet! Qui deserunt quaerat explicabo, provident exercitationem minima laudantium nostrum quod officiis sequi fuga corporis iure tenetur, ipsam aut quae? Odit suscipit sit tenetur ullam, harum culpa alias et. Aliquam voluptatem fugit quasi, obcaecati aperiam, tempore adipisci sed distinctio quia vel itaque fugiat laborum atque temporibus labore corporis vitae ipsam ipsa. Libero, dignissimos? Labore rem totam iusto et!
+                                    </div> -->
+                                  </div>
+                                  <div class="col s12 m4">
+                                    <div class="card grey lighten-5" style="color: #070707 !important;">
+                                      <div class="card-content">
+                                        <span class="card-title">Card Title</span>
+                                        <p>I am a very simple card. I am good at containing small bits of information.
+                                        I am convenient because I require little markup to use effectively.</p>
+                                      </div>
+                                    </div>
+                                  </div>
+                                  <div class="col s12 m4">
+                                    <div class="card grey lighten-5" style="color: #070707 !important;">
+                                      <div class="card-content">
+                                        <span class="card-title">Card Title</span>
+                                        <p>I am a very simple card. I am good at containing small bits of information.
+                                        I am convenient because I require little markup to use effectively.</p>
+                                      </div>
+                                    </div>
+                                  </div>
+                            </div>
+                            <div class="row" style="">
+                                <div class="col s12 m4">
+                                    <div class="card grey lighten-5" style="color: #070707 !important;">
+                                      <div class="card-content">
+                                        <span class="card-title">Card Title</span>
+                                        <p>I am a very simple card. I am good at containing small bits of information.
+                                        I am convenient because I require little markup to use effectively.</p>
+                                      </div>
+                                    </div>
+                                  </div>
+                                  <div class="col s12 m4">
+                                    <div class="card grey lighten-5" style="color: #070707 !important;">
+                                      <div class="card-content">
+                                        <span class="card-title">Card Title</span>
+                                        <p>I am a very simple card. I am good at containing small bits of information.
+                                        I am convenient because I require little markup to use effectively.</p>
+                                      </div>
+                                    </div>
+                                  </div>
+                                  <div class="col s12 m4">
+                                    <div class="card grey lighten-5" style="color: #070707 !important;">
+                                      <div class="card-content">
+                                        <span class="card-title">Card Title</span>
+                                        <p>I am a very simple card. I am good at containing small bits of information.
+                                        I am convenient because I require little markup to use effectively.</p>
+                                      </div>
+                                    </div>
+                                  </div>
+                            </div>
+                            <div class="row" style="">
+                                <div class="col s12 m4">
+                                    <div class="card grey lighten-5" style="color: #070707 !important;">
+                                      <div class="card-content">
+                                        <span class="card-title">Card Title</span>
+                                        <p>I am a very simple card. I am good at containing small bits of information.
+                                        I am convenient because I require little markup to use effectively.</p>
+                                      </div>
+                                    </div>
+                                  </div>
+                                  <div class="col s12 m4">
+                                    <div class="card grey lighten-5" style="color: #070707 !important;">
+                                      <div class="card-content">
+                                        <span class="card-title">Card Title</span>
+                                        <p>I am a very simple card. I am good at containing small bits of information.
+                                        I am convenient because I require little markup to use effectively.</p>
+                                      </div>
+                                    </div>
+                                  </div>
+                                  <div class="col s12 m4">
+                                    <div class="card grey lighten-5" style="color: #070707 !important;">
+                                      <div class="card-content">
+                                        <span class="card-title">Card Title</span>
+                                        <p>I am a very simple card. I am good at containing small bits of information.
+                                        I am convenient because I require little markup to use effectively.</p>
+                                      </div>
+                                    </div>
+                                  </div>
+                            </div>
+                            
+                    </div>
+                </div>
+
                 
             </div>
-            <div id="home" class="col s12 scrollspy certificates" style="height: 200px;">
+
+            <div  id="experience" class="col s12 scrollspy experience">
+                <div class="row" style="margin-left: 25px; margin-right: 25px;">
+                    <h3 class="z-depth-5 grey lighten-5" style="margin: 2% auto;padding: 10px; max-width: 250px; text-align: center !important;">My Experiences</h3>
+
+                    <div class="col s10 offset-s1" style="">
+                            <div class="row" style="">
+                                <div class="col s12 m3" style="margin-left: 5%">
+                                    <div class="card" style="min-height: 300px !important;">
+                                        <div class="card-image waves-effect waves-block waves-light">
+                                        <img class="activator" src="static/images/dp.jpg" style="width: 80%;">
+                                        </div>
+                                        <div class="card-content" style="margin-top: 0">
+                                        <span class="card-title activator grey-text text-darken-4" style="font-size: 1.6em;">Data Analyst Intern <br> Infosys<i class="material-icons right">more_vert</i></span>
+                                        </div>
+                                        <div class="card-reveal">
+                                        <span class="card-title grey-text text-darken-4">Data Analyst Intern <br> Infosys<i class="material-icons right">close</i></span>
+                                        <p>Got the opportunity of interning at Infosys as a data analyst where I was trained in Python, Mathematic, Statistics and was given multiple real world datasets to work on.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col s12 m3" style="margin-left: 7.5%">
+                                    <div class="card" style="min-height: 300px !important;">
+                                        <div class="card-image waves-effect waves-block waves-light" style="margin: 0 auto !important">
+                                        <img class="activator" src="static/images/dp.jpg" style="width: 80%;">
+                                        </div>
+                                        <div class="card-content">
+                                        <span class="card-title activator grey-text text-darken-4">Developer <br> Codezoned<i class="material-icons right">more_vert</i></span>
+                                        </div>
+                                        <div class="card-reveal">
+                                        <span class="card-title grey-text text-darken-4" style="font-size: 1.6em;">Developer <br> Codezoned<i class="material-icons right">close</i></span>
+                                        <p>Led the web dev team in building the codezoned website and managed multiple other projects over Github. 
+                                            <br>Link: codezoned.com
+                                        </p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col s12 m3" style="margin-left: 7.5%">
+                                    <div class="card" style="min-height: 300px !important;">
+                                        <div class="card-image waves-effect waves-block waves-light">
+                                        <img class="activator" src="static/images/dp.jpg" style="width: 80%;">
+                                        </div>
+                                        <div class="card-content">
+                                        <span class="card-title activator grey-text text-darken-4" style="font-size: 1.6em;">Web Developer <br> Phoenix Software Solutions <i class="material-icons right">more_vert</i></span>
+                                        </div>
+                                        <div class="card-reveal">
+                                        <span class="card-title grey-text text-darken-4">Web Developer <br> Phoenix Software Solutions<i class="material-icons right">close</i></span>
+                                        <p>Here is some more information about this product that is only revealed once clicked on.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                    </div>
+                </div>
+
                 
+            </div>
+
+            
+
+            <div  id="experience" class="col s12 scrollspy experience">
+                <div class="row" style="margin-left: 25px; margin-right: 25px;">
+                    <h3 class="z-depth-5 grey lighten-5" style="margin: 2% auto;padding: 10px; max-width: 250px; text-align: center !important;">My Experiences</h3>
+
+                    <div class="col s10 offset-s1" style="">
+                            <div class="row" style="">
+                                
+                            </div>
+                            
+                    </div>
+                </div>
+
+                
+            </div>
+
+            <div  id="experience" class="col s12 scrollspy experience">
+                <div class="row" style="margin-left: 25px; margin-right: 25px;">
+                    <h3 class="z-depth-5 grey lighten-5" style="margin: 2% auto;padding: 10px; max-width: 250px; text-align: center !important;">My Experiences</h3>
+
+                    <div class="col s10 offset-s1" style="">
+                            <div class="row" style="">
+                                
+                            </div>
+                            
+                    </div>
+                </div>
+
+                
+            </div>
+            <div id="resume" class="col s12 scrollspy resume" style="height: 250px;">
+                <h3 class="z-depth-5 grey lighten-5" style="padding: 10px; max-width: 250px; text-align: center;">Resume</h3>
             </div>
 
         </div>  
