@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+    <title>Aniket Mishra</title>
+    <meta charset="UTF-8">
+    <meta name="description" content="A developer learning the ways of the universe to make the world a better place"/>
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1.0, user-scalable=no">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.2/animate.min.css">
+    
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="static/css/styles.css">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.css" media="screen,projection">
+    
+    <script src="https://kit.fontawesome.com/78360cb4a5.js" crossorigin="anonymous"></script>
+
+    <style>
+        body{
+            background-color: #fafafa;
+        }
+        .dark-text{
+            color: #070707 !important;
+        }
+
+        .bottom-div{
+            color: #070707; 
+            background-color: #eeeeee; 
+            height: 37.5px; 
+            width: 100%; 
+            position: fixed; 
+            bottom: 0; 
+            text-align: center; 
+            padding-top: 5px; 
+        }
+        .pulsate {
+            color: red;
+            -webkit-animation: pulsate 3.5s ease-out;
+            -webkit-animation-iteration-count: infinite; 
+            opacity: 0.3;
+        }
+        @-webkit-keyframes pulsate {
+            0% { 
+                opacity: 0.3;
+            }
+            50% { 
+                opacity: 1.0;
+            }
+            100% { 
+                opacity: 0.3;
+            }
+        }
+
+        @keyframes shadow-pulse
+        {
+            0% {
+                box-shadow: 255 255 255 0px rgba(0, 0, 0, 0.2);
+            }
+            100% {
+                box-shadow: 255 255 255 45px rgba(0, 0, 0, 0);
+            }
+        }
+/* 
+        .project-container{
+            display: grid;
+            grid-column: 1fr 1fr 1fr 1fr;
+        } */
+        .card-content{
+            -webkit-transition: all 1s ease !important;
+        }
+        .card-content:hover{
+            background-color: #eeeeee !important;
+            /* color: #eeeeee !important; */
+            /* transition: 1s ease !important; */
+            
+            box-shadow:
+                1px 1px #bdbdbd,
+                2px 2px #bdbdbd,
+                3px 3px #bdbdbd,
+                4px 4px #bdbdbd,
+                5px 5px #bdbdbd,
+                6px 6px #bdbdbd;
+                -webkit-transform: translateX(-3px);
+                -ms-transform: translateX(-3px);
+                transform: translateX(-3px);
+                transition: .5s ease;
+        }
+    </style>
+
+</head>
+<body style="background-color: #fafafa;">
+
+    <a href="my_stuff.html" onclick="return alert('You have a good eye. And I have a bad Monitor. There you go, You made it.')"><div style="width: 100%; background-color: #f5f5f5; height: 20px;"></div>
+
+    </div></a>
+    <div style="margin: 10%;">
+        <div>
+            <h4>We must never judge a book by its cover. This holds true here as well.</h4>
+            <h4 style="text-align: center;">Unlucky. <br> This is still <a id="fell_for_it" onclick="return alert('Did you think it would work a second time?');" href="https://www.reddit.com/r/YouFellForItFool/comments/cjlngm/you_fell_for_it_fool/?utm_source=share&utm_medium=web2x" style="color: #111111;"><i>Probably</i></a> a huge waste of your time.</h4>
+        </div>
+    </div>
+    <div class="bottom-div" style="">
+        <a id="no" onclick="return alert('No');" href="#"><div style="color: #070707; font-size: 19px;">Made with <span class="pulsate">&#x2764;</span></div></a>    
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+
+    <script>
+
+
+        const sideNav = document.querySelector('.sidenav');
+        M.Sidenav.init(sideNav, {});
+
+        // ScrollSpy
+        const ss = document.querySelectorAll('.scrollspy');
+        M.ScrollSpy.init(ss, {});
+
+        document.addEventListener('DOMContentLoaded', function() {
+            var elems = document.querySelectorAll('.fixed-action-btn');
+            var instances = M.FloatingActionButton.init(elems, {
+            toolbarEnabled: true
+            });
+        });
+
+    </script>
+
+</body>
+</html>

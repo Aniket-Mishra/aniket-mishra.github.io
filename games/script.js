@@ -39,7 +39,7 @@ var updateBlocks = setInterval(function() {
 	var characterLeft = parseInt(window.getComputedStyle(character).getPropertyValue('left'));
 	if (characterTop < -20) {
 		let num = counter - 10;
-		alert('u lose. score: ' + num);
+		alert('The Heavens devoured you. But! You scored ' + num + ' points');
 		clearInterval(updateBlocks);
 		Location.reload();
 	}
