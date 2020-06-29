@@ -9,11 +9,19 @@
     <title>Gravity Falls!</title>
     <link rel="stylesheet" href="style.css">
 </head>
-<body style="background-color: #eeeeee;">
-
-    <h1 style="margin: 15px auto; font-size: 2em; text-align: center;">Oh? I see you are a curious one...</h1>
-    <h3 style="margin: 25px auto; font-size: 1.5em; text-align: center; height: 25px;">But you fell for it! Prepare to face the buggiest javascript game you've ever played. Who knows, you might find something fun in here.</h3>
-    <h4 style="margin: 25px auto; font-size: 1.5em; text-align: center; height: 25px;">Keith Galli would be sad looking at what I did to his game :') Imagine taking perfectly good code and making this abomination out of it.</h4>
+<body style="background-color: #eeeeee;" onload="noMobiles()">
+    <div style="width: 90%; margin: 10px auto; overflow: hidden;">
+        <h1 style="margin: 10px auto; font-size: 2em; text-align: center;">Welcome! I see you found your way here.</h1>
+        <h3 style="margin: 20px auto; font-size: 1.5em; text-align: center; height: 25px;">Prepare to face the buggiest javascript 
+            game you've ever played which is not optimized for cellphones. Who knows, you might find something 
+            fun in here. &#128521;
+        </h3>
+        <h4 style="margin: 20px auto; font-size: 1.5em; text-align: center; height: 25px;">
+            Keith Galli would be sad looking at what I did to his game :') 
+            Imagine taking a perfectly good game and making this abomination out of it.
+        </h4>
+    </div>
+    
 
     <div id="game" style="border: 2px solid black; background-color: #eeeeee; margin-top: 5%;">
 
@@ -38,7 +46,9 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.0.0/jquery.min.js"></script>
     <script>
-
+        function noMobiles() {
+            alert("This page alone is not suitable for mobiles because of how the game is arranged. I am sorry for the inconvenience :(");
+        }
 
     </script>
 

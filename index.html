@@ -9,12 +9,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1.0, user-scalable=no">
     
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.2/animate.min.css">
-    
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="static/css/styles.css">
-
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.css" media="screen,projection">
-    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.css" media="screen,projection">    
     <script src="https://kit.fontawesome.com/78360cb4a5.js" crossorigin="anonymous"></script>
 
     <style>
@@ -62,34 +59,27 @@
                 box-shadow: 255 255 255 45px rgba(0, 0, 0, 0);
             }
         }
-/* 
-        .project-container{
-            display: grid;
-            grid-column: 1fr 1fr 1fr 1fr;
-        } */
-        /* .card-content{
-            -webkit-transition: all 1s ease !important;
-        }
-        .card-content:hover{
-            background-color: #eeeeee !important;
-            
-            box-shadow:
-                1px 1px #bdbdbd,
-                2px 2px #bdbdbd,
-                3px 3px #bdbdbd,
-                4px 4px #bdbdbd,
-                5px 5px #bdbdbd,
-                6px 6px #bdbdbd;
-                -webkit-transform: translateX(-3px);
-                -ms-transform: translateX(-3px);
-                transform: translateX(-3px);
-                transition: .5s ease;
-        } */
+
         .card-content{
             -webkit-transition: all 1s ease !important;
         }
-        .my_face{
 
+        @media only screen and (max-width: 600px) {
+            
+            .name-h1{
+                font-size: 46px;
+                margin-top: 25%;
+            }
+            .like-h1{
+                font-size: 28px;
+                margin-bottom: 25%;
+            }
+            .home{
+
+            }
+            .about {
+
+            }
         }
 
     </style>
@@ -97,59 +87,12 @@
 </head>
 <body>
 
-    <!-- <div class="navbar-fixed" id="home">
-        <nav class="grey lighten-3" > 
-            <div class="container">
-                <div class="">
-                    <a href="#" class="brand-logo dark-text">Aniket Mishra</a>
-                    <a href="#" data-target="mobile-nav" class="sidenav-trigger">
-                        <i class="material-icons" style="color: black;">menu</i>
-                    </a>
-                    <ul class="right hide-on-med-and-down">
-                        <li  style="display: none;">
-                            <a href="#home">home</a>
-                        </li>
-                        <li>
-                            <a href="#about" class="dark-text">About</a>
-                        </li>
-                        <li>
-                            <a href="#projects" class="dark-text">Projects</a>
-                        </li>
-                        <li>
-                            <a href="#experience" class="dark-text">Experience</a>
-                        </li>
-                        <li>
-                            <a href="#resume" class="dark-text">resume</a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </nav>
-    </div>
-    <ul class="sidenav" id="mobile-nav">
-        <li style="display: none;">
-            <a href="#home" class="dark-text">home</a>
-        </li>
-        <li>
-            <a href="#about" class="dark-text">About</a>
-        </li>
-        <li>
-            <a href="#projects" class="dark-text">Projects</a>
-        </li>
-        <li>
-            <a href="#experience" class="dark-text">Experience</a>
-        </li>
-        <li>
-            <a href="#resume" class="dark-text">resume</a>
-        </li>
-    </ul> -->
-
     <div class="container-large">
         <div class="row" style="width: 95%; margin: 2% auto 2% auto;">
             <div id="home" class="col s12 scrollspy home" style="height: 100vh; text-align: center; margin:auto; vertical-align: middle;">
                 <div class="home-intro" style="margin-top: 12%;">
-                    <h1>Hello, I'm Aniket Mishra.</h1>
-                    <h1>I like to play with data. And I build websites for fun.</h1>
+                    <h1 class="name-h1">Hello, I'm Aniket Mishra.</h1>
+                    <h1 class="like-h1">I like to play with data. And I build websites for fun.</h1>
                     <!-- <a href="#"><div class="btn">Some things I have worked on</div></a> -->
                     <div class="icons">
                         <a href="https://github.com/Aniket-Mishra"><i class="fa fa-github small" style="color: #070707; margin: 1%"></i></a>
@@ -163,122 +106,175 @@
             </div>
             <div id="about" class="col s12 scrollspy about">
                 <div class="row">
-                    <div class="col s12 m3 offset-m1 my_face">
+                    <div class="col s8 m3 offset-s2 offset-m1 my_face">
                         <div class="card" style="background-color: #fafafa;">
-                            <div class="card-image"style="border-radius: 50%;">
-                                <img src="static/images/dp.jpg"style="border-radius: 50%;">
+                            <div class="card-image" style="width: 75%; margin: auto;">
+                                <img src="static/images/dp.jpg" >
                             </div>
-                            <div class="card-content">
+                            <div class="card-content" style="text-align: center;">
                                 <span class="card-title">Something about me?</span>
 
-                                <p>I love to write poems and tell stories. Poems about people and stories about data.</p>
+                                <p>I love to write poems, tell stories and play games. Poems about people. Stories about data. Games about things that don't exist.</p>
                             </div>
                             <!-- <div class="card-action">
                             <a href="#">Click for more information</a>
                             </div> -->
                         </div>
                     </div>
-                    <div class="col s12 m6 offset-m1" style=" text-align: justify;">
-                        <h3 class="z-depth-5 grey lighten-5" style="padding: 10px; max-width: 250px; text-align: center;">About</h3>
-                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Delectus adipisci dolore ab veritatis facere ex quam iusto enim, quibusdam, magni molestias doloremque hic vitae eius quis. Vitae quae iusto rem tempora quos dolore numquam excepturi pariatur nam laboriosam, odit, quasi architecto consectetur tenetur odio dolorem laborum. Commodi illum amet adipisci numquam iste explicabo officiis nobis ad distinctio blanditiis quidem, aperiam dicta facere facilis? Distinctio, culpa labore ea perspiciatis nesciunt autem ipsum modi fugiat, eveniet numquam quam rerum consectetur officiis accusantium minima non dolores aliquam quia quos porro, facilis veniam placeat. Exercitationem ab velit totam, iusto voluptates dolores non odio perferendis.</p>
+                    <div class="col s8 offset-s2 m6 offset-m1" style=" text-align: center;">
+                        <h3 class="z-depth-5 grey lighten-5" style="padding: 10px; max-width: 250px; text-align: center; margin-bottom: 35px;">About</h3>
+                        <p style="font-size: 1.25em;">
+                            Since you are already on my portfolio, you will get to know everything about my technical skills and interest. So I'll tell you
+                            something you won't find on my resume. You will find a lot about me here if you can find a way in though 
+                            (it's easy, I couldn't think of a better way of hiding links).
+                            Ah, before we extend the tangent, I'll tell you a story about how I studied for my exams. The short story? I didn't. The long story? 
+                            Well, here it is. In collage, I used to play a lot of Overwatch (competitive FPS) with a friend of mine. We used to duo all the time.
+                            We would sit down on a discord call and start studying from 9 pm. At 10, one of us will suggest playing Overwatch. The other would say, 
+                            something like, "alright, let's finish this part and we'll play one game." We play one game (they last about 20 mins) and suddenly it's 2 am. panic
+                            and sit down to study. We'd break the syllabus and then teach our part to the other.  
+                            We'd go to sleep at around 5 and then go give the exam at 10. And some how managed to pass the semester.  
+                        </p>
                     </div>
                 </div>
                 
             </div>
             
-            <div  id="project" class="col s12 scrollspy project">
+            <div  id="project" class="col s12 scrollspy project" style="margin-top: 10%;">
                 <div class="row" style="margin-left: 25px; margin-right: 25px;">
-                    <h3 class="z-depth-5 grey lighten-5" style="margin: 2% auto;padding: 10px; max-width: 250px; text-align: center !important;">Projects</h3>
+                    <h3 class="z-depth-5 grey lighten-5" style="margin: 3.5% auto;padding: 10px; max-width: 250px; text-align: center !important;">Projects</h3>
 
-                    <div class="col s10 offset-s1">
-                            <div class="row">
-                                <div class="col s12 m4">
-                                    <div class="card grey lighten-5" style="color: #070707 !important;">
-                                      <div class="card-content">
-                                        <span class="card-title">Card Title</span>
-                                        <p>I am a very simple card. I am good at containing small bits of information.
-                                        I am convenient because I require little markup to use effectively.</p>
-                                      </div>
+                    <div class="col s12 m10 offset-m1">
+
+                            <div class="row" style="text-align: center;">
+                                <a onclick="return alert('I am working on a github repository to host the projects on Binder. Please be patient with me :D')" href="#" style="color: #070707;">
+                                    <div class="col s12 m4">
+                                        <div class="card grey lighten-5" style="color: #070707 !important;">
+                                            <div class="card-content">
+                                                <span class="card-title">Monthly Sales Analysis:- <br> 1 year of data</span>
+                                                <p>Statistical analysis of 12 datasets for each month of the year 2019 was done. They
+                                                    were combined into one and were preprocessed and engineered for more analysis
+                                                    and model building for making predictions.  
+                                                </p>
+                                            </div>
+                                        </div> 
                                     </div>
-                                    <!-- <div class="animated bounceInRight" style="">
-                                        Lorem ipsum, dolor sit amet consectetur adipisicing elit. Dicta molestias facilis sapiente cum mollitia eveniet corrupti. Ea nisi sed iure consectetur ipsam sequi, excepturi pariatur blanditiis aspernatur velit autem, quas qui totam ullam omnis quidem, necessitatibus nostrum delectus consequatur praesentium assumenda. Error possimus, explicabo id neque voluptatum totam facere autem voluptate? Esse officia, sed aspernatur fugiat fuga in similique harum quibusdam id maiores quod ut dolores placeat perferendis blanditiis reiciendis accusantium deserunt est. Non vitae quidem qui at perferendis dicta? Officiis libero quaerat numquam. Nihil natus tenetur dolorum voluptates minus corporis neque doloribus quaerat doloremque sed odit maxime delectus, accusantium excepturi vitae impedit optio, eligendi commodi. Vero autem officia maxime magnam consequatur fugit impedit molestiae dolores ad delectus. Quas ipsa unde eaque et neque velit repudiandae delectus magnam tempora, ullam iusto illum aliquid alias eius est accusamus aperiam mollitia dolor molestiae voluptas eveniet! Qui deserunt quaerat explicabo, provident exercitationem minima laudantium nostrum quod officiis sequi fuga corporis iure tenetur, ipsam aut quae? Odit suscipit sit tenetur ullam, harum culpa alias et. Aliquam voluptatem fugit quasi, obcaecati aperiam, tempore adipisci sed distinctio quia vel itaque fugiat laborum atque temporibus labore corporis vitae ipsam ipsa. Libero, dignissimos? Labore rem totam iusto et!
-                                    </div> -->
-                                </div>
-                                <div class="col s12 m4">
-                                    <div class="card grey lighten-5" style="color: #070707 !important;">
-                                      <div class="card-content">
-                                        <span class="card-title">Card Title</span>
-                                        <p>I am a very simple card. I am good at containing small bits of information.
-                                        I am convenient because I require little markup to use effectively.</p>
-                                      </div>
+                                </a>
+
+                                <a onclick="return alert('I am working on a github repository to host the projects on Binder. Please be patient with me :D')" href="#" style="color: #070707;">
+                                    <div class="col s12 m4">
+                                        <div class="card grey lighten-5" style="color: #070707 !important;">
+                                        <div class="card-content">
+                                            <span class="card-title">Winconsin breast cancer research</span>
+                                            <p>Analysis of the Wisc-bc-data from kaggle on a jupyter notebook. Feature engineering
+                                                and statistical analysis was performed. Machine learning algorithms were employed to 
+                                                detect the type of cancer.
+                                            </p>
+                                        </div>
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="col s12 m4">
-                                    <div class="card grey lighten-5" style="color: #070707 !important;">
-                                      <div class="card-content">
-                                        <span class="card-title">Card Title</span>
-                                        <p>I am a very simple card. I am good at containing small bits of information.
-                                        I am convenient because I require little markup to use effectively.</p>
-                                      </div>
+                                </a>
+
+                                <a onclick="return alert('I am working on a github repository to host the projects on Binder. Please be patient with me :D')" href="#" style="color: #070707;">
+                                    <div class="col s12 m4">
+                                        <div class="card grey lighten-5" style="color: #070707 !important;">
+                                        <div class="card-content">
+                                            <span class="card-title">Voice Data Analysis for Gender Classification</span>
+                                            <p>
+                                                Analysis of auditory factors of the human voice and that data was used to 
+                                                determind wether the voice belongs to a male or a female. Models were  
+                                                then compared to conclude the best model for the experiment.
+                                            </p>
+                                        </div>
+                                        </div>
                                     </div>
-                                </div>
+                                </a>
+                                    
+                                <a onclick="return alert('I am working on a github repository to host the projects on Binder. Please be patient with me :D')" href="#" style="color: #070707;">
+                                    <div class="col s12 m4">
+                                        <div class="card grey lighten-5" style="color: #070707 !important;">
+                                        <div class="card-content">
+                                            <span class="card-title">Earning Potential Data Analysis</span>
+                                            <p>
+                                                A dataset with information about people was taken and analysed to predict wether the person
+                                                would earn greater than or less than 50,000 USD (Hopefully a month) or not. The inconsistent data 
+                                                needed a lot of preprocessing.
+                                            </p>
+                                        </div>
+                                        </div>
+                                    </div>
+                                </a>
+
+                                <a href="#" onclick="return alert('Nope, this is not the link. You are so close... Yet, so far away.')" style="color: #070707;">
+                                    <div class="col s12 m4">
+                                        <div class="card grey lighten-5" style="color: #070707 !important;">
+                                        <div class="card-content">
+                                            <span class="card-title">Gravity Falls!</span>
+                                            <p>It's a simple javascript game I learnt from youtube one weekend. I am happy that
+                                                I managed on brand new bugs for a perfectly good game. It works so why fix something that isn't broken.
+                                                Can you find the game hidden somewhere in this website?
+                                            </p>
+                                        </div>
+                                        </div>
+                                    </div>
+                                </a>
+
+                                <a href="http://hac.codezoned.com" style="color: #070707;">
+                                    <div class="col s12 m4">
+                                        <div class="card grey lighten-5" style="color: #070707 !important;">
+                                            <div class="card-content">
+                                                <span class="card-title">HAC 2020</span>
+                                                <p>Led the technical team in the Hack Against Covid 2020 Hackathon organized by Codezoned and sponsored
+                                                    by Github and MLH among others. Built the website, worked on some related projects and guided the aprticipants
+                                                    during the hackathon.
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </a>
                             
-                                <div class="col s12 m4">
-                                    <div class="card grey lighten-5" style="color: #070707 !important;">
-                                      <div class="card-content">
-                                        <span class="card-title">Card Title</span>
-                                        <p>I am a very simple card. I am good at containing small bits of information.
-                                        I am convenient because I require little markup to use effectively.</p>
-                                      </div>
+                                <a onclick="return alert('I am working on a github repository to host the projects on Binder. Please be patient with me :D')" href="#" style="color: #070707;">
+                                    <div class="col s12 m4">
+                                        <div class="card grey lighten-5" style="color: #070707 !important;">
+                                            <div class="card-content">
+                                                <span class="card-title">pipinstall</span>
+                                                <p>A Python command line app (CLI) that installs all required modules to any python environment/Virtual environment with the help
+                                                    of the OS and Sys module.
+                                                    The user's desired domain, locations and environments can be specified at execution time. </p>
+                                            </div>
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="col s12 m4">
-                                    <div class="card grey lighten-5" style="color: #070707 !important;">
-                                      <div class="card-content">
-                                        <span class="card-title">Card Title</span>
-                                        <p>I am a very simple card. I am good at containing small bits of information.
-                                        I am convenient because I require little markup to use effectively.</p>
-                                      </div>
+                                </a>
+
+                                <a target="_blank" href="leisurevisit.com" style="color: #070707;">
+                                    <div class="col s12 m4">
+                                        <div class="card grey lighten-5" style="color: #070707 !important;">
+                                        <div class="card-content">
+                                            <span class="card-title">Lipsha Travels</span>
+                                            <p>Designed the official website for Lipsha Travels, a TAAI certified travel agency dealing with 
+                                                everything one needs for travelling. The website was built using google's materialize design with the materialize framework,
+                                                javascript and jQuery. It is hosted on Netlify.
+                                            </p>
+                                        </div>
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="col s12 m4">
-                                    <div class="card grey lighten-5" style="color: #070707 !important;">
-                                      <div class="card-content">
-                                        <span class="card-title">Card Title</span>
-                                        <p>I am a very simple card. I am good at containing small bits of information.
-                                        I am convenient because I require little markup to use effectively.</p>
-                                      </div>
+                                </a>   
+
+                                <a onclick="return alert('I am working on a github repository to host the projects on Binder. Please be patient with me :D')" href="projects/Iris-Dataset-Analysis.html" style="color: #070707;">
+                                    <div class="col s12 m4">
+                                        <div class="card grey lighten-5" style="color: #070707 !important;">
+                                            <div class="card-content">
+                                                <span class="card-title">Iris Dataset Analysis</span>
+                                                <p>The statistical analysis of the Iris dataset is performed using the pandas library in Python. Seaborn is used 
+                                                    to plot the graphs. Machine Learning models and ensembling models are used to predict the species of the Iris 
+                                                    flower. The notebook is hosted on github.
+                                                </p>
+                                            </div>
+                                        </div>
                                     </div>
-                                  </div>
-                            
-                                <div class="col s12 m4">
-                                    <div class="card grey lighten-5" style="color: #070707 !important;">
-                                      <div class="card-content">
-                                        <span class="card-title">Card Title</span>
-                                        <p>I am a very simple card. I am good at containing small bits of information.
-                                        I am convenient because I require little markup to use effectively.</p>
-                                      </div>
-                                    </div>
-                                  </div>
-                                  <div class="col s12 m4">
-                                    <div class="card grey lighten-5" style="color: #070707 !important;">
-                                      <div class="card-content">
-                                        <span class="card-title">Card Title</span>
-                                        <p>I am a very simple card. I am good at containing small bits of information.
-                                        I am convenient because I require little markup to use effectively.</p>
-                                      </div>
-                                    </div>
-                                  </div>
-                                  <div class="col s12 m4">
-                                    <div class="card grey lighten-5" style="color: #070707 !important;">
-                                      <div class="card-content">
-                                        <span class="card-title">Card Title</span>
-                                        <p>I am a very simple card. I am good at containing small bits of information.
-                                        I am convenient because I require little markup to use effectively.</p>
-                                      </div>
-                                    </div>
-                                  </div>
+                                </a>
+
                             </div>
+                            
                             
                     </div>
                 </div>
@@ -288,13 +284,13 @@
 
             <div  id="experience" class="col s12 scrollspy experience">
                 <div class="row" style="margin-left: 25px; margin-right: 25px;">
-                    <h3 class="z-depth-5 grey lighten-5" style="margin: 2% auto;padding: 10px; max-width: 250px; text-align: center !important;">My Experiences</h3>
+                    <h3 class="z-depth-5 grey lighten-5" style="margin: 3.5% auto;padding: 10px; max-width: 250px; text-align: center !important;">My Experiences</h3>
 
-                    <div class="col s10 offset-s1" style="">
+                    <div class="col s12 m10 offset-m1" style="">
                         <div class="row">
                             <div class="col s12 m4">
-                                <div class="card grey lighten-5 z-depth-5" style="color: #070707 !important;">
-                                  <div class="card-content" style="text-align: justify;">
+                                <div class="card grey lighten-5" style="color: #070707 !important;">
+                                  <div class="card-content" style="">
                                     <span class="card-title">Data Analyst, <br> Infosys</span>
                                     <p>As a data analyst intern I was first trained in the basics of python, mathematics and statistics and finally the anaconda distribution system.
                                         I also worked on multiple real-world datasets and built machine learning models to solve the problem statement after exploring the data.
@@ -306,18 +302,18 @@
                                 </div> -->
                             </div>
                             <div class="col s12 m4">
-                                <div class="card grey lighten-5 z-depth-5" style="color: #070707 !important;">
-                                  <div class="card-content" style="text-align: justify;">
+                                <div class="card grey lighten-5" style="color: #070707 !important;">
+                                  <div class="card-content" style="">
                                     <span class="card-title">Developer, <br> Codezoned</span>
                                     <p>As a core team member of codezoned, I've had the opportunity to lead the Web dev team to build the official Codezoned website.
-                                        I've also contributed to multiple other projects in codezoned like the Github Auto-inviter and managed events like UHack-19 and HAC2020 hackathons.
+                                        I've also contributed to multiple other projects in codezoned like the Github Auto-inviter and led the tech team in HAC2020 hackathon with MLH and Github.
                                     </p>
                                   </div>
                                 </div>
                             </div>
                             <div class="col s12 m4">
-                                <div class="card grey lighten-5 z-depth-5" style="color: #070707 !important;">
-                                  <div class="card-content" style="text-align: justify;">
+                                <div class="card grey lighten-5" style="color: #070707 !important;">
+                                  <div class="card-content" style="">
                                     <span class="card-title">Full Stack Developer, <br> Phoenix Software Solutions</span>
                                     <p>Built a fully functioning GST Billing website, complete with an Admin panel using HTML, CSS, jQuery(JavaScript Library), AJAX, and PHP. The website features products, accessories,  details of clients, suppliers, and manufacturers, along with billing information, calculation and database management.  
                                     </p>
@@ -336,16 +332,27 @@
 
             <div  id="resume" class="col s12 scrollspy resume">
                 <div class="row" style="margin-left: 25px; margin-right: 25px;">
-                    <h3 class="z-depth-5 grey lighten-5" style="margin: 2% auto;padding: 10px; max-width: 250px; text-align: center !important;">Resume</h3>
-                    <div class="col s1">
-                        <a href="games/gravity_falls.html">Ops what's this?</a>
-                    </div>
-                    <div class="col s10 offset-s1" style="">
-                            <div class="row">
-                                <a href="Aniket_Mishra_Resume.pdf">Click here to open my resume</a>
+                    <h3 class="z-depth-5 grey lighten-5" style="margin: 3.5% auto; padding: 10px; max-width: 250px; text-align: center !important;">Resume</h3>
+                        <a href="games/gravity_falls.html">    
+                            <div class="col s12 m1" style="background-color: #f5f5f5; height: 20px; width: 20px;">
+                                <!-- <a style="color: white;" href="games/gravity_falls.html">Ops what's this?</a> -->
                             </div>
-                            
-                    </div>
+                        </a>
+
+                    <br>
+                    <a target="_blank" href="Aniket_Mishra_Resume.pdf" style="color: #070707;">
+                        <div class="col s12 m4 offset-m4">
+                            <div class="card grey lighten-5" style="color: #070707 !important;">
+                                <div class="card-content">
+                                    <span class="card-title">Here's a link to my resume.</span>
+                                    <p>I do wonder... why is it that this card is placed differently? Maybe there's something we haven't noticed yet? What could it be...
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+
+                    
                 </div>
 
                 
@@ -357,10 +364,10 @@
 
 
     <div class="bottom-div" style="">
-        <a target="_blank" href="#"><div style="color: #070707; font-size: 19px;">Made with <span class="pulsate">&#x2764;</span></div></a>
+        <div style="color: #070707; font-size: 19px;">Made with <span class="pulsate">&#x2764;</span></div>
         <div class="fixed-action-btn toolbar">
-            <a class="btn-floating btn-medium black">
-              <i class="large material-icons">account_circle</i>
+            <a style="background-color: #070707;" class="btn-floating btn-medium">
+              <i class="large fa fa-ellipsis-h"></i>
             </a>
             <ul style="background-color: #eeeeee;">
                 <li><a href="https://github.com/Aniket-Mishra"><i class="fa fa-github small" style="color:#070707; margin: 1%"></i></a></li>
@@ -392,11 +399,11 @@
             toolbarEnabled: true
             });
         });
-        // $(".card-content").hover(function() {
-        //     $(this).addClass("z-depth-5");
-        // }, function() {
-        //     $(this).removeClass("z-depth-5");
-        // });
+        $(".card-content").hover(function() {
+            $(this).addClass("z-depth-5");
+        }, function() {
+            $(this).removeClass("z-depth-5");
+        });
 
     </script>
 

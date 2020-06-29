@@ -75,7 +75,7 @@ var updateBlocks = setInterval(function() {
 		}
 	}
 	if (drop == 0) {
-		if (characterTop < 480) {
+		if (characterTop < 430) {
 			if (window.innerWidth < 400) {
 				character.style.top = characterTop + 5 + 'px';
 			} else {
