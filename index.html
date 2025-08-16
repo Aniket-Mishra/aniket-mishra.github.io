@@ -1,0 +1,932 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Aniket Mishra - Data Scientist</title>
+    <meta name="description" content="Portfolio of Aniket Mishra, a Data Scientist with 5 years of experience." />
+    <link rel="icon" type="image/png"
+        href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>👨‍💻</text></svg>">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+        integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style>
+        :root {
+            --bg-color: #0a192f;
+            --text-color: #ccd6f6;
+            --text-secondary: #8892b0;
+            --accent-color: #64ffda;
+            --card-bg-color: #112240;
+            --header-bg-color: rgba(10, 25, 47, 0.85);
+        }
+
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--bg-color);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--text-secondary);
+            border-radius: 10px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--accent-color);
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 100;
+            padding: 1rem 0;
+            background-color: var(--header-bg-color);
+            backdrop-filter: blur(10px);
+            transition: top 0.3s;
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-logo {
+            font-weight: bold;
+            font-size: 1.5rem;
+            color: var(--text-color);
+            text-decoration: none;
+        }
+
+        .nav-logo:hover {
+            color: var(--accent-color);
+        }
+
+        .nav-links {
+            list-style: none;
+            display: flex;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text-secondary);
+            font-weight: 500;
+            transition: color 0.3s;
+            padding: 0.5rem 0;
+        }
+
+        .nav-links a:hover,
+        .nav-links a.active {
+            color: var(--accent-color);
+        }
+
+        .hamburger-menu {
+            display: none;
+            background: none;
+            border: none;
+            color: var(--text-color);
+            font-size: 1.5rem;
+            cursor: pointer;
+            z-index: 1001;
+            /* Above mobile nav bg */
+        }
+
+        main {
+            padding-top: 80px;
+            /* Header height */
+        }
+
+        section {
+            padding: 100px 0;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+
+        section.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            font-weight: bold;
+            margin-bottom: 3rem;
+            position: relative;
+            display: inline-block;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 0;
+            width: 50%;
+            height: 4px;
+            background: var(--accent-color);
+            border-radius: 2px;
+        }
+
+        /* Hero */
+        #home {
+            min-height: calc(100vh - 80px);
+            display: flex;
+            align-items: center;
+        }
+
+        .hero-content h1 {
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            font-weight: 800;
+            color: var(--text-color);
+            line-height: 1.1;
+        }
+
+        .hero-content h2 {
+            font-size: clamp(1.5rem, 4vw, 2.5rem);
+            font-weight: 700;
+            color: var(--accent-color);
+            margin-top: 1rem;
+        }
+
+        .hero-content p {
+            margin-top: 1.5rem;
+            max-width: 600px;
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+            line-height: 1.6;
+        }
+
+        .hero-buttons {
+            margin-top: 2.5rem;
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 0.75rem 1.5rem;
+            background-color: var(--accent-color);
+            color: var(--bg-color);
+            font-weight: bold;
+            text-decoration: none;
+            border-radius: 4px;
+            transition: all 0.3s;
+            transform-origin: center;
+        }
+
+        .btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 15px var(--accent-color);
+        }
+
+        .social-icons {
+            display: flex;
+            gap: 1.5rem;
+        }
+
+        .social-icons a {
+            color: var(--text-secondary);
+            font-size: 1.5rem;
+            transition: color 0.3s;
+        }
+
+        .social-icons a:hover {
+            color: var(--accent-color);
+        }
+
+        /* About */
+        .about-content {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 3rem;
+            align-items: center;
+        }
+
+        .about-text p {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+            line-height: 1.6;
+        }
+
+        .about-image-wrapper {
+            position: relative;
+            max-width: 300px;
+            margin: auto;
+        }
+
+        .about-image {
+            width: 100%;
+            border-radius: 8px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .about-image-wrapper::after {
+            content: '';
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            width: 100%;
+            height: 100%;
+            border: 2px solid var(--accent-color);
+            border-radius: 8px;
+            z-index: 1;
+            transition: transform 0.3s;
+        }
+
+        .about-image-wrapper:hover::after {
+            transform: translate(-10px, -10px);
+        }
+
+        /* Experience Timeline */
+        .timeline {
+            position: relative;
+            max-width: 800px;
+            margin: 0 auto;
+            border-left: 2px solid var(--card-bg-color);
+            padding-left: 2rem;
+        }
+
+        .timeline-item {
+            margin-bottom: 3rem;
+            position: relative;
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -43px;
+            top: 5px;
+            width: 1rem;
+            height: 1rem;
+            border-radius: 50%;
+            background-color: var(--accent-color);
+            border: 3px solid var(--bg-color);
+        }
+
+        .timeline-card {
+            background-color: var(--card-bg-color);
+            padding: 1.5rem;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .timeline-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 0 20px rgba(100, 255, 218, 0.1);
+        }
+
+        .timeline-card .company-title {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--accent-color);
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--bg-color);
+        }
+
+        .timeline-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            flex-wrap: wrap;
+            gap: 0.5rem 1rem;
+        }
+
+        .timeline-card h3 {
+            font-size: 1.25rem;
+            font-weight: bold;
+            color: var(--text-color);
+        }
+
+        .timeline-card .duration {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            white-space: nowrap;
+        }
+
+        .timeline-card ul {
+            list-style: none;
+            margin-top: 1rem;
+            padding-left: 0;
+        }
+
+        .timeline-card ul li {
+            position: relative;
+            padding-left: 1.25rem;
+            color: var(--text-secondary);
+            margin-bottom: 0.5rem;
+        }
+
+        .timeline-card ul li::before {
+            content: '▹';
+            position: absolute;
+            left: 0;
+            color: var(--accent-color);
+        }
+
+        /* Skills & Projects */
+        .skills-container,
+        .projects-grid {
+            display: grid;
+            gap: 1.5rem;
+        }
+
+        /* Skills */
+        .skills-container {
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        }
+
+        .skill-category {
+            background-color: var(--card-bg-color);
+            padding: 1.5rem;
+            border-radius: 8px;
+        }
+
+        .skill-category h3 {
+            color: var(--accent-color);
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+        }
+
+        .skills-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+        }
+
+        .skill-item {
+            background-color: var(--bg-color);
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            font-weight: 500;
+            color: var(--text-secondary);
+        }
+
+        /* Projects */
+        .projects-grid {
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        }
+
+        .project-card {
+            background-color: var(--card-bg-color);
+            padding: 1.5rem;
+            border-radius: 8px;
+            display: flex;
+            flex-direction: column;
+            text-decoration: none;
+            transition: transform 0.3s, box-shadow 0.3s;
+            height: 100%;
+        }
+
+        .project-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 0 20px rgba(100, 255, 218, 0.1);
+        }
+
+        .project-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .project-header h3 {
+            color: var(--text-color);
+            font-size: 1.25rem;
+            transition: color 0.3s;
+        }
+
+        .project-card:hover h3 {
+            color: var(--accent-color);
+        }
+
+        .project-header i {
+            color: var(--text-secondary);
+            font-size: 1.25rem;
+        }
+
+        .project-card p {
+            color: var(--text-secondary);
+            flex-grow: 1;
+            margin-bottom: 1rem;
+        }
+
+        .tag-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            font-size: 0.8rem;
+            color: var(--accent-color);
+            opacity: 0.8;
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 4rem 0 2rem;
+        }
+
+        footer h2 {
+            font-size: 2rem;
+        }
+
+        footer p {
+            max-width: 500px;
+            margin: 1rem auto;
+            color: var(--text-secondary);
+        }
+
+        .footer-socials {
+            margin: 2rem 0;
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+        }
+
+        .copyright {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .container {
+                padding: 0 1rem;
+            }
+
+            .nav-links {
+                position: fixed;
+                top: 0;
+                right: -100%;
+                width: min(75vw, 400px);
+                height: 100vh;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                background-color: var(--card-bg-color);
+                box-shadow: -10px 0px 30px -15px rgba(2, 12, 27, 0.7);
+                transition: right 0.3s ease-in-out;
+            }
+
+            .nav-links.active {
+                right: 0;
+            }
+
+            .hamburger-menu {
+                display: block;
+            }
+
+            .hero-buttons {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .about-content {
+                grid-template-columns: 1fr;
+            }
+
+            .about-image-wrapper {
+                order: -1;
+                /* Move image to top on mobile */
+            }
+
+            .timeline-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <header id="header">
+        <div class="container">
+            <nav id="navbar"></nav>
+        </div>
+    </header>
+
+    <main class="container">
+        <section id="home"></section>
+        <section id="about"></section>
+        <section id="experience"></section>
+        <section id="skills"></section>
+        <section id="projects"></section>
+    </main>
+
+    <footer id="contact"></footer>
+
+    <script type="module">
+        // ToDo: Add the other projects, remove just analysis ones
+        const portfolioData = {
+            profile: {
+                name: "Aniket Mishra",
+                title: "Data Scientist",
+                intro: "I'm a Data Scientist with 5 years of experience, passionate about turning complex data into actionable insights and building intelligent systems. I thrive on solving challenging problems and exploring the intersection of data, technology, and creativity.",
+                about: "Since you are already on my portfolio, you will get to know everything regarding my technical skills and interests. So I'll tell you something you won't find on my resume. I love to write poems, tell stories and play games. Poems about people. Stories about graphs. Games about the unreal. I strike up conversations by offering to write poems for people; it's a quirky way to connect and understand them. I think it shouldn't have worked, but it does!",
+                image: "images/good_photo.JPEG",
+                socials: {
+                    github: "https://github.com/Aniket-Mishra",
+                    linkedin: "https://www.linkedin.com/in/aniket97/",
+                    email: "mailto:anmishraofficial@gmail.com",
+                },
+                resumeUrl: "pdfs/Aniket_Mishra_DataScience_Resume.pdf"
+            },
+            sections: [
+                { id: 'about', name: 'About' },
+                { id: 'experience', name: 'Experience' },
+                { id: 'skills', name: 'Skills' },
+                { id: 'projects', name: 'Projects' },
+            ],
+            experience: [
+                {
+                    company: "SparkCognition / Avathon",
+                    role: "Data Scientist",
+                    duration: "Jul 2022 - Jul 2025",
+                    description: [
+                        "Built and optimised XGBoost and custom regression models to predict wind turbine downtimes.",
+                        "Developed custom Streamlit apps for rapid model performance evaluation and hyper-parameter tuning.",
+                        "Optimised InfluxDB time-series data ingestion, achieving a 300% speed increase.",
+                        "Engineered ETL processes to handle 400% data size increase and run 5x faster.",
+                    ],
+                },
+                {
+                    company: "SparkCognition / Avathon",
+                    role: "Data Engineer",
+                    duration: "Mar 2021 - Jul 2022",
+                    description: [
+                        "Created an anomaly detection system with >99% accuracy for wind turbines and solar panels.",
+                        "Engineered data pipelines for predictive maintenance on a large solar farm.",
+                        "Developed large-scale data processing and ETL pipelines for over 5GW of energy assets.",
+                        "Optimised container processing time for Availability Mismatch by 88% (45 mins to <5 mins).",
+                    ],
+                },
+                {
+                    company: "SparkCognition / Avathon",
+                    role: "Data Analyst",
+                    duration: "Mar 2021 - May 2021",
+                    description: [
+                        "Created robust ETL Pipelines for 6 customers using Pandas, Django, PostgreSQL, ElasticSearch, and AWS.",
+                        "Developed a formula to calculate potential device production based on availability, power, and conditions.",
+                        "Improved MCR processing calculations to achieve 99% accuracy against OEM values.",
+                        "Updated the site data model, reducing mappings and memory usage by over 50%."
+                    ],
+                },
+                {
+                    company: "Self-employed",
+                    role: "Data Science Instructor",
+                    duration: "Aug 2023 - Sep 2024",
+                    description: [
+                        "Delivered corporate training specializing in Analytics, Engineering, and Machine Learning.",
+                        "Pioneered hands-on, project-centric learning to bridge theory and practical application.",
+                        "Provided personalized mentorship for crafting impactful portfolios and interview preparation.",
+                    ],
+                },
+                {
+                    company: "Infosys",
+                    role: "Systems Engineer (ETL)",
+                    duration: "Nov 2020 - Mar 2021",
+                    description: [
+                        "Served as an ETL Engineer, overseeing and administering over 2000 workflows in Informatica.",
+                        "Addressed and resolved failures in ETL processing and wrote SQL queries for data reprocessing."
+                    ],
+                },
+                {
+                    company: "Infosys",
+                    role: "Data Analyst Intern",
+                    duration: "Jan 2020 - Mar 2020",
+                    description: [
+                        "Trained in SQL, ML mathematics, statistics, and Python for data science (Pandas, NumPy, Scikit-Learn).",
+                        "Gained hands-on experience working with multiple real-world datasets.",
+                        "Recognized as a high performer based on skills assessment.",
+                        "Collaborated with a team on multiple data analysis projects."
+                    ]
+                },
+                {
+                    company: "codezoned",
+                    role: "Core Team & Developer",
+                    duration: "Jun 2018 - Present",
+                    description: [
+                        "Contributed to and led web development projects for the organization.",
+                        "Led the technical team for the MLH-partnered hackathon, HAC-2020.",
+                        "Developed automation scripts for event registration and community management.",
+                    ],
+                },
+                {
+                    company: "Phoenix Software Solutions",
+                    role: "Web Developer Intern",
+                    duration: "May 2018 - Jun 2018",
+                    description: [
+                        "Developed a full-stack website for GST billing and tax invoicing for a client.",
+                        "Built the frontend using HTML, CSS, Bootstrap, JavaScript, and jQuery/AJAX.",
+                        "Implemented the backend and database using PHP and MySQL."
+                    ]
+                }
+            ],
+            projects: [
+                {
+                    title: "Monthly Sales Analysis",
+                    description: "Performed statistical and association analysis on a year of sales data. Answered key business questions using interactive graphs plotted with Plotly.",
+                    tags: ["Python", "Pandas", "Plotly"],
+                    link: "https://github.com/Aniket-Mishra/Sales-Analysis-and-Reporting"
+                },
+                {
+                    title: "Winconsin Breast Cancer Analysis",
+                    description: "Analyzed Kaggle data, performed feature engineering, and employed ML algorithms to detect cancer types with high accuracy.",
+                    tags: ["Machine Learning", "Python", "Scikit-learn"],
+                    link: "https://github.com/Aniket-Mishra/playing-with-data/tree/master/winconsin-breast-cancer-research"
+                },
+                {
+                    title: "Heart Failure Severity Detection",
+                    description: "Developed an Artificial Neural Network in Keras to predict the severity of heart failure on a scale of 0-4, achieving 84% accuracy.",
+                    tags: ["Deep Learning", "Keras", "ANN"],
+                    link: "https://github.com/Aniket-Mishra/HeartDisease"
+                },
+                {
+                    title: "The Third Eye: Threat Detection",
+                    description: "Built for Kerala Police. Used OpenCV and Nvidia Jetson Nano for real-time face recognition against a police database.",
+                    tags: ["Computer Vision", "OpenCV", "Python"],
+                    link: "https://github.com/HacKP-CyberDome"
+                },
+                {
+                    title: "Sales Prediction WebApp",
+                    description: "Predicted future sales using a regression model. Deployed the model as a Flask API on Heroku for real-time predictions.",
+                    tags: ["Flask", "Heroku", "ML", "API"],
+                    link: "https://sales-prediction-flask-api.herokuapp.com/"
+                },
+                {
+                    title: "pipinstall CLI Tool",
+                    description: "A Python command-line app that simplifies installing required modules to any Python environment using os and sys modules.",
+                    tags: ["Python", "CLI", "Automation"],
+                    link: "https://github.com/codezoned/pipinstall"
+                }
+            ],
+            skills: [
+                {
+                    title: "Languages",
+                    skills: ["Python", "Rust", "JavaScript", "SQL"]
+                },
+                {
+                    title: "Data Science & ML",
+                    skills: ["Pandas", "NumPy", "Scikit-Learn", "XGBoost", "TensorFlow", "Keras", "Predictive Modeling", "Time Series Analysis"]
+                },
+                {
+                    title: "Data Engineering & MLOps",
+                    skills: ["ETL", "Apache Airflow", "Data Pipelines", "InfluxDB", "Elasticsearch", "Docker", "MLOps"]
+                },
+                {
+                    title: "Web & Cloud",
+                    skills: ["Flask", "Streamlit", "HTML/CSS", "AWS"]
+                },
+                {
+                    title: "Tools & Other",
+                    skills: ["Git", "GitHub", "Kibana", "Team Leadership"]
+                }
+            ]
+        };
+
+        // Functions
+        function renderNav() {
+            const { name } = portfolioData.profile;
+            const { sections } = portfolioData;
+            const navLinks = sections.map(s => `<li><a href="#${s.id}">${s.name}</a></li>`).join('');
+
+            document.getElementById('navbar').innerHTML = `
+            <a href="#home" class="nav-logo">${name}</a>
+            <ul class="nav-links">
+              ${navLinks}
+            </ul>
+            <button class="hamburger-menu" aria-label="Open menu" aria-expanded="false">
+                <i class="fas fa-bars"></i>
+            </button>
+          `;
+        }
+
+        function renderHero() {
+            const { name, title, intro, socials, resumeUrl } = portfolioData.profile;
+            document.getElementById('home').innerHTML = `
+            <div class="hero-content">
+              <h2>Hello, I'm</h2>
+              <h1>${name}.</h1>
+              <h2>${title}</h2>
+              <p>${intro}</p>
+              <div class="hero-buttons">
+                <a href="${resumeUrl}" target="_blank" rel="noopener noreferrer" class="btn">View My Resume</a>
+                <div class="social-icons">
+                   <a href="${socials.linkedin}" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
+                   <a href="${socials.github}" target="_blank" rel="noopener noreferrer" aria-label="GitHub"><i class="fab fa-github"></i></a>
+                </div>
+              </div>
+            </div>
+          `;
+        }
+
+        function renderAbout() {
+            const { about, image, name } = portfolioData.profile;
+            document.getElementById('about').innerHTML = `
+            <h2 class="section-title">About Me</h2>
+            <div class="about-content">
+              <div class="about-text">
+                <p>${about}</p>
+              </div>
+              <div class="about-image-wrapper">
+                <img src="${image}" alt="${name}" class="about-image" />
+              </div>
+            </div>
+          `;
+        }
+
+        function renderExperience() {
+            const groupedExperience = portfolioData.experience.reduce((acc, job) => {
+                if (!acc[job.company]) acc[job.company] = [];
+                acc[job.company].push(job);
+                return acc;
+            }, {});
+
+            const companyOrder = [...new Set(portfolioData.experience.map(job => job.company))];
+
+            const experienceHtml = companyOrder.map(company => {
+                const jobs = groupedExperience[company];
+                const rolesHtml = jobs.map((job, index) => {
+                    const descriptionPoints = job.description.map(point => `<li>${point}</li>`).join('');
+                    return `
+                        <div class="role-group" ${index > 0 ? 'style="margin-top: 1.5rem;"' : ''}>
+                            <div class="timeline-header">
+                                <div><h3>${job.role}</h3></div>
+                                <p class="duration">${job.duration}</p>
+                            </div>
+                            <ul>${descriptionPoints}</ul>
+                        </div>
+                    `;
+                }).join('');
+
+                return `
+                    <div class="timeline-item">
+                        <div class="timeline-card">
+                            <h2 class="company-title">${company}</h2>
+                            ${rolesHtml}
+                        </div>
+                    </div>
+                `;
+            }).join('');
+
+            document.getElementById('experience').innerHTML = `
+                <h2 class="section-title">Work Experience</h2>
+                <div class="timeline">${experienceHtml}</div>
+            `;
+        }
+
+        function renderSkills() {
+            const skillCategories = portfolioData.skills.map(category => {
+                const skillItems = category.skills.map(skill => `<span class="skill-item">${skill}</span>`).join('');
+                return `
+                    <div class="skill-category">
+                        <h3>${category.title}</h3>
+                        <div class="skills-list">${skillItems}</div>
+                    </div>
+                `;
+            }).join('');
+            document.getElementById('skills').innerHTML = `
+                <h2 class="section-title">Skills</h2>
+                <div class="skills-container">${skillCategories}</div>
+            `;
+        }
+
+        function renderProjects() {
+            const projects = portfolioData.projects.map(project => {
+                const tags = project.tags.map(tag => `<span>${tag}</span>`).join(' &middot; ');
+                return `
+              <a href="${project.link}" target="_blank" rel="noopener noreferrer" class="project-card">
+                <div class="project-header">
+                  <h3>${project.title}</h3>
+                  <i class="fas fa-external-link-alt"></i>
+                </div>
+                <p>${project.description}</p>
+                <div class="tag-list">${tags}</div>
+              </a>
+            `;
+            }).join('');
+            document.getElementById('projects').innerHTML = `
+            <h2 class="section-title">Projects</h2>
+            <div class="projects-grid">${projects}</div>
+          `;
+        }
+
+        function renderFooter() {
+            const { name, socials } = portfolioData.profile;
+            document.getElementById('contact').innerHTML = `
+                <div class="container">
+                    <h2>Get In Touch</h2>
+                    <p>I'm always open to discussing new projects, creative ideas, or opportunities. Feel free to reach out.</p>
+                    <a href="${socials.email}" class="btn">Say Hello</a>
+                    <div class="footer-socials">
+                        <a href="${socials.linkedin}" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn"><i class="fab fa-linkedin fa-2x"></i></a>
+                        <a href="${socials.github}" target="_blank" rel="noopener noreferrer" aria-label="GitHub"><i class="fab fa-github fa-2x"></i></a>
+                    </div>
+                    <p class="copyright">&copy; ${new Date().getFullYear()} ${name}. All rights reserved.</p>
+                </div>
+            `;
+        }
+
+        // interact
+        function setupHamburgerMenu() {
+            const hamburger = document.querySelector('.hamburger-menu');
+            const navLinks = document.querySelector('.nav-links');
+            const links = navLinks.querySelectorAll('a');
+
+            hamburger.addEventListener('click', () => {
+                navLinks.classList.toggle('active');
+                const icon = hamburger.querySelector('i');
+                icon.classList.toggle('fa-bars');
+                icon.classList.toggle('fa-times');
+                const isExpanded = navLinks.classList.contains('active');
+                hamburger.setAttribute('aria-expanded', isExpanded);
+            });
+
+            links.forEach(link => {
+                link.addEventListener('click', () => {
+                    navLinks.classList.remove('active');
+                    const icon = hamburger.querySelector('i');
+                    icon.classList.add('fa-bars');
+                    icon.classList.remove('fa-times');
+                    hamburger.setAttribute('aria-expanded', 'false');
+                });
+            });
+        }
+
+        function setupScrollListeners() {
+            // animation
+            const sections = document.querySelectorAll('section');
+            const observer = new IntersectionObserver(entries => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                    }
+                });
+            }, { threshold: 0.1 });
+            sections.forEach(section => observer.observe(section));
+
+            // navlink scroll
+            const navLinks = document.querySelectorAll('.nav-links a');
+            const sectionObserver = new IntersectionObserver(entries => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const id = entry.target.getAttribute('id');
+                        navLinks.forEach(link => {
+                            link.classList.toggle('active', link.getAttribute('href') === `#${id}`);
+                        });
+                    }
+                });
+            }, { rootMargin: '-30% 0px -70% 0px' });
+            document.querySelectorAll('section[id]').forEach(sec => sectionObserver.observe(sec));
+        }
+
+        // main
+        document.addEventListener('DOMContentLoaded', () => {
+            renderNav();
+            renderHero();
+            renderAbout();
+            renderExperience();
+            renderSkills();
+            renderProjects();
+            renderFooter();
+
+            // dom populate -> setup event lisn
+            setupHamburgerMenu();
+            setupScrollListeners();
+        });
+    </script>
+</body>
+
+</html>
