@@ -7,7 +7,7 @@
     <title>Aniket Mishra - Data Scientist</title>
     <meta name="description" content="Portfolio of Aniket Mishra, a Data Scientist with 5 years of experience." />
     <link rel="icon" type="image/png"
-        href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>👨‍💻</text></svg>">
+        href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>😸</text></svg>">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
         integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
@@ -27,6 +27,10 @@
             box-sizing: border-box;
             margin: 0;
             padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
         }
 
         body {
@@ -240,6 +244,7 @@
 
         .about-image-wrapper {
             position: relative;
+            aspect-ratio: 4 / 5;
             max-width: 300px;
             margin: auto;
         }
@@ -553,8 +558,8 @@
             profile: {
                 name: "Aniket Mishra",
                 title: "Data Scientist",
-                intro: "I'm a Data Scientist with 5 years of experience, passionate about turning complex data into actionable insights and building intelligent systems. I thrive on solving challenging problems and exploring the intersection of data, technology, and creativity.",
-                about: "Since you are already on my portfolio, you will get to know everything regarding my technical skills and interests. So I'll tell you something you won't find on my resume. I love to write poems, tell stories and play games. Poems about people. Stories about graphs. Games about the unreal. I strike up conversations by offering to write poems for people; it's a quirky way to connect and understand them. I think it shouldn't have worked, but it does!",
+                intro: "I'm a Data Scientist with 5 years of experience, passionate about turning complex data into actionable insights and building intelligent systems. I live to solve complex problems, and I love to build pretty stuff for fun. My interests lie in automating everything around me so that I can spend time thinking about what's important: understand what intelligence is.",
+                about: "Since you are already on my portfolio, you will get to know everything regarding my technical skills and interests. So I'll tell you something you won't find on my resume. I love to write poems, tell stories and play games. Poems about people. Stories about graphs. Games about the unreal. I strike up conversations by offering to write poems for people. And it somehow works... I am yet to understand why or how.",
                 image: "images/good_photo.JPEG",
                 socials: {
                     github: "https://github.com/Aniket-Mishra",
@@ -575,10 +580,10 @@
                     role: "Data Scientist",
                     duration: "Jul 2022 - Jul 2025",
                     description: [
-                        "Built and optimised XGBoost and custom regression models to predict wind turbine downtimes.",
-                        "Developed custom Streamlit apps for rapid model performance evaluation and hyper-parameter tuning.",
-                        "Optimised InfluxDB time-series data ingestion, achieving a 300% speed increase.",
-                        "Engineered ETL processes to handle 400% data size increase and run 5x faster.",
+                        "Built and optimised XGBoost, Normal-Behavior Autoencoder, and regression models to predict wind/solar downtimes 2–4 months in advance.",
+                        "Developed Streamlit apps for live KPI validation, hyperparameter tuning, and model performance tracking.",
+                        "Optimised InfluxDB time-series I/O by >300% and reduced historical ElasticSearch pulls from 4+ hours to ~15 minutes per asset.",
+                        "Engineered ETL pipelines to handle a 400% data size increase and run 5× faster, contributing to ~48% lower processing costs."
                     ],
                 },
                 {
@@ -586,133 +591,158 @@
                     role: "Data Engineer",
                     duration: "Mar 2021 - Jul 2022",
                     description: [
-                        "Created an anomaly detection system with >99% accuracy for wind turbines and solar panels.",
-                        "Engineered data pipelines for predictive maintenance on a large solar farm.",
-                        "Developed large-scale data processing and ETL pipelines for over 5GW of energy assets.",
-                        "Optimised container processing time for Availability Mismatch by 88% (45 mins to <5 mins).",
+                        "Created an anomaly detection system with >95% accuracy for wind turbines and solar panels (platform feature + scheduled DB flagging job).",
+                        "Designed and scaled ETL pipelines for predictive maintenance across >5GW of wind, solar, and storage (AC/DC-coupled) assets.",
+                        "Optimised container runtime for Availability Mismatch by 88% (45 mins → <5 mins) and improved MCR processing to ~99% OEM accuracy.",
+                        "Designed and Built an internal Python library packaged with Poetry/PyTest and deployed via JFrog/PyPI for company-wide reuse."
                     ],
                 },
                 {
-                    company: "SparkCognition / Avathon",
-                    role: "Data Analyst",
-                    duration: "Mar 2021 - May 2021",
+                    company: "Infosys",
+                    role: "Systems Engineer - Data & Analytics",
+                    duration: "Oct 2020 – Mar 2021",
                     description: [
-                        "Created robust ETL Pipelines for 6 customers using Pandas, Django, PostgreSQL, ElasticSearch, and AWS.",
-                        "Developed a formula to calculate potential device production based on availability, power, and conditions.",
-                        "Improved MCR processing calculations to achieve 99% accuracy against OEM values.",
-                        "Updated the site data model, reducing mappings and memory usage by over 50%."
+                        "Managed 2000+ ETL workflows in Informatica PowerCenter with zero-data-loss migrations.",
+                        "Top performer in 2 major intensive Data Engineering projects."
                     ],
                 },
                 {
-                    company: "Self-employed",
+                    company: "Codezoned;",
+                    role: "Core Team Developer",
+                    duration: "Jun 2018 – Present",
+                    description: [
+                        "Led development on open-source projects including ScriptsDump (large CS/Math script repository).",
+                        "Served as Technical Lead for HAC-2020 (MLH Member Hackathon)."
+                    ],
+                },
+                {
+                    company: "Freelance",
                     role: "Data Science Instructor",
-                    duration: "Aug 2023 - Sep 2024",
+                    duration: "Aug 2023 – Aug 2024",
                     description: [
-                        "Delivered corporate training specializing in Analytics, Engineering, and Machine Learning.",
-                        "Pioneered hands-on, project-centric learning to bridge theory and practical application.",
-                        "Provided personalized mentorship for crafting impactful portfolios and interview preparation.",
+                        "Delivered corporate training in Analytics & Machine Learning for professionals.",
+                        "Mentored professionals into analytics roles with hands-on guidance."
                     ],
-                },
-                {
-                    company: "Infosys",
-                    role: "Systems Engineer (ETL)",
-                    duration: "Nov 2020 - Mar 2021",
-                    description: [
-                        "Served as an ETL Engineer, overseeing and administering over 2000 workflows in Informatica.",
-                        "Addressed and resolved failures in ETL processing and wrote SQL queries for data reprocessing."
-                    ],
-                },
-                {
-                    company: "Infosys",
-                    role: "Data Analyst Intern",
-                    duration: "Jan 2020 - Mar 2020",
-                    description: [
-                        "Trained in SQL, ML mathematics, statistics, and Python for data science (Pandas, NumPy, Scikit-Learn).",
-                        "Gained hands-on experience working with multiple real-world datasets.",
-                        "Recognized as a high performer based on skills assessment.",
-                        "Collaborated with a team on multiple data analysis projects."
-                    ]
-                },
-                {
-                    company: "codezoned",
-                    role: "Core Team & Developer",
-                    duration: "Jun 2018 - Present",
-                    description: [
-                        "Contributed to and led web development projects for the organization.",
-                        "Led the technical team for the MLH-partnered hackathon, HAC-2020.",
-                        "Developed automation scripts for event registration and community management.",
-                    ],
-                },
-                {
-                    company: "Phoenix Software Solutions",
-                    role: "Web Developer Intern",
-                    duration: "May 2018 - Jun 2018",
-                    description: [
-                        "Developed a full-stack website for GST billing and tax invoicing for a client.",
-                        "Built the frontend using HTML, CSS, Bootstrap, JavaScript, and jQuery/AJAX.",
-                        "Implemented the backend and database using PHP and MySQL."
-                    ]
                 }
             ],
             projects: [
                 {
-                    title: "Monthly Sales Analysis",
-                    description: "Performed statistical and association analysis on a year of sales data. Answered key business questions using interactive graphs plotted with Plotly.",
-                    tags: ["Python", "Pandas", "Plotly"],
-                    link: "https://github.com/Aniket-Mishra/Sales-Analysis-and-Reporting"
+                    title: "pdf_workbench",
+                    description: "A browser-based PDF toolkit (merge, filter, extract) built with Streamlit and PyMuPDF. Designed for usability and performance in real-world workflows.",
+                    tags: ["Streamlit", "Python"],
+                    link: "https://github.com/Aniket-Mishra/pdf_workbench"
                 },
                 {
-                    title: "Winconsin Breast Cancer Analysis",
-                    description: "Analyzed Kaggle data, performed feature engineering, and employed ML algorithms to detect cancer types with high accuracy.",
-                    tags: ["Machine Learning", "Python", "Scikit-learn"],
-                    link: "https://github.com/Aniket-Mishra/playing-with-data/tree/master/winconsin-breast-cancer-research"
+                    title: "dotfiles",
+                    description: "A productivity toolkit to optimize macOS/Linux development workflows. Includes automation scripts, environment setup, and Rust/Zsh-powered shell utilities.",
+                    tags: ["Rust", "Shell", "Automation"],
+                    link: "https://github.com/Aniket-Mishra/dotfiles"
                 },
                 {
-                    title: "Heart Failure Severity Detection",
-                    description: "Developed an Artificial Neural Network in Keras to predict the severity of heart failure on a scale of 0-4, achieving 84% accuracy.",
-                    tags: ["Deep Learning", "Keras", "ANN"],
-                    link: "https://github.com/Aniket-Mishra/HeartDisease"
+                    title: "scripts",
+                    description: "A collection of small automation utilities - from preventing inactivity to PDF/Image manipulation. Built to make everyday tasks simpler.",
+                    tags: ["Python", "Automation", "CLI", "OpenCV", "Rust"],
+                    link: "https://github.com/Aniket-Mishra/scripts"
                 },
                 {
-                    title: "The Third Eye: Threat Detection",
-                    description: "Built for Kerala Police. Used OpenCV and Nvidia Jetson Nano for real-time face recognition against a police database.",
-                    tags: ["Computer Vision", "OpenCV", "Python"],
+                    title: "Third Eye - Threat Detection",
+                    description: "Hackathon prototype for Kerala Police. Built with OpenCV and Jetson Nano for real-time facial recognition against a police database.",
+                    tags: ["Computer Vision", "OpenCV", "Edge AI", "Nvidia Jetson Nano"],
                     link: "https://github.com/HacKP-CyberDome"
                 },
                 {
-                    title: "Sales Prediction WebApp",
-                    description: "Predicted future sales using a regression model. Deployed the model as a Flask API on Heroku for real-time predictions.",
-                    tags: ["Flask", "Heroku", "ML", "API"],
-                    link: "https://sales-prediction-flask-api.herokuapp.com/"
+                    title: "Reinforcement Learning: Robot Navigation",
+                    description: "Explored multiple RL algorithms for a robot delivery task in a restaurant environment. Implemented DQN, PPO, and baseline agents, ultimately selecting PPO for its superior stability and performance in complex obstacle layouts.",
+                    tags: ["Reinforcement Learning", "Deep Reinforcement Learning", "Pytorch", "DQN", "PPO"],
+                    link: "https://github.com/Aniket-Mishra/2AMC15_Intelligence_Challenge_A2"
                 },
                 {
-                    title: "pipinstall CLI Tool",
-                    description: "A Python command-line app that simplifies installing required modules to any Python environment using os and sys modules.",
-                    tags: ["Python", "CLI", "Automation"],
-                    link: "https://github.com/codezoned/pipinstall"
+                    title: "Competitive Sudoku AI",
+                    description: "Developed AI agents for competitive Sudoku using heuristics, Monte Carlo simulations, and Markov Chain Tree Search. Achieved rank 9 in cohort. Implemented minimax-based players and statistical simulations.",
+                    tags: ["AI", "Monte Carlo", "Heuristics", "Simulation", "Games"],
+                    link: "https://github.com/Aniket-Mishra/2AMU10_Foundations_of_Artificial_Intelligence"
+                },
+                {
+                    title: "Movie Recommender System",
+                    description: "Built an interactive Dash application for movie recommendations. Integrated clustering, XGBoost, and dynamic dashboards with live updates across all graphs. Designed for exploratory movie analysis and personalized suggestions.",
+                    tags: ["Recommender Systems", "Visual Analytics", "XGBoost", "PCA", "Feature Engineering", "Dimensionality Reduction", "Dash", "Plotly"],
+                    link: "https://github.com/Aniket-Mishra/2_AMV10_Visual_Analytics"
+                },
+                {
+                    title: "Historical Shark Attacks Visualization",
+                    description: "Developed a visualization platform for analyzing historical shark attack datasets. Combined Pandas with Dash/Plotly for interactive exploration, brushing, and drill-down insights across time and geography.",
+                    tags: ["Visualization", "Dash", "Plotly"],
+                    link: "https://github.com/Aniket-Mishra/JBI100_Visualisation"
+                },
+
+                {
+                    title: "Heart Failure Severity Detection",
+                    description: "Neural network system (Keras) to classify heart failure severity (Levels 1–4), developed in collaboration with AIIMS doctors.",
+                    tags: ["Deep Learning", "Healthcare AI", "Keras"],
+                    link: "https://github.com/Aniket-Mishra/Heart_Failure_Severity"
+                },
+                {
+                    title: "statistical-model-implementer",
+                    description: "A potential library to automatically apply statistical models to datasets, evaluate metrics, and identify the best performing model.",
+                    tags: ["Machine Learning", "Python"],
+                    link: "https://github.com/Aniket-Mishra/statistical-model-implementer"
                 }
             ],
             skills: [
                 {
                     title: "Languages",
-                    skills: ["Python", "Rust", "JavaScript", "SQL"]
+                    skills: ["Python", "Rust", "JavaScript", "SQL", "C++", "C", "Bash"]
                 },
                 {
-                    title: "Data Science & ML",
-                    skills: ["Pandas", "NumPy", "Scikit-Learn", "XGBoost", "TensorFlow", "Keras", "Predictive Modeling", "Time Series Analysis"]
+                    title: "Cloud & Infra",
+                    skills: ["AWS", "GCP", "Terraform", "Grafana", "Kibana"]
                 },
                 {
                     title: "Data Engineering & MLOps",
-                    skills: ["ETL", "Apache Airflow", "Data Pipelines", "InfluxDB", "Elasticsearch", "Docker", "MLOps"]
+                    skills: [
+                        "Airflow", "Docker",
+                        "Serverless", "CI/CD"
+                    ]
                 },
                 {
-                    title: "Web & Cloud",
-                    skills: ["Flask", "Streamlit", "HTML/CSS", "AWS"]
+                    title: "Data Stores & Search",
+                    skills: ["PostgreSQL", "InfluxDB", "ElasticSearch", "DuckDB", "Neo4j", "ChromaDB"]
                 },
                 {
-                    title: "Tools & Other",
-                    skills: ["Git", "GitHub", "Kibana", "Team Leadership"]
-                }
+                    title: "Visualization",
+                    skills: ["Plotly", "Dash", "Streamlit", "Panel"]
+                },
+                {
+                    title: "Tools",
+                    skills: ["Git", "Poetry", "PyTest", "Jira", "Confluence", "Postman", "Swagger", "Ollama", "ComfyUI"]
+                },
+                {
+                    title: "Deep Learning & Core ML",
+                    skills: [
+                        "PyTorch",
+                        "CNNs, RNNs, GNNs",
+                        "AutoML & Meta-Learning",
+                        "Time Series Forecasting",
+                        "Survival Analysis",
+                        "Optimization Algorithms",
+                        "Anomaly Detection",
+                        "Reinforcement Learning",
+                        "Continual Learning"
+                    ]
+                },
+                {
+                    title: "LLMs & Advanced AI",
+                    skills: [
+                        "Transformers",
+                        "Large Language Models (LLMs)",
+                        "Fine-tuning & Transfer Learning",
+                        "Prompt Engineering",
+                        "Attention Mechanisms",
+                        "Generative AI",
+                        "Stable Diffusion", "LoRA fine-tuning",
+                        "Image Generation & Manipulation",
+                    ]
+                },
             ]
         };
 
@@ -859,7 +889,6 @@
             `;
         }
 
-        // interact
         function setupHamburgerMenu() {
             const hamburger = document.querySelector('.hamburger-menu');
             const navLinks = document.querySelector('.nav-links');
