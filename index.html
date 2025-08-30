@@ -580,7 +580,8 @@
                     linkedin: "https://www.linkedin.com/in/aniket97/",
                     email: "mailto:anmishraofficial@gmail.com",
                 },
-                resumeUrl: "pdfs/Aniket_Mishra_DataScience_Resume.pdf"
+                resumeUrl: "pdfs/Aniket_Mishra_DataScience_Resume.pdf",
+                nlCvUrl: "pdfs/Aniket_Resume_NL.pdf",
             },
             sections: [
                 { id: 'about', name: 'About' },
@@ -806,23 +807,25 @@
         }
 
         function renderHero() {
-            const { name, title, intro, socials, resumeUrl } = portfolioData.profile;
+            const { name, title, intro, socials, resumeUrl, nlCvUrl } = portfolioData.profile;
             document.getElementById('home').innerHTML = `
             <div class="hero-content">
-              <h2>Hello, I'm</h2>
-              <h1>${name}.</h1>
-              <h2>${title}</h2>
-              <p>${intro}</p>
-              <div class="hero-buttons">
-                <a href="${resumeUrl}" target="_blank" rel="noopener noreferrer" class="btn">View My Resume</a>
+            <h2>Hello, I'm</h2>
+            <h1>${name}.</h1>
+            <h2>${title}</h2>
+            <p>${intro}</p>
+            <div class="hero-buttons">
+                <a href="${resumeUrl}" target="_blank" rel="noopener noreferrer" class="btn">Resume (1 page)</a>
+                <a href="${nlCvUrl}" target="_blank" rel="noopener noreferrer" class="btn btn-outline">Dutch CV (2 pages)</a>
                 <div class="social-icons">
-                   <a href="${socials.linkedin}" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
-                   <a href="${socials.github}" target="_blank" rel="noopener noreferrer" aria-label="GitHub"><i class="fab fa-github"></i></a>
+                <a href="${socials.linkedin}" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
+                <a href="${socials.github}" target="_blank" rel="noopener noreferrer" aria-label="GitHub"><i class="fab fa-github"></i></a>
                 </div>
-              </div>
             </div>
-          `;
+            </div>
+        `;
         }
+
 
         function renderAbout() {
             const { about, image, name } = portfolioData.profile;
