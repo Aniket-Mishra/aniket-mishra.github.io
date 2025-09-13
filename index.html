@@ -560,6 +560,7 @@
         <section id="home"></section>
         <section id="about"></section>
         <section id="experience"></section>
+        <section id="education"></section>
         <section id="skills"></section>
         <section id="projects"></section>
     </main>
@@ -586,6 +587,7 @@
             sections: [
                 { id: 'about', name: 'About' },
                 { id: 'experience', name: 'Experience' },
+                { id: 'education', name: 'Education' },
                 { id: 'skills', name: 'Skills' },
                 { id: 'projects', name: 'Projects' },
             ],
@@ -668,6 +670,30 @@
                     ],
                 }
             ],
+            education: [
+                {
+                    school: "Eindhoven University of Technology (TU/e)",
+                    degree: "MSc, Data Science and Artificial Intelligence",
+                    duration: "Sep 2024 – Sep 2026 (expected)",
+                    details: [
+                        "Major Trajectory 1: Data Mining & Machine Learning",
+                        "Major Trajectory 2:  Data Engineering & Management",
+                        "Minor Trajectory: Process Mining & Visual Analytics",
+                        "Relevant coursework: Machine Learning Engineering, Deep Learning, Survival Analysis, Reinforcement Learning, Big Data Management, Process Mining, Visual Analytics, Engineering Data Intensive Systems, Knowledge Engineering, Research Topics in Data Mining, Machine Learning for Industry"
+                    ]
+                },
+                {
+                    school: "SRM Institute of Science and Technology, Chennai, India",
+                    degree: "B.Tech, Computer Science (First Class with Distinction)",
+                    duration: "Jun 2016 – Sep 2020",
+                    details: [
+                        "First Class with Distinction",
+                        "Best Research Paper Award (RCICD 2020) for SRFBGAN project",
+                        "Relevant coursework: Python Programming, Artificial Intelligence, Database Management Systems, Pattern Recognition and Expert Systems, Neuro-Fuzzy & Genetic Programming, Data Science & Big Data Analytics, Algorithm Design & Analysis"
+                    ]
+                }
+            ],
+
             projects: [
                 {
                     title: "pdf_workbench",
@@ -881,6 +907,29 @@
                 <div class="timeline">${experienceHtml}</div>
             `;
         }
+        function renderEducation() {
+            const educationHtml = portfolioData.education.map(edu => {
+                const details = edu.details.map(d => `<li>${d}</li>`).join('');
+                return `
+          <div class="timeline-item">
+            <div class="timeline-card">
+              <h2 class="company-title">${edu.school}</h2>
+              <div class="timeline-header">
+                <h3>${edu.degree}</h3>
+                <p class="duration">${edu.duration}</p>
+              </div>
+              <ul>${details}</ul>
+            </div>
+          </div>
+        `;
+            }).join('');
+
+            document.getElementById('education').innerHTML = `
+        <h2 class="section-title">Education</h2>
+        <div class="timeline">${educationHtml}</div>
+    `;
+        }
+
 
         function renderSkills() {
             const skillCategories = portfolioData.skills.map(category => {
@@ -992,6 +1041,7 @@
             renderHero();
             renderAbout();
             renderExperience();
+            renderEducation();
             renderSkills();
             renderProjects();
             renderFooter();
