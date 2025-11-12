@@ -561,6 +561,7 @@
         <section id="about"></section>
         <section id="experience"></section>
         <section id="education"></section>
+        <section id="research"></section>
         <section id="skills"></section>
         <section id="projects"></section>
     </main>
@@ -588,6 +589,7 @@
                 { id: 'about', name: 'About' },
                 { id: 'experience', name: 'Experience' },
                 { id: 'education', name: 'Education' },
+                { id: 'research', name: 'Research' },
                 { id: 'skills', name: 'Skills' },
                 { id: 'projects', name: 'Projects' },
             ],
@@ -693,6 +695,25 @@
                     ]
                 }
             ],
+            research: [
+                {
+                    title: "SRFBGAN: Image super resolution using Feedback loops in Generative Adversarial Networks",
+                    authors: "Sagar Vakkala, Aniket Mishra, Senthil Kumar, Punitha D",
+                    publication: "Journal of Emerging Technologies and Innovative Research (JETIR), Vol. 7, Issue 5",
+                    date: "May 2020",
+                    award: "Best Research Paper Award - RCICD 2020",
+                    pdfLink: "pdfs/JETIRDV06001.pdf"
+                    // pdfLink: "https://www.jetir.org/view?paper=JETIRDV06001"
+                },
+                {
+                    title: "Exceptional Model Mining on Model Residuals: Balancing Interpretability and Expressiveness in Rich Description Languages",
+                    authors: "Aniket Mishra, Cristiana Cărbunaru",
+                    publication: "Course Project: 2AMM20 Research Topics in Data Mining",
+                    date: "Eindhoven University of Technology, 2025",
+                    award: null,
+                    pdfLink: "pdfs/2AMM20_Group_15_Final_Report.pdf"
+                }
+            ],
 
             projects: [
                 {
@@ -757,7 +778,7 @@
                     link: "https://github.com/Aniket-Mishra/statistical-model-implementer"
                 },
                 {
-                    title: "quickSilver — Graph Path Query Estimator",
+                    title: "quickSilver: Graph Path Query Estimator",
                     description: "C++ in-memory graph DB project for simple regular path queries: built a cardinality estimator and optimized evaluation (plan selection, joins/projections, memory). Benchmarked on synthetic/real workloads.",
                     tags: ["C++", "Graphs", "Query Optimization", "Cardinality Estimation", "RDF"],
                     link: "https://avantlab.io/eds/"
@@ -936,6 +957,69 @@
     `;
         }
 
+        function renderResearch() {
+            const researchHtml = portfolioData.research.map((item, index) => {
+
+                // Conditionally create the award badge HTML
+                const awardHtml = item.award ? `
+                  <span class="skill-item" style="background-color: var(--bg-color); color: var(--accent-color); font-weight: bold; border: 1px solid var(--accent-color);">
+                    <i class="fas fa-award"></i> ${item.award}
+                  </span>
+                ` : ''; // Render nothing if item.award is null or empty
+
+                // This is the common content for all cards
+                const cardContent = `
+                  <div class="timeline-header" style="margin-bottom: 1rem;">
+                    <h3>${item.publication}</h3>
+                    <p class="duration">${item.date}</p>
+                  </div>
+                  <p style="color: var(--text-secondary); margin-bottom: 1.5rem; font-size: 0.9rem;">Authors: ${item.authors}</p>
+                  ${awardHtml}
+                `;
+
+                // --- Special logic for the FIRST paper (index 0) ---
+                // Wrap the ENTIRE card in a link.
+                if (index === 0) {
+                    return `
+              <div class="timeline-item">
+                <a href="${item.pdfLink}" target="_blank" rel="noopener noreferrer" style="text-decoration: none;">
+                  <div class="timeline-card">
+                    <h2 class="company-title" style="margin-bottom: 0.5rem; padding-bottom: 0.5rem; border-bottom: none; display: flex; justify-content: space-between; align-items: center; color: var(--accent-color);">
+                      <span>${item.title}</span>
+                      <i class="fas fa-external-link-alt" style="font-size: 1rem; color: var(--text-secondary); margin-left: 1rem;"></i>
+                    </h2>
+                    ${cardContent}
+                  </div>
+                </a>
+              </div>
+            `;
+                }
+
+                // --- Default logic for ALL OTHER papers ---
+                // Only the title is a link.
+                else {
+                    return `
+              <div class="timeline-item">
+                <div class="timeline-card">
+                  <a href="${item.pdfLink}" target="_blank" rel="noopener noreferrer" style="text-decoration: none; color: var(--accent-color); transition: color 0.3s;"
+                     onmouseover="this.style.color='var(--text-color)'" onmouseout="this.style.color='var(--accent-color)'">
+                    <h2 class="company-title" style="margin-bottom: 0.5rem; padding-bottom: 0.5rem; border-bottom: none; display: flex; justify-content: space-between; align-items: center;">
+                      <span>${item.title}</span>
+                      <i class="fas fa-external-link-alt" style="font-size: 1rem; color: var(--text-secondary); margin-left: 1rem;"></i>
+                    </h2>
+                  </a>
+                  ${cardContent}
+                </div>
+              </div>
+            `;
+                }
+            }).join('');
+
+            document.getElementById('research').innerHTML = `
+            <h2 class="section-title">Research</h2>
+            <div class="timeline">${researchHtml}</div>
+        `;
+        }
 
         function renderSkills() {
             const skillCategories = portfolioData.skills.map(category => {
@@ -1048,6 +1132,7 @@
             renderAbout();
             renderExperience();
             renderEducation();
+            renderResearch();
             renderSkills();
             renderProjects();
             renderFooter();
