@@ -11,542 +11,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
         integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <style>
-        :root {
-            --bg-color: #0a192f;
-            --text-color: #ccd6f6;
-            --text-secondary: #8892b0;
-            --accent-color: #64ffda;
-            --card-bg-color: #112240;
-            --header-bg-color: rgba(10, 25, 47, 0.85);
-        }
-
-        *,
-        *::before,
-        *::after {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
-
-        html {
-            scroll-behavior: smooth;
-        }
-
-        body {
-            background-color: var(--bg-color);
-            color: var(--text-color);
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-            -webkit-font-smoothing: antialiased;
-            -moz-osx-font-smoothing: grayscale;
-        }
-
-        /* Custom Scrollbar */
-        ::-webkit-scrollbar {
-            width: 8px;
-        }
-
-        ::-webkit-scrollbar-track {
-            background: var(--bg-color);
-        }
-
-        ::-webkit-scrollbar-thumb {
-            background: var(--text-secondary);
-            border-radius: 10px;
-        }
-
-        ::-webkit-scrollbar-thumb:hover {
-            background: var(--accent-color);
-        }
-
-        .container {
-            max-width: 1100px;
-            margin: 0 auto;
-            padding: 0 2rem;
-        }
-
-        header {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            z-index: 100;
-            padding: 1rem 0;
-            background-color: var(--header-bg-color);
-            backdrop-filter: blur(10px);
-            transition: top 0.3s;
-        }
-
-        nav {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .nav-logo {
-            font-weight: bold;
-            font-size: 1.5rem;
-            color: var(--text-color);
-            text-decoration: none;
-        }
-
-        .nav-logo:hover {
-            color: var(--accent-color);
-        }
-
-        .nav-links {
-            list-style: none;
-            display: flex;
-            gap: 2rem;
-        }
-
-        .nav-links a {
-            text-decoration: none;
-            color: var(--text-secondary);
-            font-weight: 500;
-            transition: color 0.3s;
-            padding: 0.5rem 0;
-        }
-
-        .nav-links a:hover,
-        .nav-links a.active {
-            color: var(--accent-color);
-        }
-
-        .hamburger-menu {
-            display: none;
-            background: none;
-            border: none;
-            color: var(--text-color);
-            font-size: 1.5rem;
-            cursor: pointer;
-            z-index: 1001;
-            /* Above mobile nav bg */
-        }
-
-        main {
-            padding-top: 80px;
-            /* Header height */
-        }
-
-        section {
-            padding: 100px 0;
-            opacity: 0;
-            transform: translateY(20px);
-            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
-        }
-
-        section.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        .section-title {
-            font-size: 2.5rem;
-            font-weight: bold;
-            margin-bottom: 3rem;
-            position: relative;
-            display: inline-block;
-        }
-
-        .section-title::after {
-            content: '';
-            position: absolute;
-            bottom: -10px;
-            left: 0;
-            width: 50%;
-            height: 4px;
-            background: var(--accent-color);
-            border-radius: 2px;
-        }
-
-        /* Hero */
-        #home {
-            min-height: calc(100vh - 80px);
-            display: flex;
-            align-items: center;
-        }
-
-        .hero-content h1 {
-            font-size: clamp(2.5rem, 5vw, 4rem);
-            font-weight: 800;
-            color: var(--text-color);
-            line-height: 1.1;
-        }
-
-        .hero-content h2 {
-            font-size: clamp(1.5rem, 4vw, 2.5rem);
-            font-weight: 700;
-            color: var(--accent-color);
-            margin-top: 1rem;
-        }
-
-        .hero-content p {
-            margin-top: 1.5rem;
-            max-width: 600px;
-            color: var(--text-secondary);
-            font-size: 1.1rem;
-            line-height: 1.6;
-        }
-
-        .hero-buttons {
-            margin-top: 2.5rem;
-            display: flex;
-            align-items: center;
-            gap: 1.5rem;
-        }
-
-        .btn {
-            display: inline-block;
-            padding: 0.75rem 1.5rem;
-            background-color: var(--accent-color);
-            color: var(--bg-color);
-            font-weight: bold;
-            text-decoration: none;
-            border-radius: 4px;
-            transition: all 0.3s;
-            transform-origin: center;
-        }
-
-        .btn:hover {
-            transform: scale(1.05);
-            box-shadow: 0 0 15px var(--accent-color);
-        }
-
-        .social-icons {
-            display: flex;
-            gap: 1.5rem;
-        }
-
-        .social-icons a {
-            color: var(--text-secondary);
-            font-size: 1.5rem;
-            transition: color 0.3s;
-        }
-
-        .social-icons a:hover {
-            color: var(--accent-color);
-        }
-
-        /* About */
-        .about-content {
-            display: grid;
-            grid-template-columns: 2fr 1fr;
-            gap: 3rem;
-            align-items: center;
-        }
-
-        .about-text p {
-            color: var(--text-secondary);
-            font-size: 1.1rem;
-            line-height: 1.6;
-        }
-
-        .about-image-wrapper {
-            position: relative;
-            width: min(90vw, 320px);
-            aspect-ratio: 4 / 5;
-            margin: auto;
-            overflow: hidden;
-            --frame-offset: clamp(8px, 2.5vw, 20px);
-        }
-
-        .about-image {
-            position: absolute;
-            inset: 0;
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            display: block;
-            border-radius: 8px;
-            z-index: 2;
-        }
-
-        .about-image-wrapper::after {
-            content: '';
-            position: absolute;
-            top: var(--frame-offset);
-            left: var(--frame-offset);
-            width: 100%;
-            height: 100%;
-            border: 2px solid var(--accent-color);
-            border-radius: 8px;
-            z-index: 1;
-            transition: transform 0.3s;
-            transform: translate(0, 0);
-        }
-
-        .about-image-wrapper:hover::after {
-            transform: translate(calc(var(--frame-offset) * -0.5),
-                    calc(var(--frame-offset) * -0.5));
-        }
-
-        @media (max-width: 768px) {
-            .about-image-wrapper {
-                margin-bottom: 1.25rem;
-            }
-        }
-
-        /* Experience Timeline */
-        .timeline {
-            position: relative;
-            max-width: 800px;
-            margin: 0 auto;
-            border-left: 2px solid var(--card-bg-color);
-            padding-left: 2rem;
-        }
-
-        .timeline-item {
-            margin-bottom: 3rem;
-            position: relative;
-        }
-
-        .timeline-item::before {
-            content: '';
-            position: absolute;
-            left: -43px;
-            top: 5px;
-            width: 1rem;
-            height: 1rem;
-            border-radius: 50%;
-            background-color: var(--accent-color);
-            border: 3px solid var(--bg-color);
-        }
-
-        .timeline-card {
-            background-color: var(--card-bg-color);
-            padding: 1.5rem;
-            border-radius: 8px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            transition: transform 0.3s, box-shadow 0.3s;
-        }
-
-        .timeline-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 0 20px rgba(100, 255, 218, 0.1);
-        }
-
-        .timeline-card .company-title {
-            font-size: 1.5rem;
-            font-weight: bold;
-            color: var(--accent-color);
-            margin-bottom: 1.5rem;
-            padding-bottom: 1rem;
-            border-bottom: 1px solid var(--bg-color);
-        }
-
-        .timeline-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            flex-wrap: wrap;
-            gap: 0.5rem 1rem;
-        }
-
-        .timeline-card h3 {
-            font-size: 1.25rem;
-            font-weight: bold;
-            color: var(--text-color);
-        }
-
-        .timeline-card .duration {
-            color: var(--text-secondary);
-            font-size: 0.9rem;
-            white-space: nowrap;
-        }
-
-        .timeline-card ul {
-            list-style: none;
-            margin-top: 1rem;
-            padding-left: 0;
-        }
-
-        .timeline-card ul li {
-            position: relative;
-            padding-left: 1.25rem;
-            color: var(--text-secondary);
-            margin-bottom: 0.5rem;
-        }
-
-        .timeline-card ul li::before {
-            content: '▹';
-            position: absolute;
-            left: 0;
-            color: var(--accent-color);
-        }
-
-        /* Skills & Projects */
-        .skills-container,
-        .projects-grid {
-            display: grid;
-            gap: 1.5rem;
-        }
-
-        /* Skills */
-        .skills-container {
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-        }
-
-        .skill-category {
-            background-color: var(--card-bg-color);
-            padding: 1.5rem;
-            border-radius: 8px;
-        }
-
-        .skill-category h3 {
-            color: var(--accent-color);
-            font-size: 1.2rem;
-            margin-bottom: 1rem;
-        }
-
-        .skills-list {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 0.75rem;
-        }
-
-        .skill-item {
-            background-color: var(--bg-color);
-            padding: 0.5rem 1rem;
-            border-radius: 4px;
-            font-weight: 500;
-            color: var(--text-secondary);
-        }
-
-        /* Projects */
-        .projects-grid {
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-        }
-
-        .project-card {
-            background-color: var(--card-bg-color);
-            padding: 1.5rem;
-            border-radius: 8px;
-            display: flex;
-            flex-direction: column;
-            text-decoration: none;
-            transition: transform 0.3s, box-shadow 0.3s;
-            height: 100%;
-        }
-
-        .project-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 0 20px rgba(100, 255, 218, 0.1);
-        }
-
-        .project-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 1rem;
-        }
-
-        .project-header h3 {
-            color: var(--text-color);
-            font-size: 1.25rem;
-            transition: color 0.3s;
-        }
-
-        .project-card:hover h3 {
-            color: var(--accent-color);
-        }
-
-        .project-header i {
-            color: var(--text-secondary);
-            font-size: 1.25rem;
-        }
-
-        .project-card p {
-            color: var(--text-secondary);
-            flex-grow: 1;
-            margin-bottom: 1rem;
-        }
-
-        .tag-list {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 0.5rem;
-            font-size: 0.8rem;
-            color: var(--accent-color);
-            opacity: 0.8;
-        }
-
-        /* Footer */
-        footer {
-            text-align: center;
-            padding: 4rem 0 2rem;
-        }
-
-        footer h2 {
-            font-size: 2rem;
-        }
-
-        footer p {
-            max-width: 500px;
-            margin: 1rem auto;
-            color: var(--text-secondary);
-        }
-
-        .footer-socials {
-            margin: 2rem 0;
-            display: flex;
-            justify-content: center;
-            gap: 2rem;
-        }
-
-        .copyright {
-            color: var(--text-secondary);
-            font-size: 0.9rem;
-        }
-
-        /* Responsive Design */
-        @media (max-width: 768px) {
-            .container {
-                padding: 0 1rem;
-            }
-
-            .nav-links {
-                position: fixed;
-                top: 0;
-                right: -100%;
-                width: min(75vw, 400px);
-                height: 100vh;
-                flex-direction: column;
-                justify-content: center;
-                align-items: center;
-                background-color: var(--card-bg-color);
-                box-shadow: -10px 0px 30px -15px rgba(2, 12, 27, 0.7);
-                transition: right 0.3s ease-in-out;
-            }
-
-            .nav-links.active {
-                right: 0;
-            }
-
-            .hamburger-menu {
-                display: block;
-            }
-
-            .hero-buttons {
-                flex-direction: column;
-                align-items: flex-start;
-            }
-
-            .about-content {
-                grid-template-columns: 1fr;
-            }
-
-            .about-image-wrapper {
-                order: -1;
-                /* Move image to top on mobile */
-            }
-
-            .timeline-header {
-                flex-direction: column;
-                align-items: flex-start;
-            }
-        }
-    </style>
+    <link rel="stylesheet" href="css/style.css" />
 </head>
 
 <body>
@@ -574,7 +39,7 @@
             profile: {
                 name: "Aniket Mishra",
                 title: "Data Scientist",
-                intro: "I'm a Data Scientist with 5 years of experience, passionate about turning complex data into actionable insights and building intelligent systems. I live to solve complex problems, and I love to build pretty stuff for fun. I specialise in running code and models faster, cheaper, and with as little human intervention as possible. My interests lie in automating everything around me so that I can spend time thinking about what's important: understand what intelligence is.",
+                intro: "I'm a Data Scientist with 5 years of experience, passionate about turning complex data into actionable insights and building intelligent systems. Published researcher in Springer LNCS (IDA 2026) on interpretable machine learning and subgroup discovery. I live to solve complex problems, and I love to build pretty stuff for fun. I specialise in running code and models faster, cheaper, and with as little human intervention as possible. My interests lie in automating everything around me so that I can spend time thinking about what's important: understand what intelligence is.",
                 about: "Since you are already on my portfolio, you will get to know everything regarding my technical skills and interests. So I'll tell you something you won't find on my resume. I love to write poems, tell stories and play games. Poems about people. Stories about graphs. Games about the unreal. I strike up conversations by offering to write poems for people. And it somehow works... I am yet to understand why or how. <br> <br>If you look at my GitHub, almost everything I do falls between two things: <br> 1. Making my life easier. And cheaper. If I find something that I like but I have to pay for, I'll 100% write a script that does it for me. As long as it works, I'm good with it.<br> 2. Productivity and Automations. Every microsecond optimised is a microsecond gained, even if it cost me 12 hours to build said automation.",
                 image: "images/good_photo.JPEG",
                 socials: {
@@ -595,11 +60,22 @@
             ],
             experience: [
                 {
+                    company: "Eindhoven University of Technology (TU/e)",
+                    role: "Student Assistant",
+                    duration: "Feb 2026 - Present",
+                    description: [
+                        "Teaching Assistant for MSc courses: Machine Learning Engineering (2AMM15, Y2Q3) and Reinforcement Learning in Practice (2AMC15, Y2Q4).",
+                        "Maintain the RL course repository; implement new agent environments and CLI/UI features.",
+                        "Develop and maintain components of an automated grading system for programming assignments.",
+                        "Mentor students through challenge-based learning with regular feedback sessions."
+                    ],
+                },
+                {
                     company: "SparkCognition / Avathon",
                     role: "Data Scientist",
                     duration: "Jul 2022 - Jul 2025",
                     description: [
-                        "Built and optimised XGBoost, Normal-Behavior Autoencoder, and regression models to predict wind/solar downtimes 2–4 months in advance.",
+                        "Built and optimised XGBoost, Normal-Behavior Autoencoder, and regression models to predict wind/solar downtimes 2-4 months in advance.",
                         "Developed Streamlit apps for live KPI validation, hyperparameter tuning, and model performance tracking.",
                         "Optimised InfluxDB time-series I/O by >300% and reduced historical ElasticSearch pulls from 4+ hours to ~15 minutes per asset.",
                         "Engineered ETL pipelines to handle a 400% data size increase and run 5× faster, contributing to ~48% lower processing costs."
@@ -612,14 +88,14 @@
                     description: [
                         "Created an anomaly detection system with >95% accuracy for wind turbines and solar panels (platform feature + scheduled DB flagging job).",
                         "Designed and scaled ETL pipelines for predictive maintenance across >5GW of wind, solar, and storage (AC/DC-coupled) assets.",
-                        "Optimised container runtime for Availability Mismatch by 88% (45 mins → <5 mins) and improved MCR processing to ~99% OEM accuracy.",
+                        "Optimised container runtime for Availability Mismatch by 88% (45 mins to <5 mins) and improved MCR processing to ~99% OEM accuracy.",
                         "Designed and Built an internal Python library packaged with Poetry/PyTest and deployed via JFrog/PyPI for company-wide reuse."
                     ],
                 },
                 {
                     company: "Codezoned;",
                     role: "Core Team Developer",
-                    duration: "Jun 2018 – Present",
+                    duration: "Jun 2018 - Present",
                     description: [
                         "Led development on open-source projects including ScriptsDump (large CS/Math script repository).",
                         "Served as Technical Lead for HAC-2020 (MLH Member Hackathon)."
@@ -628,7 +104,7 @@
                 {
                     company: "Freelance",
                     role: "Data Science Instructor",
-                    duration: "Aug 2023 – Aug 2024",
+                    duration: "Aug 2023 - Aug 2024",
                     description: [
                         "Delivered corporate training in Analytics & Machine Learning for professionals.",
                         "Mentored professionals into analytics roles with hands-on guidance."
@@ -637,7 +113,7 @@
                 {
                     company: "Infosys",
                     role: "Systems Engineer - Data & Analytics",
-                    duration: "Oct 2020 – Mar 2021",
+                    duration: "Oct 2020 - Mar 2021",
                     description: [
                         "Managed 2000+ ETL workflows in Informatica PowerCenter with zero-data-loss migrations.",
                         "Top performer in 2 major intensive Data Engineering projects."
@@ -646,17 +122,17 @@
                 {
                     company: "Hack Against Covid (MLH Partnered Hackathon)",
                     role: "Technical Team Lead",
-                    duration: "Apr 2020 – Sep 2020",
+                    duration: "Apr 2020 - Sep 2020",
                     description: [
                         "Led the technical team to deliver platform components for HAC-2020, a global hackathon with 1,000+ participants from over 15 countries.",
-                        "Automated the organisation’s registration and onboarding system; built and maintained web tooling and infrastructure.",
+                        "Automated the organisation's registration and onboarding system; built and maintained web tooling and infrastructure.",
                         "Resolved participant technical issues in real time and managed the community server."
                     ],
                 },
                 {
                     company: "Infosys",
                     role: "Data Analyst Intern",
-                    duration: "Jan 2020 – Mar 2020",
+                    duration: "Jan 2020 - Mar 2020",
                     description: [
                         "Completed intensive training in SQL, statistics for ML, Python, machine learning, and deep learning; assessed as a high performer.",
                         "Worked on multiple real-world datasets and team projects using Pandas, NumPy, and Scikit-learn."
@@ -665,7 +141,7 @@
                 {
                     company: "Phoenix Software Solution, Bhubaneswar",
                     role: "Web Developer Intern",
-                    duration: "May 2018 – Jun 2018",
+                    duration: "May 2018 - Jun 2018",
                     description: [
                         "Developed a GST billing and tax-invoice website with PHP and MySQL.",
                         "Built a responsive frontend using CSS, Bootstrap, JavaScript, jQuery, and AJAX."
@@ -676,18 +152,18 @@
                 {
                     school: "Eindhoven University of Technology (TU/e)",
                     degree: "MSc, Data Science and Artificial Intelligence",
-                    duration: "Sep 2024 – Sep 2026 (expected)",
+                    duration: "Sep 2024 - Sep 2026 (expected)",
                     details: [
                         "Major Trajectory 1: Data Mining & Machine Learning",
-                        "Major Trajectory 2:  Data Engineering & Management",
+                        "Major Trajectory 2: Data Engineering & Management",
                         "Minor Trajectory: Process Mining & Visual Analytics",
-                        "Relevant coursework: Machine Learning Engineering, Deep Learning, Survival Analysis, Reinforcement Learning, Big Data Management, Process Mining, Visual Analytics, Engineering Data Intensive Systems, Knowledge Engineering, Research Topics in Data Mining, Machine Learning for Industry"
+                        "Relevant coursework: Machine Learning Engineering, Deep Learning, Process Mining, Visual Analytics, Survival Analysis, Reinforcement Learning, Big Data Management, Process Mining, Visual Analytics, Engineering Data Intensive Systems, Knowledge Engineering, Research Topics in Data Mining, Machine Learning for Industry"
                     ]
                 },
                 {
                     school: "SRM Institute of Science and Technology, Chennai, India",
                     degree: "B.Tech, Computer Science (First Class with Distinction)",
-                    duration: "Jun 2016 – Sep 2020",
+                    duration: "Jun 2016 - Sep 2020",
                     details: [
                         "First Class with Distinction",
                         "Best Research Paper Award (RCICD 2020) for SRFBGAN project",
@@ -697,42 +173,35 @@
             ],
             research: [
                 {
+                    title: "Exceptional Model Residual Mining, and Three Richer EMM Description Languages",
+                    authors: "Aniket Mishra, Cristiana Cǎrbunaru, Wouter Duivesteijn",
+                    publication: "Springer LNCS, vol. 16513 (IDA 2026). Presented at the International Symposium on Intelligent Data Analysis, Leiden.",
+                    date: "Apr 2026",
+                    award: null,
+                    pdfLink: "https://link.springer.com/chapter/10.1007/978-3-032-23833-7_20"
+                },
+                {
                     title: "SRFBGAN: Image super resolution using Feedback loops in Generative Adversarial Networks",
                     authors: "Sagar Vakkala, Aniket Mishra, Senthil Kumar, Punitha D",
                     publication: "Journal of Emerging Technologies and Innovative Research (JETIR), Vol. 7, Issue 5",
                     date: "May 2020",
                     award: "Best Research Paper Award - RCICD 2020",
-                    pdfLink: "pdfs/JETIRDV06001.pdf"
-                    // pdfLink: "https://www.jetir.org/view?paper=JETIRDV06001"
+                    pdfLink: "https://www.jetir.org/view?paper=JETIRDV06001"
                 },
-                {
-                    title: "Exceptional Model Mining on Model Residuals: Balancing Interpretability and Expressiveness in Rich Description Languages",
-                    authors: "Aniket Mishra, Cristiana Cărbunaru",
-                    publication: "Course Project: 2AMM20 Research Topics in Data Mining",
-                    date: "Eindhoven University of Technology, 2025",
-                    award: null,
-                    pdfLink: "pdfs/2AMM20_Group_15_Final_Report.pdf"
-                }
             ],
 
             projects: [
                 {
-                    title: "pdf_workbench",
-                    description: "A browser-based PDF toolkit (merge, filter, extract) built with Streamlit and PyMuPDF. Designed for usability and performance in real-world workflows.",
-                    tags: ["Streamlit", "Python"],
-                    link: "https://github.com/Aniket-Mishra/pdf_workbench"
+                    title: "ShieldPay",
+                    description: "Agentic payment fraud prevention system built at the bunq 7.0 Hackathon. An LLM agent assesses risk from merchant infromation and online reviews, checks transaction history, and generates disposable virtual cards via the bunq API. Frontend streams the agent's reasoning live and works globally.",
+                    tags: ["FastAPI", "Claude (Tool Use)", "bunq API", "AI Agents", "SSE Streaming"],
+                    link: "https://devpost.com/software/shieldpay"
                 },
                 {
-                    title: "dotfiles",
-                    description: "A productivity toolkit to optimize macOS/Linux development workflows. Includes automation scripts, environment setup, and Rust/Zsh-powered shell utilities.",
-                    tags: ["Rust", "Shell", "Automation"],
-                    link: "https://github.com/Aniket-Mishra/dotfiles"
-                },
-                {
-                    title: "scripts",
-                    description: "A collection of small automation utilities - from preventing inactivity to PDF/Image manipulation. Built to make everyday tasks simpler.",
-                    tags: ["Python", "Automation", "CLI", "OpenCV", "Rust"],
-                    link: "https://github.com/Aniket-Mishra/scripts"
+                    title: "Reinforcement Learning: Robot Navigation",
+                    description: "Explored multiple RL algorithms for a robot delivery task in a restaurant environment. Implemented DQN, PPO, and baseline agents, ultimately selecting PPO for its superior stability and performance in complex obstacle layouts.",
+                    tags: ["Reinforcement Learning", "Deep Reinforcement Learning", "Pytorch", "DQN", "PPO"],
+                    link: "https://github.com/Aniket-Mishra/2AMC15_Intelligence_Challenge_A2"
                 },
                 {
                     title: "Third Eye - Threat Detection",
@@ -741,10 +210,10 @@
                     link: "https://github.com/HacKP-CyberDome"
                 },
                 {
-                    title: "Reinforcement Learning: Robot Navigation",
-                    description: "Explored multiple RL algorithms for a robot delivery task in a restaurant environment. Implemented DQN, PPO, and baseline agents, ultimately selecting PPO for its superior stability and performance in complex obstacle layouts.",
-                    tags: ["Reinforcement Learning", "Deep Reinforcement Learning", "Pytorch", "DQN", "PPO"],
-                    link: "https://github.com/Aniket-Mishra/2AMC15_Intelligence_Challenge_A2"
+                    title: "Synthetic Data Generator",
+                    description: "Physics-grounded synthetic dataset generator for ML research. Simulates solar farms, wind farms, and centrifugal pumps with realistic telemetry and configurable fault injection (soiling, bearing friction, yaw drift, etc). Each generator solves actual physics equations, not random noise.",
+                    tags: ["Python", "Time Series", "Anomaly Detection", "Physics Simulation", "Data Generation"],
+                    link: "https://github.com/Aniket-Mishra/synthetic_data_generator"
                 },
                 {
                     title: "Competitive Sudoku AI",
@@ -764,10 +233,21 @@
                     tags: ["Visualization", "Dash", "Plotly"],
                     link: "https://github.com/Aniket-Mishra/Shark_Attack_Visualisation_System"
                 },
-
+                {
+                    title: "pdf_workbench",
+                    description: "A browser-based PDF toolkit (merge, filter, extract) built with Streamlit and PyMuPDF. Designed for usability and performance in real-world workflows.",
+                    tags: ["Streamlit", "Python"],
+                    link: "https://github.com/Aniket-Mishra/pdf_workbench"
+                },
+                {
+                    title: "scripts",
+                    description: "A collection of small automation utilities - from preventing inactivity to PDF/Image manipulation. Built to make everyday tasks simpler.",
+                    tags: ["Python", "Automation", "CLI", "OpenCV", "Rust"],
+                    link: "https://github.com/Aniket-Mishra/scripts"
+                },
                 {
                     title: "Heart Failure Severity Detection",
-                    description: "Neural network system (Keras) to classify heart failure severity (Levels 1–4), developed in collaboration with AIIMS doctors.",
+                    description: "Neural network system (Keras) to classify heart failure severity (Levels 1-4), developed in collaboration with AIIMS doctors.",
                     tags: ["Deep Learning", "Healthcare AI", "Keras"],
                     link: "https://github.com/Aniket-Mishra/Heart_Failure_Severity"
                 },
@@ -795,10 +275,7 @@
                 },
                 {
                     title: "Data Engineering & MLOps",
-                    skills: [
-                        "Airflow", "Docker",
-                        "Serverless", "CI/CD"
-                    ]
+                    skills: ["Airflow", "Docker", "Serverless", "CI/CD", "FastAPI", "REST APIs"]
                 },
                 {
                     title: "Data Stores & Search",
@@ -806,24 +283,24 @@
                 },
                 {
                     title: "Visualization",
-                    skills: ["Plotly", "Dash", "Streamlit", "Panel"]
+                    skills: ["Plotly", "Dash", "Streamlit", "Panel", "Draw.io", "Excalidraw"]
                 },
                 {
                     title: "Tools",
-                    skills: ["Git", "Poetry", "PyTest", "Jira", "Confluence", "Postman", "Swagger", "Ollama", "ComfyUI"]
+                    skills: ["Git", "Poetry", "UV", "PyTest", "Jira", "Confluence", "Postman", "Swagger", "Ollama", "ComfyUI"]
                 },
                 {
                     title: "Deep Learning & Core ML",
                     skills: [
                         "PyTorch",
                         "CNNs, RNNs, GNNs",
-                        "AutoML & Meta-Learning",
-                        "Time Series Forecasting",
-                        "Survival Analysis",
-                        "Optimization Algorithms",
-                        "Anomaly Detection",
+                        "AutoML", "Survival Analysis",
+                        "Time Series Forecasting", "Anomaly Detection",
+                        "Optimization Algorithms","Predictive Maintenance",
+                        "Continual Learning", "Meta-Learning",
                         "Reinforcement Learning",
-                        "Continual Learning"
+                        "Subgroup Discovery",
+                        "Exceptional Model Mining",
                     ]
                 },
                 {
@@ -831,10 +308,11 @@
                     skills: [
                         "Transformers",
                         "Large Language Models (LLMs)",
-                        "Fine-tuning & Transfer Learning",
+                        "AI Agents & Tool Use",
+                        "Transfer Learning",
                         "Prompt Engineering",
                         "Attention Mechanisms",
-                        "Generative AI",
+                        "Generative AI", "RAG & MCP",
                         "Stable Diffusion", "LoRA fine-tuning",
                         "Image Generation & Manipulation",
                     ]
@@ -869,7 +347,7 @@
             <p>${intro}</p>
             <div class="hero-buttons">
                 <a href="${resumeUrl}" target="_blank" rel="noopener noreferrer" class="btn">Resume (1 page)</a>
-                <a href="${nlCvUrl}" target="_blank" rel="noopener noreferrer" class="btn btn-outline">Curriculum Vitae (3 pages)</a>
+                <a href="${nlCvUrl}" target="_blank" rel="noopener noreferrer" class="btn btn-outline">Curriculum Vitae (4 pages)</a>
                 <div class="social-icons">
                 <a href="${socials.linkedin}" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
                 <a href="${socials.github}" target="_blank" rel="noopener noreferrer" aria-label="GitHub"><i class="fab fa-github"></i></a>
@@ -878,7 +356,6 @@
             </div>
         `;
         }
-
 
         function renderAbout() {
             const { about, image, name } = portfolioData.profile;
@@ -934,6 +411,7 @@
                 <div class="timeline">${experienceHtml}</div>
             `;
         }
+
         function renderEducation() {
             const educationHtml = portfolioData.education.map(edu => {
                 const details = edu.details.map(d => `<li>${d}</li>`).join('');
@@ -977,8 +455,6 @@
                   ${awardHtml}
                 `;
 
-                // --- Special logic for the FIRST paper (index 0) ---
-                // Wrap the ENTIRE card in a link.
                 if (index === 0) {
                     return `
               <div class="timeline-item">
@@ -993,11 +469,7 @@
                 </a>
               </div>
             `;
-                }
-
-                // --- Default logic for ALL OTHER papers ---
-                // Only the title is a link.
-                else {
+                } else {
                     return `
               <div class="timeline-item">
                 <div class="timeline-card">
