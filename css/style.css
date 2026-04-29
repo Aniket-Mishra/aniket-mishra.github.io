@@ -292,6 +292,7 @@ section.visible {
 .hero-chip {
     position: absolute;
     z-index: 4;
+    translate: -50% -50%;
     display: flex;
     align-items: center;
     gap: 0.45rem;
@@ -306,97 +307,12 @@ section.visible {
     animation: chipFloat 3.2s ease-in-out infinite;
     /* backwards: applies the from-keyframe during delay, preventing position flash on load */
     animation-fill-mode: backwards;
-    cursor: pointer;
     font-family: inherit;
-    text-decoration: none;
-}
-
-.hero-chip.pulsing {
-    animation: chipFloat 3.2s ease-in-out infinite, chipPulse 0.6s ease-out;
-}
-
-.chip-books.pulsing,
-.chip-research.pulsing {
-    animation: chipFloatCenter 3.2s ease-in-out infinite, chipPulseCenter 0.6s ease-out;
-}
-
-.chip-tooltip {
-    position: absolute;
-    bottom: calc(100% + 8px);
-    left: 50%;
-    transform: translateX(-50%);
-    background: var(--card-bg-color);
-    color: var(--accent-color);
-    border: 1px solid rgba(100, 255, 218, 0.4);
-    padding: 0.3rem 0.6rem;
-    border-radius: 4px;
-    font-size: 0.7rem;
-    white-space: nowrap;
-    pointer-events: none;
-    opacity: 0;
-    animation: tooltipFade 1.5s ease-out forwards;
-}
-
-@keyframes chipPulse {
-    0% { box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3), 0 0 0 0 rgba(100, 255, 218, 0.5); }
-    100% { box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3), 0 0 0 14px rgba(100, 255, 218, 0); }
-}
-
-@keyframes chipPulseCenter {
-    0% { box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3), 0 0 0 0 rgba(100, 255, 218, 0.5); }
-    100% { box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3), 0 0 0 14px rgba(100, 255, 218, 0); }
-}
-
-@keyframes tooltipFade {
-    0% { opacity: 0; transform: translateX(-50%) translateY(4px); }
-    20% { opacity: 1; transform: translateX(-50%) translateY(0); }
-    80% { opacity: 1; }
-    100% { opacity: 0; }
+    user-select: none;
 }
 
 .hero-chip i {
     color: var(--accent-color);
-}
-
-/* 6 chips at 60-degree intervals: 10, 12, 2, 4, 6, 8 o'clock */
-.chip-code {
-    top: 21%;
-    left: 4%;
-    animation-delay: 0s;
-}
-
-.chip-books {
-    top: 1%;
-    left: 50%;
-    animation: chipFloatCenter 3.2s ease-in-out infinite;
-    animation-fill-mode: backwards;
-    animation-delay: 0.53s;
-}
-
-.chip-poems {
-    top: 21%;
-    right: 4%;
-    animation-delay: 1.07s;
-}
-
-.chip-games {
-    bottom: 21%;
-    right: 4%;
-    animation-delay: 1.6s;
-}
-
-.chip-research {
-    bottom: 1%;
-    left: 50%;
-    animation: chipFloatCenter 3.2s ease-in-out infinite;
-    animation-fill-mode: backwards;
-    animation-delay: 2.13s;
-}
-
-.chip-auto {
-    bottom: 21%;
-    left: 4%;
-    animation-delay: 2.67s;
 }
 
 @keyframes radarSweep {
@@ -422,11 +338,6 @@ section.visible {
 @keyframes chipFloat {
     0%, 100% { transform: translateY(0px); }
     50% { transform: translateY(-7px); }
-}
-
-@keyframes chipFloatCenter {
-    0%, 100% { transform: translateX(-50%) translateY(0px); }
-    50% { transform: translateX(-50%) translateY(-7px); }
 }
 
 .btn {

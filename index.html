@@ -363,35 +363,35 @@
                     <small>stories · memes<br>ML research</small>
                 </div>
 
-                <a href="#skills" class="hero-chip chip-code">
+                <div class="hero-chip">
                     <i class="fa-solid fa-code"></i>
                     <span>Code</span>
-                </a>
+                </div>
 
-                <a href="#" class="hero-chip chip-books" data-soon="true">
+                <!-- <div class="hero-chip">
                     <i class="fa-solid fa-book-open"></i>
                     <span>Books</span>
-                </a>
+                </div>
 
-                <a href="#" class="hero-chip chip-poems" data-soon="true">
+                <div class="hero-chip">
                     <i class="fa-solid fa-pen-nib"></i>
                     <span>Poems</span>
-                </a>
+                </div>
 
-                <a href="#" class="hero-chip chip-games" data-soon="true">
+                <div class="hero-chip">
                     <i class="fa-solid fa-gamepad"></i>
                     <span>Games</span>
-                </a>
+                </div> -->
 
-                <a href="#projects" class="hero-chip chip-auto">
+                <div class="hero-chip">
                     <i class="fa-solid fa-robot"></i>
                     <span>Automate</span>
-                </a>
+                </div>
 
-                <a href="#research" class="hero-chip chip-research">
+                <div class="hero-chip">
                     <i class="fa-solid fa-brain"></i>
                     <span>Research</span>
-                </a>
+                </div>
             </div>
         `;
         }
@@ -673,26 +673,19 @@
             document.querySelectorAll('.timeline-item').forEach(el => countObserver.observe(el));
         }
 
-        function setupHeroChips() {
-            document.querySelectorAll('.hero-chip[data-soon]').forEach(chip => {
-                chip.addEventListener('click', e => {
-                    e.preventDefault();
-                    showComingSoon(chip);
-                });
+        function positionChips() {
+            const chips = [...document.querySelectorAll('.hero-chip')];
+            if (!chips.length) return;
+            const startAngle = -90;
+            const radius = 44;
+            const cycleSeconds = 3.2;
+            chips.forEach((chip, i) => {
+                const angle = startAngle + (360 * i) / chips.length;
+                const rad = angle * Math.PI / 180;
+                chip.style.left = (50 + radius * Math.cos(rad)) + '%';
+                chip.style.top = (50 + radius * Math.sin(rad)) + '%';
+                chip.style.animationDelay = (i * cycleSeconds / chips.length).toFixed(2) + 's';
             });
-        }
-
-        function showComingSoon(chip) {
-            chip.classList.remove('pulsing');
-            void chip.offsetWidth;
-            chip.classList.add('pulsing');
-            chip.querySelector('.chip-tooltip')?.remove();
-            const tip = document.createElement('span');
-            tip.className = 'chip-tooltip';
-            tip.textContent = 'Coming soon';
-            chip.appendChild(tip);
-            setTimeout(() => tip.remove(), 1500);
-            setTimeout(() => chip.classList.remove('pulsing'), 600);
         }
 
         document.addEventListener('DOMContentLoaded', () => {
@@ -709,7 +702,7 @@
             setupHamburgerMenu();
             setupScrollListeners();
             setupStatCounters();
-            setupHeroChips();
+            positionChips();
         });
     </script>
 </body>
