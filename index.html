@@ -166,7 +166,7 @@
                     duration: "Jun 2016 - Sep 2020",
                     details: [
                         "First Class with Distinction",
-                        "Best Research Paper Award (RCICD 2020) for SRFBGAN project",
+                        "Best Research Paper Award (RCICD-2020) for SRFBGAN project",
                         "Relevant coursework: Python Programming, Artificial Intelligence, Database Management Systems, Pattern Recognition and Expert Systems, Neuro-Fuzzy & Genetic Programming, Data Science & Big Data Analytics, Algorithm Design & Analysis"
                     ]
                 }
@@ -341,18 +341,57 @@
             const { name, title, intro, socials, resumeUrl, nlCvUrl } = portfolioData.profile;
             document.getElementById('home').innerHTML = `
             <div class="hero-content">
-            <h2>Hello, I'm</h2>
-            <h1>${name}.</h1>
-            <h2>${title}</h2>
-            <p>${intro}</p>
-            <div class="hero-buttons">
-                <a href="${resumeUrl}" target="_blank" rel="noopener noreferrer" class="btn">Resume (1 page)</a>
-                <a href="${nlCvUrl}" target="_blank" rel="noopener noreferrer" class="btn btn-outline">Curriculum Vitae (4 pages)</a>
-                <div class="social-icons">
-                <a href="${socials.linkedin}" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
-                <a href="${socials.github}" target="_blank" rel="noopener noreferrer" aria-label="GitHub"><i class="fab fa-github"></i></a>
+                <h2>Hello, I'm</h2>
+                <h1>${name}.</h1>
+                <h2>${title}</h2>
+                <p>${intro}</p>
+                <div class="hero-buttons">
+                    <a href="${resumeUrl}" target="_blank" rel="noopener noreferrer" class="btn">Resume (1 page)</a>
+                    <a href="${nlCvUrl}" target="_blank" rel="noopener noreferrer" class="btn btn-outline">Curriculum Vitae (4 pages)</a>
+                    <div class="social-icons">
+                    <a href="${socials.linkedin}" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
+                    <a href="${socials.github}" target="_blank" rel="noopener noreferrer" aria-label="GitHub"><i class="fab fa-github"></i></a>
+                    </div>
                 </div>
             </div>
+            <div class="hero-visual" aria-label="Personal identity visual">
+                <div class="hero-orbit hero-orbit-one"></div>
+                <div class="hero-orbit hero-orbit-two"></div>
+
+                <div class="hero-core">
+                    <i class="fa-solid fa-cat"></i>
+                    <small>stories · memes<br>ML research</small>
+                </div>
+
+                <div class="hero-chip chip-code">
+                    <i class="fa-solid fa-code"></i>
+                    <span>Code</span>
+                </div>
+
+                <div class="hero-chip chip-books">
+                    <i class="fa-solid fa-book-open"></i>
+                    <span>Books</span>
+                </div>
+
+                <div class="hero-chip chip-poems">
+                    <i class="fa-solid fa-pen-nib"></i>
+                    <span>Poems</span>
+                </div>
+
+                <div class="hero-chip chip-games">
+                    <i class="fa-solid fa-gamepad"></i>
+                    <span>Games</span>
+                </div>
+
+                <div class="hero-chip chip-auto">
+                    <i class="fa-solid fa-robot"></i>
+                    <span>Automate</span>
+                </div>
+
+                <div class="hero-chip chip-research">
+                    <i class="fa-solid fa-brain"></i>
+                    <span>Research</span>
+                </div>
             </div>
         `;
         }
@@ -571,18 +610,14 @@
         }
 
         function setupScrollListeners() {
-            // animation
             const sections = document.querySelectorAll('section');
             const observer = new IntersectionObserver(entries => {
                 entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        entry.target.classList.add('visible');
-                    }
+                    if (entry.isIntersecting) entry.target.classList.add('visible');
                 });
             }, { threshold: 0.1 });
             sections.forEach(section => observer.observe(section));
 
-            // navlink scroll
             const navLinks = document.querySelectorAll('.nav-links a');
             const sectionObserver = new IntersectionObserver(entries => {
                 entries.forEach(entry => {
@@ -597,7 +632,68 @@
             document.querySelectorAll('section[id]').forEach(sec => sectionObserver.observe(sec));
         }
 
-        // main
+        function setupStatCounters() {
+            // matches numbers like 300%, >95%, ~15, 5x, 48%, 88%, 400%, 2000+
+            // const STAT_RE = /([>~]?\d[\d,]*\.?\d*\s*(?:%|x|\+|mins?|hours?)?)/gi;
+            // const STAT_RE = /(?<![A-Za-z])([>~]?\d[\d,]*(?:\.\d+)?\s*(?:%|x\+?|\+))(?![A-Za-z])/g;
+            // const STAT_RE = /(?<![A-Za-z\/])([>~]?\d[\d,]*(?:\.\d+)?\s*(?:%|x\+?|\+))(?![A-Za-z])|(?<![A-Za-z\/\d])(\d{2,})(?![A-Za-z])/g; -> works but makes HAC-2020's num highlighted
+            const STAT_RE = /(?<![A-Za-z\/\-])([>~]?\d[\d,]*(?:\.\d+)?\s*(?:%|x\+?|\+))(?![A-Za-z])|(?<![A-Za-z\/\-\d])(\d{2,})(?![A-Za-z\-])/g;
+
+            document.querySelectorAll('.timeline-card li').forEach(li => {
+               // li.innerHTML = li.innerHTML.replace(STAT_RE, '<span class="stat-number">$1</span>');
+                li.innerHTML = li.innerHTML.replace(STAT_RE, (_, g1, g2) => 
+                    `<span class="stat-number">${g1 ?? g2}</span>`
+                );
+            });
+
+            const counted = new Set();
+            const countObserver = new IntersectionObserver(entries => {
+                entries.forEach(entry => {
+                    if (!entry.isIntersecting) return;
+                    entry.target.querySelectorAll('.stat-number').forEach(el => {
+                        if (counted.has(el)) return;
+                        counted.add(el);
+                        const raw = el.textContent;
+                        const num = parseFloat(raw.replace(/[^0-9.]/g, ''));
+                        if (isNaN(num)) return;
+                        const prefix = raw.match(/^[>~]/)?.[0] ?? '';
+                        const suffix = raw.replace(/^[>~]/, '').replace(/[\d.,]/g, '');
+                        let start = null;
+                        const duration = 1200;
+                        const step = ts => {
+                            if (!start) start = ts;
+                            const p = Math.min((ts - start) / duration, 1);
+                            const ease = 1 - Math.pow(1 - p, 3);
+                            const val = num < 10
+                                ? (ease * num).toFixed(1)
+                                : Math.round(ease * num);
+                            el.textContent = prefix + val + suffix;
+                            if (p < 1) requestAnimationFrame(step);
+                        };
+                        requestAnimationFrame(step);
+                    });
+                });
+            }, { threshold: 0.2 });
+
+            document.querySelectorAll('.timeline-item').forEach(el => countObserver.observe(el));
+        }
+
+        function setupCardTilt() {
+            document.querySelectorAll('.project-card').forEach(card => {
+                card.addEventListener('mousemove', e => {
+                    const r = card.getBoundingClientRect();
+                    const x = (e.clientX - r.left) / r.width  - 0.5;
+                    const y = (e.clientY - r.top)  / r.height - 0.5;
+                    card.style.transform = `perspective(600px) rotateY(${x * 10}deg) rotateX(${-y * 10}deg) translateY(-6px)`;
+                    card.style.boxShadow = `${-x * 12}px ${-y * 12}px 28px rgba(100,255,218,0.12)`;
+                });
+                card.addEventListener('mouseleave', () => {
+                    card.style.transform = '';
+                    card.style.boxShadow = '';
+                });
+            });
+        }
+
         document.addEventListener('DOMContentLoaded', () => {
             renderNav();
             renderHero();
@@ -609,9 +705,10 @@
             renderProjects();
             renderFooter();
 
-            // dom populate -> setup event lisn
             setupHamburgerMenu();
             setupScrollListeners();
+            setupStatCounters();
+            setupCardTilt();
         });
     </script>
 </body>
