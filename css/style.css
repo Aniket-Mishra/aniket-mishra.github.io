@@ -306,6 +306,52 @@ section.visible {
     animation: chipFloat 3.2s ease-in-out infinite;
     /* backwards: applies the from-keyframe during delay, preventing position flash on load */
     animation-fill-mode: backwards;
+    cursor: pointer;
+    font-family: inherit;
+    text-decoration: none;
+}
+
+.hero-chip.pulsing {
+    animation: chipFloat 3.2s ease-in-out infinite, chipPulse 0.6s ease-out;
+}
+
+.chip-books.pulsing,
+.chip-research.pulsing {
+    animation: chipFloatCenter 3.2s ease-in-out infinite, chipPulseCenter 0.6s ease-out;
+}
+
+.chip-tooltip {
+    position: absolute;
+    bottom: calc(100% + 8px);
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--card-bg-color);
+    color: var(--accent-color);
+    border: 1px solid rgba(100, 255, 218, 0.4);
+    padding: 0.3rem 0.6rem;
+    border-radius: 4px;
+    font-size: 0.7rem;
+    white-space: nowrap;
+    pointer-events: none;
+    opacity: 0;
+    animation: tooltipFade 1.5s ease-out forwards;
+}
+
+@keyframes chipPulse {
+    0% { box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3), 0 0 0 0 rgba(100, 255, 218, 0.5); }
+    100% { box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3), 0 0 0 14px rgba(100, 255, 218, 0); }
+}
+
+@keyframes chipPulseCenter {
+    0% { box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3), 0 0 0 0 rgba(100, 255, 218, 0.5); }
+    100% { box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3), 0 0 0 14px rgba(100, 255, 218, 0); }
+}
+
+@keyframes tooltipFade {
+    0% { opacity: 0; transform: translateX(-50%) translateY(4px); }
+    20% { opacity: 1; transform: translateX(-50%) translateY(0); }
+    80% { opacity: 1; }
+    100% { opacity: 0; }
 }
 
 .hero-chip i {
@@ -391,8 +437,14 @@ section.visible {
     font-weight: bold;
     text-decoration: none;
     border-radius: 4px;
+    border: 1px solid var(--accent-color);
     transition: all 0.3s;
     transform-origin: center;
+}
+
+.btn-outline {
+    background-color: transparent;
+    color: var(--accent-color);
 }
 
 .btn:hover {
@@ -494,17 +546,26 @@ section.visible {
     border: 3px solid var(--bg-color);
 }
 
+.timeline-card,
+.skill-category,
+.project-card {
+    border: 1px solid transparent;
+    transition: transform 0.3s, box-shadow 0.3s, border-color 0.3s;
+}
+
+.timeline-card:hover,
+.skill-category:hover,
+.project-card:hover {
+    transform: translateY(-5px);
+    border-color: rgba(100, 255, 218, 0.4);
+    box-shadow: 0 0 20px rgba(100, 255, 218, 0.15);
+}
+
 .timeline-card {
     background-color: var(--card-bg-color);
     padding: 1.5rem;
     border-radius: 8px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    transition: transform 0.3s, box-shadow 0.3s;
-}
-
-.timeline-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 0 20px rgba(100, 255, 218, 0.1);
 }
 
 .timeline-card .company-title {
@@ -606,10 +667,7 @@ section.visible {
     display: flex;
     flex-direction: column;
     text-decoration: none;
-    transition: transform 0.3s, box-shadow 0.3s;
     height: 100%;
-    transform-style: preserve-3d;
-    will-change: transform;
 }
 
 .stat-number {
@@ -617,9 +675,8 @@ section.visible {
     font-weight: 700;
 }
 
-.project-card:hover {
-    transform: translateY(-10px);
-    box-shadow: 0 0 20px rgba(100, 255, 218, 0.1);
+.project-card:hover h3 {
+    color: var(--accent-color);
 }
 
 .project-header {
@@ -633,10 +690,6 @@ section.visible {
     color: var(--text-color);
     font-size: 1.25rem;
     transition: color 0.3s;
-}
-
-.project-card:hover h3 {
-    color: var(--accent-color);
 }
 
 .project-header i {
