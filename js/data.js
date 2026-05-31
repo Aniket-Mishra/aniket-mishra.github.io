@@ -1,9 +1,10 @@
 export const profile = {
   name: "Aniket Mishra",
-  tagline: "Data Scientist & ML Engineer",
+  tagline: "Data Scientist & ML and Data Engineer",
   location: "Eindhoven, NL",
 
-  pitch: "I live to solve complex problems, and I love to build pretty stuff for fun.",
+  // pitch: "I live to solve complex problems, and I love to build pretty stuff for fun.",
+  pitch: "I like to ship code.",
 
   intro: "I specialise in running code and models faster, cheaper, and with as little human intervention as possible. My interests lie in automating everything around me so that I can spend my time thinking about what's important: understanding what intelligence is. Five years of that so far. Pipelines for 10GW of renewable assets. Anomaly detection that killed 98% of false alarms. A Python framework that cut customer onboarding from three months to one day. My latest paper landed in Springer LNCS at IDA 2026.",
 
