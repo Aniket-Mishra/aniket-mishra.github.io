@@ -11,7 +11,7 @@ export const profile = {
 
 
 availability: {
-  status: "Open to Data Science, ML, and Research Engineer roles",
+  status: "Open to Data Science, ML, and Data Engineer roles",
   detail: "Based in Eindhoven, happy to relocate within the EU.",
 },
 
