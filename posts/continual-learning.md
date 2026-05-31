@@ -1,41 +1,35 @@
 ---
-title: Why Continual Learning Is Harder Than It Looks
+title: Why continual learning is hard
 date: 2026-05-30
-summary: Neural networks forget. Here is why that happens, and why the obvious fixes do not work.
+summary: A model that learns a new task tends to forget the old one. Here is what causes that and why the common fixes each cost something.
 ---
 
-A model that learns one task and then learns a second task tends to forget the first. This is called catastrophic forgetting. It sounds like a bug. It is closer to a law.
+In many real systems, data arrives over time and the task changes with it. A task here means one learning problem, defined by its training data and its prediction target. A model has to keep learning new tasks as they come. This is the setting of continual learning.
 
-## The setup
+The central problem is catastrophic forgetting. It happens when training on a new task lowers performance on tasks the model already learned. The cause is simple. The same parameters are reused for every task, so the gradient updates for the new task overwrite weights that mattered for the old ones. The optimizer minimizes the loss in front of it. It has no term that protects the past.
 
-Train a network on task A. It does well. Now train the same network on task B without showing it task A again. Performance on B climbs. Performance on A falls off a cliff.
+## The obvious fix, and what it costs
 
-The weights that encoded task A get overwritten by gradients that only care about task B. The optimizer has no reason to protect the past. It minimizes the loss in front of it, and nothing else.
+The first idea most people have is to keep all the old data and retrain on everything. This works. It also removes the point. If you store every example you have seen and retrain from scratch each time, you do not have a model that learns continually. You have a model that restarts. The cost grows with every task.
 
-## Why the obvious fix fails
+Continual learning asks for something stricter. Learn from a stream of tasks. Keep what matters. Do it without holding the full past in memory, and often without knowing the task identity at test time.
 
-The first idea everyone has is simple. Just keep all the old data and retrain on everything.
+## Three ways people reduce forgetting
 
-This works. It also defeats the point. If you have to store every example you have ever seen and retrain from scratch each time, you do not have a model that learns continually. You have a model that restarts continually. The cost grows without bound.
+Most methods fall into one of three groups.
 
-Real continual learning asks for something harder. Learn from a stream. Keep what matters. Do it without holding the whole past in memory.
+Replay-based methods reuse data from earlier tasks. They store a small set of past examples in a buffer, or generate synthetic ones, and mix them into current training. The open question is what to keep. The buffer grows with the number of tasks unless you cap it, and storing raw data is not allowed in some privacy-constrained settings.
 
-## The three families of approaches
+Architectural methods give each task its own parameters. They add a module per task and freeze the old ones, so a new task cannot overwrite earlier weights. This reduces forgetting directly, but the parameter count grows with the number of tasks, and some variants need the task identity at test time.
 
-Most methods fall into one of three camps.
+Regularization-based methods constrain how much the important weights can change. Elastic Weight Consolidation is the standard example. After a task, it estimates an importance score for each weight and penalizes large changes to the important ones during later training. The importance estimate is approximate, and the strength of the penalty is set by hand rather than learned.
 
-1. **Regularization.** Add a penalty that discourages changing weights the old task relied on. Elastic Weight Consolidation is the classic example. It estimates which weights were important and anchors them.
-2. **Replay.** Keep a small, smart sample of old data, or generate fake old data, and mix it into new training. The trick is choosing what to keep.
-3. **Architecture.** Give each task its own slice of the network. Freeze the old slices. This avoids forgetting but the model grows with every task.
+None of these is free. Each one trades memory, model size, or accuracy on new tasks for less forgetting.
 
-None of these is free. Regularization slows learning of new tasks. Replay needs storage and good sampling. Architecture methods balloon in size.
+## The part I work on
 
-> The hard part is not stopping forgetting. The hard part is stopping forgetting while still learning fast and staying small.
+My thesis takes a different angle. Instead of designing the update rule by hand, you can learn it. A learned optimizer is a small network trained to produce the parameter updates for another network. It replaces a fixed rule like SGD or Adam with a function trained across many tasks.
 
-## Where I find this interesting
+Recent work combines this with continual learning: a meta-optimizer trained offline that predicts selective updates, large updates for the weights that matter on the current task, small updates elsewhere. It reduces forgetting without a replay buffer or added modules. The limit is scale. When the optimizer works on individual weights, its design is tied to one model shape, so it does not transfer cleanly to larger architectures.
 
-I spent years building anomaly detection for wind and solar assets. The world those models lived in kept changing. New hardware. New failure modes. New seasons. A model frozen at training time slowly goes stale.
-
-Continual learning is the honest version of that problem. Not "train once and deploy forever," but "keep learning from what arrives." I think the next wave of useful systems will be the ones that handle this well, rather than the ones that score highest on a fixed test set.
-
-More on the methods in a later post.
+My work changes the unit. The optimizer operates on blocks of parameters rather than single weights, which makes it architecture-agnostic, and it scales the update per block by how important that block is. The full results go in the thesis. More on the method in a later post.

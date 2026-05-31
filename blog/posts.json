@@ -1,7 +1,7 @@
 [
   {
-    "title": "Why Continual Learning Is Harder Than It Looks",
-    "summary": "Neural networks forget. Here is why that happens, and why the obvious fixes do not work.",
+    "title": "Why continual learning is hard",
+    "summary": "A model that learns a new task tends to forget the old one. Here is what causes that and why the common fixes each cost something.",
     "date": "2026-05-30",
     "displayDate": "May 30, 2026",
     "slug": "continual-learning"
