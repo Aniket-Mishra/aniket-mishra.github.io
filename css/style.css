@@ -671,7 +671,7 @@ section + section { border-top: 1px solid var(--border); }
   .portrait { max-width: 240px; }
   .project-grid { grid-template-columns: 1fr; }
 
-  .hamburger { display: grid; }
+.hamburger { display: grid; position: relative; z-index: 70; }  
 
   .nav {
     position: fixed;

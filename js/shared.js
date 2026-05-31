@@ -54,6 +54,7 @@ function setupMenu() {
   });
   scrim.addEventListener("click", close);
   nav.querySelectorAll("a").forEach(link => link.addEventListener("click", close));
+  nav.querySelector(".theme-toggle").addEventListener("click", close);
 }
 
 export function renderFooter() {
