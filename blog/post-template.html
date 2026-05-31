@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Aniket Mishra - Data Scientist & ML Engineer</title>
-  <meta name="description" content="Aniket Mishra, Data Scientist and ML Engineer in Eindhoven. Five years shipping production ML and data systems. Published researcher. Open to work from August 2026." />
+  <title>{{title}} - Aniket Mishra</title>
+  <meta name="description" content="{{summary}}" />
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect width=%22100%22 height=%22100%22 rx=%2222%22 fill=%22%237c3aed%22/><text x=%2250%22 y=%2252%22 font-family=%22Arial,sans-serif%22 font-size=%2244%22 font-weight=%22700%22 fill=%22white%22 text-anchor=%22middle%22 dominant-baseline=%22central%22>AM</text></svg>" />
   <script>
     (function () {
@@ -20,17 +20,20 @@
 </head>
 <body>
   <header class="topbar" id="topbar"></header>
-  <main class="page">
-    <section class="hero reveal" id="hero"></section>
-    <section class="reveal" id="signal"></section>
-    <section class="reveal" id="about"></section>
-    <section class="reveal" id="recommendations"></section>
-    <section class="reveal" id="research-teaser"></section>
+  <main class="page" style="padding-top: 2.5rem;">
+    <a href="/blog/" class="back-link">← All posts</a>
+    <article class="post-body">
+      <h1>{{title}}</h1>
+      <span class="post-header-date">{{date}}</span>
+      {{body}}
+    </article>
   </main>
   <footer class="footer" id="footer"></footer>
   <script type="module">
-    import "/js/home.js";
+    import { renderHeader, renderFooter } from "/js/shared.js";
     import { setupTheme } from "/js/theme.js";
+    renderHeader("blog");
+    renderFooter();
     setupTheme();
   </script>
 </body>

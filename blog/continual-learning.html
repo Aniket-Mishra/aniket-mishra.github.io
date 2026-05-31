@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Why Continual Learning Is Harder Than It Looks - Aniket Mishra</title>
+  <meta name="description" content="Neural networks forget. Here is why that happens, and why the obvious fixes do not work." />
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect width=%22100%22 height=%22100%22 rx=%2222%22 fill=%22%237c3aed%22/><text x=%2250%22 y=%2252%22 font-family=%22Arial,sans-serif%22 font-size=%2244%22 font-weight=%22700%22 fill=%22white%22 text-anchor=%22middle%22 dominant-baseline=%22central%22>AM</text></svg>" />
+  <script>
+    (function () {
+      var saved = localStorage.getItem("preferred-theme");
+      var prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+      document.documentElement.setAttribute("data-theme", (saved === "light" || saved === "dark") ? saved : (prefersDark ? "dark" : "light"));
+    })();
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/css/style.css" />
+</head>
+<body>
+  <header class="topbar" id="topbar"></header>
+  <main class="page" style="padding-top: 2.5rem;">
+    <a href="/blog/" class="back-link">← All posts</a>
+    <article class="post-body">
+      <h1>Why Continual Learning Is Harder Than It Looks</h1>
+      <span class="post-header-date">May 30, 2026</span>
+      <p>A model that learns one task and then learns a second task tends to forget the first. This is called catastrophic forgetting. It sounds like a bug. It is closer to a law.</p>
+<h2>The setup</h2>
+<p>Train a network on task A. It does well. Now train the same network on task B without showing it task A again. Performance on B climbs. Performance on A falls off a cliff.</p>
+<p>The weights that encoded task A get overwritten by gradients that only care about task B. The optimizer has no reason to protect the past. It minimizes the loss in front of it, and nothing else.</p>
+<h2>Why the obvious fix fails</h2>
+<p>The first idea everyone has is simple. Just keep all the old data and retrain on everything.</p>
+<p>This works. It also defeats the point. If you have to store every example you have ever seen and retrain from scratch each time, you do not have a model that learns continually. You have a model that restarts continually. The cost grows without bound.</p>
+<p>Real continual learning asks for something harder. Learn from a stream. Keep what matters. Do it without holding the whole past in memory.</p>
+<h2>The three families of approaches</h2>
+<p>Most methods fall into one of three camps.</p>
+<ol>
+<li><strong>Regularization.</strong> Add a penalty that discourages changing weights the old task relied on. Elastic Weight Consolidation is the classic example. It estimates which weights were important and anchors them.</li>
+<li><strong>Replay.</strong> Keep a small, smart sample of old data, or generate fake old data, and mix it into new training. The trick is choosing what to keep.</li>
+<li><strong>Architecture.</strong> Give each task its own slice of the network. Freeze the old slices. This avoids forgetting but the model grows with every task.</li>
+</ol>
+<p>None of these is free. Regularization slows learning of new tasks. Replay needs storage and good sampling. Architecture methods balloon in size.</p>
+<blockquote>
+<p>The hard part is not stopping forgetting. The hard part is stopping forgetting while still learning fast and staying small.</p>
+</blockquote>
+<h2>Where I find this interesting</h2>
+<p>I spent years building anomaly detection for wind and solar assets. The world those models lived in kept changing. New hardware. New failure modes. New seasons. A model frozen at training time slowly goes stale.</p>
+<p>Continual learning is the honest version of that problem. Not "train once and deploy forever," but "keep learning from what arrives." I think the next wave of useful systems will be the ones that handle this well, rather than the ones that score highest on a fixed test set.</p>
+<p>More on the methods in a later post.</p>
+    </article>
+  </main>
+  <footer class="footer" id="footer"></footer>
+  <script type="module">
+    import { renderHeader, renderFooter } from "/js/shared.js";
+    import { setupTheme } from "/js/theme.js";
+    renderHeader("blog");
+    renderFooter();
+    setupTheme();
+  </script>
+</body>
+</html>
