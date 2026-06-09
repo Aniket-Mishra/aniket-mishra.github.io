@@ -163,6 +163,14 @@ export const projectFilters = ["All", "AI & ML", "Systems", "Automation", "Data 
 
 export const projects = [
   {
+    title: "Windfield",
+    category: "Data Visualization",
+    filter: "Data Viz",
+    description: "A wind farm you can watch and poke at, built from my physics simulation. A year of telemetry for 10 turbines plays out in about a minute: each spins at its real rotor speed, glows when it runs hot, and leans off the wind when it drifts. Click a turbine for its power curve and fault history, or compare two side by side. Follows the site theme.",
+    tags: ["Canvas", "Physics Sim", "Time Series", "Anomaly Detection"],
+    link: "/projects/windfield.html",
+  },
+  {
     title: "ShieldPay",
     category: "AI Agents",
     filter: "AI & ML",

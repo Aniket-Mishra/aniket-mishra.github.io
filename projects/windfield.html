@@ -1,0 +1,1250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Windfield: a year over a wind farm</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    --bg:#fdf6e9; --bg-soft:#f7ebd3; --surface:#fffdf8ee; --border:#e6d5b4;
+    --text:#241d12; --text-soft:#5e5036; --faint:#9a855e;
+    --purple:#8a5a2b; --green:#1f9d6b; --amber:#c2761f; --rose:#c2456a; --blue:#3f73b0; --yaw:#6b55c8;
+    --rain:rgba(138,90,43,0.09); --on-accent:#fffdf8;
+    --sky-top:#f3e7cf; --sky-warm:#f0dcb8; --sky-bot:#f7edd6; --horizon:#e6d5b4;
+    --ink:#5e5036; --star:#cdbf9e;
+    --transport-width:min(1180px, calc(100vw - 60px));
+    --transport-bottom:clamp(12px, 2vh, 18px);
+    --font-display:"Space Grotesk","Segoe UI",sans-serif;
+    --font-body:"Inter",-apple-system,BlinkMacSystemFont,sans-serif;
+    --font-mono:"JetBrains Mono",ui-monospace,Menlo,monospace;
+  }
+  [data-theme="dark"]{
+    --bg:#0e0b1a; --bg-soft:#171229; --surface:#171229cc; --border:#2a2142;
+    --text:#ece8f7; --text-soft:#a99fc8; --faint:#6b6090;
+    --purple:#a78bfa; --green:#3fd6a3; --amber:#f0a35e; --rose:#e87f95; --blue:#8fb4e0; --yaw:#a78bfa;
+    --rain:rgba(167,139,250,0.045); --on-accent:#1a1430;
+    --sky-top:#0a0816; --sky-warm:#160f18; --sky-bot:#0a0814; --horizon:#221a3c;
+    --ink:#b9aee0; --star:#cfc8ee;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{height:100%}
+  body{
+    background:var(--bg); color:var(--text); font-family:var(--font-body); font-size:17px;
+    overflow:hidden; -webkit-font-smoothing:antialiased;
+  }
+  #stage{position:fixed; inset:0}
+  canvas#sky{position:absolute; inset:0; width:100%; height:100%; display:block}
+
+  #grain{
+    position:absolute; inset:0; pointer-events:none;
+    background-image:repeating-linear-gradient(115deg, transparent 0 22px, var(--rain) 22px 23px);
+    mix-blend-mode:multiply; opacity:1;
+  }
+  [data-theme="dark"] #grain{mix-blend-mode:screen; opacity:1}
+  .overlay{position:absolute; pointer-events:none}
+  .panel{pointer-events:auto}
+
+  #title{top:26px; left:30px; max-width:46%}
+  #title h1{
+    font-family:var(--font-display); font-weight:700; font-size:1.9rem;
+    letter-spacing:0.14em; line-height:1; color:var(--text);
+  }
+  #title .sub{
+    font-size:0.9rem; color:var(--text-soft); margin-top:7px; letter-spacing:0.02em;
+  }
+  #title .by{
+    font-family:var(--font-mono); font-size:0.66rem; color:var(--faint);
+    margin-top:9px; letter-spacing:0.04em;
+  }
+  #title .by b{color:var(--purple); font-weight:500}
+
+  #clock{top:26px; right:78px; text-align:right}
+  #clock .date{
+    font-family:var(--font-mono); font-size:1.65rem; font-weight:500;
+    color:var(--text); letter-spacing:0.02em;
+  }
+  #clock .season{font-size:0.86rem; color:var(--text-soft); margin-top:4px}
+  #clock .wind{
+    font-family:var(--font-mono); font-size:0.78rem; color:var(--faint); margin-top:8px;
+  }
+  #clock .wind b{color:var(--green); font-weight:500}
+
+  #themeToggle{
+    position:absolute; top:24px; right:30px; width:36px; height:36px; border-radius:50%;
+    background:var(--surface); border:1px solid var(--border); cursor:pointer;
+    display:grid; place-items:center; color:var(--text-soft); backdrop-filter:blur(10px);
+    pointer-events:auto; transition:color .15s ease, border-color .15s ease;
+  }
+  #themeToggle:hover{color:var(--text); border-color:var(--purple)}
+  #themeToggle svg{width:18px; height:18px; display:block}
+
+  #fleet{
+    position:absolute; top:106px; left:50%; transform:translateX(-50%);
+    display:flex; gap:6px; align-items:center; pointer-events:auto;
+    background:var(--surface); border:1px solid var(--border); border-radius:999px;
+    padding:7px 10px; backdrop-filter:blur(10px);
+  }
+  .dot{
+    min-width:54px; height:28px; border-radius:999px; cursor:pointer; position:relative;
+    display:flex; align-items:center; justify-content:center; gap:5px;
+    color:var(--text-soft); font-family:var(--font-mono); font-size:0.68rem;
+    background:transparent; transition:transform .2s ease, background .2s ease, color .2s ease, border-color .2s ease;
+    border:1px solid transparent;
+  }
+  .dot::before{
+    content:""; width:8px; height:8px; border-radius:50%; background:var(--dot-color, var(--green));
+    box-shadow:0 0 8px var(--dot-glow, rgba(31,157,107,.45));
+  }
+  .dot:hover{transform:translateY(-1px); color:var(--text)}
+  .dot.sel{border-color:var(--text); background:var(--bg-soft); color:var(--text)}
+
+  #modeToggle{
+    position:absolute; top:150px; left:50%; transform:translateX(-50%);
+    font-family:var(--font-mono); font-size:0.78rem; letter-spacing:0.04em;
+    color:var(--text-soft); background:var(--surface); border:1px solid var(--border);
+    border-radius:999px; padding:6px 15px; cursor:pointer; backdrop-filter:blur(10px);
+    pointer-events:auto; transition:background .15s ease, color .15s ease, border-color .15s ease;
+  }
+  #modeToggle:hover{border-color:var(--purple)}
+  #modeToggle.on{background:var(--purple); color:var(--on-accent); border-color:var(--purple)}
+
+  #legend{
+    left:30px; bottom:calc(var(--transport-bottom) + 244px); pointer-events:auto;
+    background:var(--surface); border:1px solid var(--border); border-radius:14px;
+    padding:11px 13px; backdrop-filter:blur(10px); width:360px;
+    display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:5px 12px;
+  }
+  #legend h3{
+    font-family:var(--font-display); font-size:0.62rem; font-weight:500;
+    letter-spacing:0.18em; text-transform:uppercase; color:var(--faint); margin-bottom:11px;
+    grid-column:1 / -1;
+  }
+  .leg{display:flex; align-items:center; gap:8px; margin:0; font-size:0.72rem; color:var(--text-soft)}
+  .leg .sw{width:20px; flex:0 0 20px; height:20px; display:grid; place-items:center}
+  .leg b{color:var(--text); font-weight:500}
+  .leg .ttl{display:block}
+
+  #info{
+    right:30px; top:96px; transform:none; width:390px; pointer-events:auto;
+    background:var(--surface); border:1px solid var(--border); border-radius:18px;
+    padding:18px 20px; backdrop-filter:blur(12px);
+    box-shadow:var(--glow, 0 18px 50px rgba(0,0,0,.5));
+    transition:opacity .35s ease;
+  }
+  #info .eyebrow{
+    font-family:var(--font-mono); font-size:0.72rem; color:var(--faint);
+    letter-spacing:0.08em; display:flex; justify-content:space-between; align-items:center;
+  }
+  #info .eyebrow .tag{
+    padding:2px 9px; border-radius:999px; font-size:0.66rem; font-weight:500;
+    border:1px solid currentColor;
+  }
+  #info h2{
+    font-family:var(--font-display); font-weight:700; font-size:1.48rem;
+    margin:9px 0 6px; line-height:1.12; color:var(--text);
+  }
+  #info .blurb{font-size:0.96rem; color:var(--text-soft); line-height:1.5; min-height:2.6em}
+  #info .readouts{display:grid; grid-template-columns:1fr 1fr; gap:12px 14px; margin-top:18px}
+  .ro .k{font-family:var(--font-mono); font-size:0.74rem; color:var(--faint); letter-spacing:0.05em}
+  .ro .v{font-family:var(--font-mono); font-size:1.24rem; color:var(--text); margin-top:3px}
+  .ro .v small{font-size:0.62rem; color:var(--text-soft); font-weight:400}
+  #info .hint{
+    font-size:0.72rem; color:var(--text-soft); line-height:1.5; text-align:center;
+    padding:6px 0;
+  }
+  #info .hint .big{
+    display:block; font-family:var(--font-display); color:var(--text);
+    font-size:0.95rem; margin-bottom:6px; letter-spacing:0.01em;
+  }
+  #info .hintLine{
+    font-size:0.7rem; color:var(--faint); text-align:center; margin-top:14px;
+    font-family:var(--font-mono); letter-spacing:0.03em;
+  }
+
+  .cmpHead{display:flex; flex-wrap:wrap; gap:7px; margin:9px 0 4px}
+  .cmpName{display:flex; align-items:center; gap:8px; font-size:0.92rem; font-family:var(--font-display); color:var(--text)}
+  .cmpName .cid{font-family:var(--font-mono); font-size:0.66rem; color:var(--faint); letter-spacing:0.04em}
+  .cmpDot{width:12px; height:12px; border-radius:50%; flex:0 0 12px}
+  .cmpDot.ring{background:transparent !important; border:2px solid var(--text)}
+  .ab{color:var(--faint)}
+  .cmpRead{display:flex; flex-direction:column; gap:7px; margin-top:16px}
+  .cmpRow{display:grid; grid-template-columns:1.05fr 0.95fr 0.9fr 0.62fr; align-items:baseline; gap:8px}
+  .cmpRow .cl{font-family:var(--font-mono); font-size:0.72rem; color:var(--faint); letter-spacing:0.05em}
+  .cmpRow .cv{font-family:var(--font-mono); font-size:0.96rem; color:var(--text)}
+  .cmpRow.head .cv{font-size:0.72rem; color:var(--faint); letter-spacing:0.05em}
+
+  #bottomDock{
+    left:30px; right:30px; bottom:var(--transport-bottom); pointer-events:none;
+    display:grid; grid-template-columns:minmax(320px, 30%) minmax(0, 70%);
+    gap:20px; align-items:end;
+  }
+  #transport{
+    position:static; transform:none; width:auto;
+    pointer-events:auto; background:var(--surface); border:1px solid var(--border);
+    border-radius:18px; padding:8px 16px 12px; backdrop-filter:blur(12px);
+    display:flex; flex-direction:column; gap:8px;
+    box-shadow:var(--glow, 0 18px 50px rgba(0,0,0,.35));
+  }
+  #kpiDock{
+    position:static; width:auto; pointer-events:auto;
+    display:grid; grid-template-columns:1fr 1fr; gap:10px;
+  }
+  .kpi{
+    min-height:104px; border:1px solid var(--border); border-radius:12px;
+    background:color-mix(in srgb, var(--surface) 88%, transparent);
+    padding:16px 18px; backdrop-filter:blur(10px);
+  }
+  .kpi .k{
+    font-family:var(--font-mono); font-size:0.76rem; color:var(--faint);
+    letter-spacing:0.08em; text-transform:uppercase;
+  }
+  .kpi .v{
+    font-family:var(--font-mono); font-size:1.55rem; color:var(--text); margin-top:10px;
+  }
+  .kpi .v small{font-size:0.72rem; color:var(--text-soft)}
+  .chart-strip{
+    display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1fr); gap:12px;
+  }
+  .chart-panel{
+    min-width:0; border:1px solid var(--border); border-radius:14px;
+    background:color-mix(in srgb, var(--bg-soft) 42%, transparent);
+    padding:10px 12px 9px;
+  }
+  .chart-panel .lab{
+    font-family:var(--font-mono); font-size:0.74rem; color:var(--faint);
+    letter-spacing:0.08em; margin-bottom:8px; display:flex; justify-content:space-between; gap:12px;
+  }
+  .chart-panel canvas{display:block; width:100%}
+  #spark{height:160px}
+  #cloud{height:188px}
+  .trow{display:flex; align-items:center; gap:16px; width:100%}
+  #play{
+    flex:0 0 auto; width:44px; height:44px; border-radius:50%;
+    background:var(--purple); border:none; cursor:pointer; display:grid; place-items:center;
+    color:var(--on-accent); transition:transform .15s ease, background .2s ease;
+  }
+  #play:hover{transform:scale(1.07)}
+  #play svg{width:18px; height:18px; display:block}
+  .speeds{display:flex; gap:4px; flex:0 0 auto}
+  .spd{
+    font-family:var(--font-mono); font-size:0.8rem; color:var(--text-soft);
+    background:transparent; border:1px solid var(--border); border-radius:8px;
+    padding:5px 9px; cursor:pointer; transition:background .15s ease, color .15s ease, border-color .15s ease;
+  }
+  .spd.on{background:var(--purple); color:var(--on-accent); border-color:var(--purple)}
+  .track-wrap{flex:1; position:relative; height:54px; display:flex; align-items:center; cursor:pointer}
+  #track{
+    position:absolute; left:0; right:0; top:42%; transform:translateY(-50%);
+    height:8px; border-radius:99px; background:var(--border); cursor:pointer;
+  }
+  #fill{position:absolute; left:0; top:0; height:100%; border-radius:99px;
+    background:linear-gradient(90deg, var(--purple), var(--green)); width:0%}
+  #thumb{
+    position:absolute; top:50%; width:18px; height:18px; border-radius:50%;
+    background:var(--text); transform:translate(-50%,-50%); pointer-events:none;
+    box-shadow:0 0 0 4px rgba(138,90,43,.18);
+  }
+  [data-theme="dark"] #thumb{box-shadow:0 0 0 4px rgba(167,139,250,.25)}
+  .ev{
+    position:absolute; top:50%; width:9px; height:9px; border-radius:50%;
+    transform:translate(-50%,-50%); pointer-events:none; opacity:.9;
+  }
+  .months{position:absolute; left:0; right:0; bottom:0; height:16px}
+  .mtick{
+    position:absolute; font-family:var(--font-mono); font-size:0.72rem; color:var(--faint);
+    transform:translateX(-50%); letter-spacing:0.03em;
+  }
+
+  .hidden{opacity:0 !important; pointer-events:none}
+
+  #tip{
+    position:absolute; pointer-events:none; background:var(--surface); color:var(--text);
+    border:1px solid var(--border); border-radius:9px; padding:6px 10px;
+    font-family:var(--font-mono); font-size:0.7rem; opacity:0; transform:translate(-50%,-130%);
+    transition:opacity .12s ease; white-space:nowrap; z-index:20; backdrop-filter:blur(8px);
+  }
+
+  @media (min-width:1181px){
+    #clock{right:510px}
+    #info{top:96px}
+    #fleet{
+      left:calc((100vw - 520px)/2); max-width:calc(100vw - 600px);
+      overflow-x:auto; scrollbar-width:none;
+    }
+    #fleet::-webkit-scrollbar{display:none}
+    #modeToggle{left:calc((100vw - 520px)/2)}
+  }
+
+  @media (max-width:880px){
+    :root{
+      --mobile-field-height:640px;
+      --mobile-card-top:calc(var(--mobile-field-height) + 20px);
+    }
+    html,body{height:auto; min-height:100%}
+    body{overflow-y:auto; overflow-x:hidden}
+    #stage{position:relative; inset:auto; min-height:100vh; overflow:visible; padding:var(--mobile-card-top) 0 18px}
+    canvas#sky{position:absolute; top:0; bottom:auto; height:var(--mobile-field-height)}
+    #grain{height:var(--mobile-field-height); bottom:auto}
+    #title{max-width:215px; left:18px; top:22px}
+    #title h1{font-size:1.36rem}
+    #title .sub{font-size:0.78rem; line-height:1.25}
+    #title .by{display:none}
+    #legend{display:none}
+    #info{
+      position:relative; right:auto; left:auto; top:auto; bottom:auto;
+      transform:none; width:auto; margin:0 10px; padding:18px;
+    }
+    #fleet{top:132px}
+    #fleet{
+      left:10px; right:10px; transform:none; max-width:none; overflow-x:auto;
+      justify-content:flex-start; padding:7px 8px; scrollbar-width:none;
+    }
+    #fleet::-webkit-scrollbar{display:none}
+    .dot{min-width:50px; flex:0 0 auto}
+    #modeToggle{top:176px}
+    #clock{top:24px; right:66px}
+    #clock .date{font-size:1.2rem}
+    #clock .wind{display:none}
+    #themeToggle{right:20px}
+    #bottomDock{
+      position:relative; left:auto; right:auto; bottom:auto;
+      display:block; pointer-events:auto;
+    }
+    #transport{
+      position:relative; top:auto; bottom:auto; width:auto;
+      left:auto; right:auto; transform:none; margin:16px 14px 0; padding:8px 16px 14px;
+    }
+    #kpiDock{
+      position:relative; left:auto; right:auto; top:auto; bottom:auto; width:auto;
+      display:grid; grid-template-columns:1fr 1fr; gap:10px; margin:14px 14px 0;
+    }
+    .chart-strip{grid-template-columns:1fr; gap:12px}
+    #spark{height:168px}
+    #cloud{height:230px}
+    .trow{gap:10px; flex-wrap:wrap}
+    .track-wrap{height:84px; flex:1 0 100%}
+    .kpi{min-height:98px}
+    .kpi .k{font-size:0.62rem}
+    .kpi .v{font-size:1.08rem}
+    #track{top:52%}
+    .speeds{gap:3px}
+    .spd{font-size:0.74rem; padding:5px 7px}
+    .months{bottom:-4px}
+    .mtick{font-size:0.54rem}
+    .mtick:nth-child(even){display:none}
+  }
+</style>
+</head>
+<body>
+<div id="stage">
+  <canvas id="sky"></canvas>
+  <div id="grain"></div>
+
+  <div class="overlay" id="title">
+    <h1>WINDFIELD</h1>
+    <div class="sub">A year over a ten-turbine farm: physics, faults, and repairs.</div>
+    <div class="by">simulated telemetry, by <b>Aniket Mishra</b></div>
+  </div>
+
+  <button id="themeToggle" aria-label="Switch theme"></button>
+
+  <div class="overlay" id="clock">
+    <div class="date" id="cDate">Jan 1</div>
+    <div class="season" id="cSeason">deep winter</div>
+    <div class="wind" id="cWind">wind <b></b></div>
+  </div>
+
+  <div id="fleet"></div>
+  <button id="modeToggle">Compare devices</button>
+
+  <div class="overlay panel" id="legend">
+    <h3>How to read the field</h3>
+    <div class="leg"><span class="sw" id="lgSpin"></span><span class="ttl"><b>Spin</b>: rotor speed, set by the wind</span></div>
+    <div class="leg"><span class="sw" id="lgHalo"></span><span class="ttl"><b>Halo</b>: power flowing right now</span></div>
+    <div class="leg"><span class="sw" id="lgWarm"></span><span class="ttl"><b>Warm glow</b>: a thermal fever</span></div>
+    <div class="leg"><span class="sw" id="lgYaw"></span><span class="ttl"><b>Off-wind lean</b>: yaw misalignment</span></div>
+    <div class="leg"><span class="sw" id="lgPitch"></span><span class="ttl"><b>Blue flutter</b>: a pitch fault</span></div>
+  </div>
+
+  <div class="overlay panel" id="info"></div>
+
+  <div class="overlay" id="bottomDock">
+    <div class="panel" id="kpiDock">
+      <div class="kpi"><div class="k">Fleet power</div><div class="v" id="kPower"></div></div>
+      <div class="kpi"><div class="k">Avg turbine</div><div class="v" id="kAvg"></div></div>
+      <div class="kpi"><div class="k">Active faults</div><div class="v" id="kFaults"></div></div>
+      <div class="kpi"><div class="k">YTD energy</div><div class="v" id="kEnergy"></div></div>
+    </div>
+
+    <div class="panel" id="transport">
+      <div class="chart-strip">
+        <div class="chart-panel">
+          <div class="lab"><span>STRESS OVER THE YEAR</span><span id="spkNow"></span></div>
+          <canvas id="spark" width="620" height="112"></canvas>
+        </div>
+        <div class="chart-panel">
+          <div class="lab"><span>POWER CURVE</span><span id="cloudNow">output vs wind</span></div>
+          <canvas id="cloud" width="680" height="164"></canvas>
+        </div>
+      </div>
+      <div class="trow">
+        <button id="play" aria-label="Play or pause"></button>
+        <div class="speeds">
+          <button class="spd" data-s="0.5">0.5x</button>
+          <button class="spd on" data-s="1">1x</button>
+          <button class="spd" data-s="2">2x</button>
+          <button class="spd" data-s="4">4x</button>
+        </div>
+        <div class="track-wrap">
+          <div id="track">
+            <div id="fill"></div>
+            <div id="thumb"></div>
+          </div>
+          <div class="months" id="months"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="tip"></div>
+</div>
+
+<script>
+async function loadWindfieldData(){
+  const response = await fetch("./farm.json");
+  if(!response.ok) throw new Error(`Could not load farm.json (${response.status})`);
+  return response.json();
+}
+</script>
+<script>
+(async () => {
+  "use strict";
+  const FARM = await loadWindfieldData();
+
+  const FAULT_NAMES = ["healthy","temperature","pitch","yaw","compound"];
+  const MONTH_NAMES = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+  const MONTH_START_DAY = [1,32,60,91,121,152,182,213,244,274,305,335];
+  const TWO_PI = Math.PI*2;
+  const MONO = "JetBrains Mono, monospace";
+
+  const interpolate = (from,to,t) => from + (to-from)*t;
+  const clamp = (value,low,high) => value<low ? low : value>high ? high : value;
+  const byId = id => document.getElementById(id);
+  const setHtml = (id,html) => { const e=byId(id); if(e) e.innerHTML=html; };
+  const setText = (id,text) => { const e=byId(id); if(e) e.textContent=text; };
+
+  function colorToRgb(color){
+    if(color.startsWith("#")){
+      let value=color.slice(1);
+      if(value.length===3) value=value.split("").map(character=>character+character).join("");
+      const number=parseInt(value.slice(0,6),16);
+      return [number>>16&255, number>>8&255, number&255];
+    }
+    const match=color.match(/rgba?\(([^)]+)\)/);
+    if(match){
+      const channels=match[1].split(",").slice(0,3).map(value=>parseFloat(value));
+      if(channels.every(Number.isFinite)) return channels;
+    }
+    const probe=document.createElement("span");
+    probe.style.color=color;
+    document.body.appendChild(probe);
+    const computed=getComputedStyle(probe).color;
+    probe.remove();
+    const computedMatch=computed.match(/rgba?\(([^)]+)\)/);
+    if(!computedMatch) return [0,0,0];
+    return computedMatch[1].split(",").slice(0,3).map(value=>parseFloat(value));
+  }
+  function mixColors(first,second,t){
+    const a=colorToRgb(first), b=colorToRgb(second);
+    return `rgb(${Math.round(interpolate(a[0],b[0],t))},${Math.round(interpolate(a[1],b[1],t))},${Math.round(interpolate(a[2],b[2],t))})`;
+  }
+  function withAlpha(color,alpha){ const c=colorToRgb(color); return `rgba(${c[0]},${c[1]},${c[2]},${alpha})`; }
+
+  // Colors come from the page's CSS variables, so they track the active theme.
+  const COLORS = {};
+  const SCENE = {};
+  let themeLight = false;
+  function loadColors(){
+    const styles=getComputedStyle(document.documentElement);
+    const read=name=>styles.getPropertyValue(name).trim();
+    COLORS.bg=read("--bg"); COLORS.green=read("--green"); COLORS.amber=read("--amber");
+    COLORS.rose=read("--rose"); COLORS.blue=read("--blue"); COLORS.purple=read("--purple"); COLORS.yaw=read("--yaw");
+    COLORS.text=read("--text"); COLORS.faint=read("--faint"); COLORS.border=read("--border");
+    SCENE.skyTop=read("--sky-top"); SCENE.skyWarm=read("--sky-warm"); SCENE.skyBot=read("--sky-bot");
+    SCENE.horizon=read("--horizon"); SCENE.ink=read("--ink"); SCENE.star=read("--star");
+  }
+  function familyColor(kind){
+    if(kind.includes("temperature")) return COLORS.amber;
+    if(kind.includes("pitch")) return COLORS.blue;
+    if(kind.includes("yaw")) return COLORS.yaw;
+    if(kind.includes("compound")) return COLORS.rose;
+    return COLORS.green;
+  }
+  function heatColor(level){
+    level = clamp(level,0,1);
+    return level<0.5 ? mixColors(COLORS.green,COLORS.amber,level/0.5) : mixColors(COLORS.amber,COLORS.rose,(level-0.5)/0.5);
+  }
+  function glowComposite(){ return themeLight ? "source-over" : "lighter"; }
+  function glowAlpha(base){ return themeLight ? Math.min(0.75, base*1.3) : base; }
+
+  function seasonName(dayOfYear){
+    if(dayOfYear<60||dayOfYear>=335) return "deep winter";
+    if(dayOfYear<152) return "spring";
+    if(dayOfYear<244) return "summer";
+    if(dayOfYear<305) return "autumn";
+    return "early winter";
+  }
+  function dateLabel(dayOfYear){
+    let month=0;
+    for(let i=0;i<12;i++){ if(dayOfYear>=MONTH_START_DAY[i]) month=i; }
+    return `${MONTH_NAMES[month]} ${dayOfYear - MONTH_START_DAY[month] + 1}`;
+  }
+  function directionCardinal(degrees){
+    const names=["N","NE","E","SE","S","SW","W","NW"];
+    return names[Math.round(degrees/45)%8];
+  }
+
+  const frameCount = FARM.meta.nframes;
+
+  FARM.turbines.forEach(turbine => {
+    turbine.stress = new Float32Array(frameCount);
+    for(let i=0;i<frameCount;i++){
+      const fault=turbine.flt[i], warmth=turbine.warm[i]/100, yawShare=clamp(turbine.yaw[i]/28,0,1), severityShare=turbine.sev[i]/3;
+      let stress=0;
+      if(fault===1) stress=Math.max(0.15, warmth);
+      else if(fault===2) stress=0.3 + 0.6*severityShare;
+      else if(fault===3) stress=Math.max(0.2, yawShare);
+      else if(fault===4) stress=Math.max(warmth, yawShare, 0.4);
+      turbine.stress[i]=stress;
+    }
+  });
+
+  const farmEnergyMwh = new Float32Array(frameCount);
+  for(let i=1;i<frameCount;i++){
+    const totalPowerKw=FARM.turbines.reduce((total,turbine)=>total + turbine.power[i]/100*FARM.meta.rated_kw,0);
+    farmEnergyMwh[i]=farmEnergyMwh[i-1] + totalPowerKw*FARM.meta.cadence_hours/1000;
+  }
+
+  function frameParts(frameValue){
+    frameValue=clamp(frameValue,0,frameCount-1);
+    const low=Math.floor(frameValue);
+    return { low, high:Math.min(frameCount-1,low+1), amount:frameValue-low };
+  }
+  function sampleSeries(values, frameValue){
+    const parts=frameParts(frameValue);
+    return interpolate(values[parts.low], values[parts.high], parts.amount);
+  }
+  function sampleTurbine(turbine, frameValue){
+    const parts=frameParts(frameValue);
+    return {
+      fault:turbine.flt[parts.low],
+      powerShare:sampleSeries(turbine.power, frameValue)/100,
+      rotor:sampleSeries(turbine.rotor, frameValue)/10,
+      yaw:sampleSeries(turbine.yaw, frameValue),
+      warmth:sampleSeries(turbine.warm, frameValue)/100,
+      severity:sampleSeries(turbine.sev, frameValue),
+      stress:sampleSeries(turbine.stress, frameValue),
+    };
+  }
+  function sampleFleet(frameValue){
+    const totalPowerKw=FARM.turbines.reduce((total,turbine)=>total + sampleTurbine(turbine, frameValue).powerShare*FARM.meta.rated_kw,0);
+    const frameIndex=Math.min(frameCount-1,Math.floor(clamp(frameValue,0,frameCount-1)));
+    const activeFaults=FARM.turbines.filter(turbine=>turbine.flt[frameIndex]!==0).length;
+    return {
+      totalPowerKw,
+      averagePowerKw:totalPowerKw/FARM.turbines.length,
+      activeFaults,
+      energyMwh:sampleSeries(farmEnergyMwh, frameValue),
+    };
+  }
+
+  function stateAt(turbine, frameValue){
+    const sample=sampleTurbine(turbine, frameValue);
+    const { fault, warmth, yaw, severity } = sample;
+    if(fault===0) return { ...sample, color:COLORS.green, intensity:0.16 };
+    if(fault===1) return { ...sample, color:heatColor(warmth), intensity:Math.max(0.22,warmth) };
+    if(fault===2) return { ...sample, color:COLORS.blue, intensity:0.32 + 0.55*(severity/3) };
+    if(fault===3) return { ...sample, color:COLORS.yaw, intensity:0.30 + 0.6*clamp(yaw/28,0,1) };
+    return { ...sample, color:heatColor(Math.max(warmth,0.55)), intensity:Math.max(warmth, clamp(yaw/28,0,1), 0.5) };
+  }
+  function faultColor(turbine, frameIndex){
+    const fault=turbine.flt[frameIndex];
+    if(fault===0) return COLORS.green;
+    if(fault===1) return heatColor(turbine.warm[frameIndex]/100);
+    if(fault===2) return COLORS.blue;
+    if(fault===3) return COLORS.yaw;
+    return COLORS.rose;
+  }
+
+  const canvas = byId("sky");
+  const context = canvas.getContext("2d");
+  let viewportWidth=0, viewportHeight=0, pixelRatio=1;
+  function resize(){
+    pixelRatio = Math.min(2, window.devicePixelRatio||1);
+    viewportWidth = window.innerWidth;
+    viewportHeight = viewportWidth<=880 ? 640 : window.innerHeight;
+    canvas.width = viewportWidth*pixelRatio;
+    canvas.height = viewportHeight*pixelRatio;
+    context.setTransform(pixelRatio,0,0,pixelRatio,0,0);
+    computeLayout();
+  }
+  window.addEventListener("resize", resize);
+
+  let turbineNodes = [];
+  function computeLayout(){
+    const mobile = viewportWidth<=880;
+    const panelClearance=viewportWidth>1180 ? 440 : 0;
+    const padX=mobile ? Math.max(40, viewportWidth*0.10) : Math.max(70, viewportWidth*0.07);
+    const padTop=mobile ? 252 : Math.max(170, viewportHeight*0.24);
+    const padBottom=mobile ? 48 : Math.max(145, viewportHeight*0.22);
+    const fieldHeight=viewportHeight-padTop-padBottom, fieldWidth=viewportWidth-padX*2;
+    turbineNodes = FARM.turbines.map((turbine,index) => {
+      const depth = clamp(turbine.y,0,1);
+      return {
+        turbine, index,
+        x: padX + turbine.x*(fieldWidth-panelClearance),
+        y: padTop + turbine.y*fieldHeight,
+        scale: interpolate(0.95,1.38,depth) * clamp(viewportWidth/1200,0.95,1.18),
+        rotorAngle:Math.random()*TWO_PI,
+        depth,
+      };
+    });
+    // Painter's order: far turbines (small y) drawn before near ones.
+    turbineNodes.sort((a,b)=>a.depth-b.depth);
+  }
+
+  const PARTICLE_COUNT = 260;
+  let windParticles = [];
+  function seedParticles(){
+    windParticles = [];
+    for(let i=0;i<PARTICLE_COUNT;i++){
+      windParticles.push({ x:Math.random()*viewportWidth, y:Math.random()*viewportHeight, length:6+Math.random()*16, alpha:0.04+Math.random()*0.10 });
+    }
+  }
+
+  // Meteorological direction is where wind comes from, so the flow points the opposite way.
+  function windVector(directionDegrees){
+    const radians=(directionDegrees+180)*Math.PI/180;
+    return { vx:Math.sin(radians), vy:-Math.cos(radians) };
+  }
+
+  const glowSpriteCache = new Map();
+  function glowSprite(color){
+    if(glowSpriteCache.has(color)) return glowSpriteCache.get(color);
+    const size=128, sprite=document.createElement("canvas");
+    sprite.width=sprite.height=size;
+    const spriteContext=sprite.getContext("2d");
+    const gradient=spriteContext.createRadialGradient(size/2,size/2,0,size/2,size/2,size/2);
+    gradient.addColorStop(0, withAlpha(color,0.9));
+    gradient.addColorStop(0.25, withAlpha(color,0.45));
+    gradient.addColorStop(1, withAlpha(color,0));
+    spriteContext.fillStyle=gradient; spriteContext.fillRect(0,0,size,size);
+    glowSpriteCache.set(color,sprite);
+    return sprite;
+  }
+
+  function drawRotor(node, state, spinAngle){
+    const scale=node.scale, bladeLength=46*scale;
+    const yawShare=clamp(state.yaw/40,0,1);
+    const foreshorten=interpolate(1,0.32,yawShare);
+    const lean=(state.fault===3||state.fault===4) ? state.yaw*Math.PI/180*0.5 : 0;
+    const widthScale=clamp(0.55 + 0.45*state.powerShare, 0.55, 1);
+    const tipColor=withAlpha(state.fault===0?COLORS.green:state.color, themeLight?0.95:0.78);
+
+    context.save();
+    context.translate(node.hubX, node.hubY);
+    context.rotate(lean);
+    context.scale(foreshorten,1);
+    for(let blade=0;blade<3;blade++){
+      let angle=spinAngle + blade*(TWO_PI/3);
+      let length=bladeLength;
+      if(state.fault===2 && blade===1){
+        length *= 0.82 + 0.10*Math.sin(performance.now()/180);
+        angle += 0.14*Math.sin(performance.now()/150);
+      }
+      const tipX=Math.cos(angle)*length, tipY=Math.sin(angle)*length;
+      const gradient=context.createLinearGradient(0,0,tipX,tipY);
+      gradient.addColorStop(0, withAlpha(state.fault===0?COLORS.green:state.color,0));
+      gradient.addColorStop(1, tipColor);
+      context.strokeStyle=gradient;
+      context.lineWidth=Math.max(1.6, 3.4*scale*widthScale);
+      context.lineCap="round";
+      context.beginPath(); context.moveTo(0,0); context.lineTo(tipX,tipY); context.stroke();
+    }
+    context.restore();
+  }
+
+  function drawTurbine(node, state, isSelected, spinAngle){
+    const scale=node.scale;
+    const towerHeight=92*scale, hubRadius=5.5*scale, bladeLength=46*scale;
+    const glow=glowSprite(state.color);
+
+    context.save();
+    context.globalCompositeOperation=glowComposite();
+    const poolRadius=(40 + 70*state.powerShare)*scale*(0.7+0.6*state.intensity);
+    context.globalAlpha=glowAlpha((0.18 + 0.55*state.intensity)*0.5);
+    context.drawImage(glow, node.x-poolRadius, node.y-poolRadius*0.5, poolRadius*2, poolRadius);
+    context.restore();
+
+    context.save();
+    context.strokeStyle=withAlpha(SCENE.ink, themeLight?0.55:0.40);
+    context.lineWidth=Math.max(1.4, 2.4*scale);
+    context.lineCap="round";
+    context.beginPath(); context.moveTo(node.x,node.y); context.lineTo(node.x,node.y-towerHeight); context.stroke();
+    context.restore();
+
+    node.hubX=node.x;
+    node.hubY=node.y-towerHeight;
+
+    context.save();
+    context.globalCompositeOperation=glowComposite();
+    const haloRadius=(16 + 40*state.powerShare)*scale*(0.8+0.9*state.intensity);
+    context.globalAlpha=glowAlpha(0.22 + 0.6*state.intensity);
+    context.drawImage(glow, node.hubX-haloRadius, node.hubY-haloRadius, haloRadius*2, haloRadius*2);
+    context.restore();
+
+    drawRotor(node, state, spinAngle);
+
+    context.save();
+    context.fillStyle=state.fault===0 ? withAlpha(COLORS.green,0.95) : state.color;
+    context.beginPath(); context.arc(node.hubX,node.hubY,hubRadius,0,TWO_PI); context.fill();
+    if(!themeLight && state.intensity>0.35){
+      context.globalCompositeOperation="lighter";
+      context.globalAlpha=state.intensity*0.7;
+      context.beginPath(); context.arc(node.hubX,node.hubY,hubRadius*1.8,0,TWO_PI); context.fill();
+    }
+    context.restore();
+
+    if(isSelected){
+      context.save();
+      context.strokeStyle=withAlpha(COLORS.text,0.85);
+      context.lineWidth=1.5;
+      context.setLineDash([3,4]);
+      context.beginPath(); context.arc(node.hubX,node.hubY, bladeLength+12, 0, TWO_PI); context.stroke();
+      context.restore();
+    }
+    node.hubHit={ x:node.hubX, y:node.hubY, radius:bladeLength+12 };
+  }
+
+  let stars = [];
+  function seedStars(){
+    stars = [];
+    for(let i=0;i<90;i++) stars.push({ x:Math.random(), y:Math.random()*0.5, radius:Math.random()*1.1+0.2, phase:Math.random()*TWO_PI });
+  }
+  function drawSky(temperature){
+    const warmth=clamp((temperature+5)/35,0,1);
+    const top=mixColors(SCENE.skyTop, SCENE.skyWarm, warmth*0.6);
+    const gradient=context.createLinearGradient(0,0,0,viewportHeight);
+    gradient.addColorStop(0, top);
+    gradient.addColorStop(0.6, COLORS.bg);
+    gradient.addColorStop(1, SCENE.skyBot);
+    context.fillStyle=gradient; context.fillRect(0,0,viewportWidth,viewportHeight);
+
+    if(!themeLight){
+      const seconds=performance.now()/1000;
+      context.save();
+      for(const star of stars){
+        context.fillStyle=withAlpha(SCENE.star, 0.18 + 0.18*Math.sin(seconds*0.8 + star.phase));
+        context.beginPath(); context.arc(star.x*viewportWidth, star.y*viewportHeight, star.radius, 0, TWO_PI); context.fill();
+      }
+      context.restore();
+    }
+
+    const horizonY=viewportHeight*0.70;
+    const horizonGlow=context.createLinearGradient(0,horizonY-60,0,horizonY+40);
+    horizonGlow.addColorStop(0, withAlpha(SCENE.horizon,0));
+    horizonGlow.addColorStop(1, withAlpha(SCENE.horizon,0.5));
+    context.fillStyle=horizonGlow; context.fillRect(0,horizonY-60,viewportWidth,100);
+  }
+
+  function drawWind(vector, speed){
+    const speedShare=clamp(speed/22,0.05,1);
+    const stride=interpolate(0.4,2.6,speedShare);
+    const additive=!themeLight;
+    context.save();
+    context.globalCompositeOperation=additive ? "lighter" : "source-over";
+    for(const particle of windParticles){
+      const curl=Math.sin((particle.y*0.012) + performance.now()*0.0004)*0.25;
+      const vx=vector.vx + curl, vy=vector.vy + curl*0.3;
+      particle.x += vx * stride * (0.8 + particle.length*0.04);
+      particle.y += vy * stride * (0.8 + particle.length*0.04);
+      if(particle.x<-20) particle.x=viewportWidth+20;
+      if(particle.x>viewportWidth+20) particle.x=-20;
+      if(particle.y<-20) particle.y=viewportHeight+20;
+      if(particle.y>viewportHeight+20) particle.y=-20;
+      const tailX=particle.x - vx*particle.length, tailY=particle.y - vy*particle.length;
+      const gradient=context.createLinearGradient(tailX,tailY,particle.x,particle.y);
+      const alpha=particle.alpha*(0.5+speedShare)*(additive?1:1.5);
+      gradient.addColorStop(0, withAlpha(SCENE.ink,0));
+      gradient.addColorStop(1, withAlpha(SCENE.ink, alpha));
+      context.strokeStyle=gradient; context.lineWidth=1; context.lineCap="round";
+      context.beginPath(); context.moveTo(tailX,tailY); context.lineTo(particle.x,particle.y); context.stroke();
+    }
+    context.restore();
+  }
+
+  let frame = 0;
+  let playing = true;
+  let speedMultiplier = 1;
+  let lastFrameTime = performance.now();
+  const FRAMES_PER_SECOND = 8;
+  let selection = [];
+  let compareMode = false;
+
+  function interpolateAngle(from,to,t){
+    const delta=((to-from+540)%360)-180;
+    return (from + delta*t + 360)%360;
+  }
+  function sampleSite(frameValue){
+    frameValue=clamp(frameValue,0,frameCount-1);
+    const i0=Math.floor(frameValue), i1=Math.min(frameCount-1,i0+1), t=frameValue-i0;
+    return {
+      direction:interpolateAngle(FARM.site.dir[i0], FARM.site.dir[i1], t),
+      wind:interpolate(FARM.site.wind[i0], FARM.site.wind[i1], t),
+      temperature:interpolate(FARM.site.temp[i0], FARM.site.temp[i1], t),
+      dayOfYear:FARM.site.doy[Math.round(frameValue)] || FARM.site.doy[i0],
+    };
+  }
+
+  function render(now){
+    const elapsed=clamp((now-lastFrameTime)/1000, 0, 0.05);
+    lastFrameTime=now;
+    if(playing){
+      frame += elapsed * FRAMES_PER_SECOND * speedMultiplier;
+      if(frame >= frameCount-1) frame=0;
+    }
+    const site=sampleSite(frame);
+    drawSky(site.temperature);
+    drawWind(windVector(site.direction), site.wind);
+    for(const node of turbineNodes){
+      const state=stateAt(node.turbine, frame);
+      node.rotorAngle = (node.rotorAngle + elapsed*(1.2 + state.rotor*0.22))%TWO_PI;
+      drawTurbine(node, state, selection.includes(node.index), node.rotorAngle);
+    }
+    updateChrome(site);
+    requestAnimationFrame(render);
+  }
+
+  const windEl=byId("cWind"), fillEl=byId("fill"), thumbEl=byId("thumb");
+  function updateChrome(site){
+    setText("cDate", dateLabel(site.dayOfYear));
+    setText("cSeason", seasonName(site.dayOfYear));
+    windEl.innerHTML=`wind <b>${site.wind.toFixed(1)} m/s</b> from ${directionCardinal(site.direction)}`;
+    const fleet=sampleFleet(frame);
+    setHtml("kPower", `${Math.round(fleet.totalPowerKw).toLocaleString()} <small>kW</small>`);
+    setHtml("kAvg", `${Math.round(fleet.averagePowerKw).toLocaleString()} <small>kW</small>`);
+    setHtml("kFaults", `${fleet.activeFaults} <small>of ${FARM.turbines.length}</small>`);
+    setHtml("kEnergy", `${Math.round(fleet.energyMwh).toLocaleString()} <small>MWh</small>`);
+    const percent=(frame/(frameCount-1))*100;
+    fillEl.style.width=percent+"%";
+    thumbEl.style.left=percent+"%";
+    if(fleetDots.length){
+      FARM.turbines.forEach((turbine,i)=>{
+        const state=stateAt(turbine, frame);
+        const dot=fleetDots[i];
+        if(dot){
+          dot.style.setProperty("--dot-color", state.color);
+          dot.style.setProperty("--dot-glow", withAlpha(state.color,0.55));
+        }
+      });
+    }
+    if(selection.length>0){ paintCardCharts(); refreshReadouts(); }
+  }
+
+  const fleetEl=byId("fleet");
+  let fleetDots=[];
+  FARM.turbines.forEach((turbine,index)=>{
+    const dot=document.createElement("div");
+    dot.className="dot"; dot.title=turbine.name;
+    dot.textContent=turbine.id.replace("WT","T");
+    dot.addEventListener("click",()=>toggleSelection(index));
+    dot.addEventListener("mouseenter",event=>showTooltip(event, turbine.name));
+    dot.addEventListener("mouseleave",hideTooltip);
+    fleetEl.appendChild(dot);
+    fleetDots.push(dot);
+  });
+
+  const infoEl=byId("info");
+
+  function toggleSelection(index){
+    const at=selection.indexOf(index);
+    if(at!==-1){ selection.splice(at,1); }
+    else {
+      selection.push(index);
+      const maximum=compareMode ? FARM.turbines.length : 1;
+      while(selection.length>maximum) selection.shift();
+    }
+    updateSelectionUi();
+  }
+  const modeToggle=byId("modeToggle");
+  function setCompareMode(on){
+    compareMode=on;
+    modeToggle.classList.toggle("on", on);
+    if(!on && selection.length>1) selection=selection.slice(-1);
+    updateSelectionUi();
+  }
+  modeToggle.addEventListener("click", ()=>setCompareMode(!compareMode));
+
+  function updateSelectionUi(){
+    fleetDots.forEach((dot,i)=>dot.classList.toggle("sel", selection.includes(i)));
+    if(selection.length===0){ showDefaultInfo(); return; }
+    if(compareMode && selection.length>1){ buildCompareCard(); return; }
+    buildSingleCard(selection[0]);
+  }
+
+  let card = null;
+
+  function showDefaultInfo(){
+    card=null;
+    const prompt = compareMode ? "Tap any turbines to compare them together." :
+      "Watch the field breathe. Tap any turbine, on the map or the dots above, to follow its story: a slow fever, a blade slipping out of true, a drift off the wind, and the repairs that bring some of them home.";
+    infoEl.innerHTML=`<div class="hint"><span class="big">Ten turbines, one year.</span>${prompt}</div>`;
+  }
+
+  function buildSingleCard(index){
+    const turbine=FARM.turbines[index];
+    const family=familyColor(turbine.kind);
+    const compareHint = compareMode ? `<div class="hintLine">pick more turbines to compare</div>` : "";
+    infoEl.innerHTML=`
+      <div class="eyebrow"><span>${turbine.id}</span><span class="tag" style="color:${family}">${turbine.kind}</span></div>
+      <h2>${turbine.name}</h2>
+      <div class="blurb">${turbine.blurb}</div>
+      <div class="readouts">
+        <div class="ro"><div class="k">POWER</div><div class="v" id="roPow"></div></div>
+        <div class="ro"><div class="k">ROTOR</div><div class="v" id="roRot"></div></div>
+        <div class="ro"><div class="k">YAW ERROR</div><div class="v" id="roYaw"></div></div>
+        <div class="ro"><div class="k">STATUS</div><div class="v" id="roSt"></div></div>
+      </div>${compareHint}`;
+    buildCard([index]);
+  }
+
+  function buildCompareCard(){
+    const indices=selection.slice();
+    const chips=indices.map((index,order)=>{
+      const turbine=FARM.turbines[index];
+      const ringClass=order===0 ? "" : " ring";
+      const style=order===0 ? `background:${familyColor(turbine.kind)}` : `border-color:${familyColor(turbine.kind)}`;
+      return `<div class="cmpName"><span class="cmpDot${ringClass}" style="${style}"></span><span class="cid">${turbine.id}</span> ${turbine.name}</div>`;
+    }).join("");
+    infoEl.innerHTML=`
+      <div class="eyebrow"><span>COMPARE</span><span class="tag" style="color:var(--purple)">${indices.length} turbines</span></div>
+      <div class="cmpHead">${chips}</div>
+      <div class="cmpRead">
+        <div class="cmpRow head"><span class="cl">DEVICE</span><span class="cv">POWER</span><span class="cv">ROTOR</span><span class="cv">YAW</span></div>
+        ${indices.map(index=>`<div class="cmpRow" data-compare-index="${index}"><span class="cl">${FARM.turbines[index].id}</span><span class="cv cmpPower"></span><span class="cv cmpRotor"></span><span class="cv cmpYaw"></span></div>`).join("")}
+      </div>`;
+    buildCard(indices);
+  }
+
+  function buildCard(indices){
+    card = {
+      indices,
+      sparkCanvas: byId("spark"),
+      cloudCanvas: byId("cloud"),
+      sparkSprite: buildSparklineSprite(indices),
+      cloudSprite: buildPowerCloudSprite(indices),
+    };
+    refreshChartLabels(indices);
+    paintCardCharts();
+    refreshReadouts();
+  }
+
+  function refreshChartLabels(indices){
+    const selectedCount = indices.length;
+    if(selectedCount>1){
+      setText("spkNow", "color by turbine");
+      setText("cloudNow", "current points marked");
+      return;
+    }
+    const turbine = FARM.turbines[indices[0]];
+    setText("spkNow", `${turbine.id}`);
+    setText("cloudNow", "output vs wind");
+  }
+
+  const SPARK_WIDTH=620, SPARK_HEIGHT=112;
+  const CLOUD_WIDTH=680, CLOUD_HEIGHT=164;
+  const CLOUD_LEFT=12, CLOUD_RIGHT=12, CLOUD_TOP=12, CLOUD_BOTTOM=22;
+  const WIND_MAX=26, POWER_MAX=120;
+
+  function offscreen(width,height){ const c=document.createElement("canvas"); c.width=width; c.height=height; return c; }
+  function sparkY(stress){ return SPARK_HEIGHT-2 - stress*(SPARK_HEIGHT-8); }
+  function cloudX(wind){ return CLOUD_LEFT + clamp(wind/WIND_MAX,0,1)*(CLOUD_WIDTH-CLOUD_LEFT-CLOUD_RIGHT); }
+  function cloudY(power){ return CLOUD_TOP + (1-clamp(power/POWER_MAX,0,1))*(CLOUD_HEIGHT-CLOUD_TOP-CLOUD_BOTTOM); }
+
+  function buildSparklineSprite(indices){
+    const sprite=offscreen(SPARK_WIDTH,SPARK_HEIGHT);
+    const g=sprite.getContext("2d");
+    indices.forEach(index=>{
+      const turbine=FARM.turbines[index];
+      const family=familyColor(turbine.kind);
+      FARM.events.filter(event=>event.device===turbine.id).forEach(event=>{
+        const startX=(event.start/(frameCount-1))*SPARK_WIDTH;
+        const endX=((event.end==null?frameCount-1:event.end)/(frameCount-1))*SPARK_WIDTH;
+        g.fillStyle=withAlpha(family,0.12); g.fillRect(startX,0,endX-startX,SPARK_HEIGHT);
+        g.fillStyle=withAlpha(family,0.5); g.fillRect(startX,0,1.2,SPARK_HEIGHT);
+        if(event.end!=null){ g.fillStyle=withAlpha(COLORS.green,0.5); g.fillRect(endX-1.2,0,1.2,SPARK_HEIGHT); }
+      });
+    });
+    g.strokeStyle=COLORS.border; g.lineWidth=1;
+    g.beginPath(); g.moveTo(0,SPARK_HEIGHT-2); g.lineTo(SPARK_WIDTH,SPARK_HEIGHT-2); g.stroke();
+    indices.forEach((index,order)=>{
+      const turbine=FARM.turbines[index];
+      const family=familyColor(turbine.kind);
+      if(order===0){
+        g.beginPath(); g.moveTo(0,SPARK_HEIGHT);
+        for(let i=0;i<frameCount;i++) g.lineTo((i/(frameCount-1))*SPARK_WIDTH, sparkY(turbine.stress[i]));
+        g.lineTo(SPARK_WIDTH,SPARK_HEIGHT); g.closePath();
+        const area=g.createLinearGradient(0,0,0,SPARK_HEIGHT);
+        area.addColorStop(0, withAlpha(family,0.35)); area.addColorStop(1, withAlpha(family,0.02));
+        g.fillStyle=area; g.fill();
+      }
+      g.beginPath();
+      for(let i=0;i<frameCount;i++){ const x=(i/(frameCount-1))*SPARK_WIDTH, y=sparkY(turbine.stress[i]); i?g.lineTo(x,y):g.moveTo(x,y); }
+      g.strokeStyle=family; g.lineWidth=1.6;
+      if(order>0) g.setLineDash(order%2 ? [4,3] : [2,3]);
+      g.stroke();
+      g.setLineDash([]);
+    });
+    return sprite;
+  }
+
+  function buildPowerCloudSprite(indices){
+    const sprite=offscreen(CLOUD_WIDTH,CLOUD_HEIGHT);
+    const g=sprite.getContext("2d");
+    g.font=`9px ${MONO}`; g.textBaseline="alphabetic";
+    [5,10,15,20,25].forEach(speed=>{
+      const x=cloudX(speed);
+      g.strokeStyle=withAlpha(COLORS.border,0.8); g.lineWidth=1;
+      g.beginPath(); g.moveTo(x,CLOUD_TOP); g.lineTo(x,CLOUD_HEIGHT-CLOUD_BOTTOM); g.stroke();
+      g.fillStyle=COLORS.faint; g.textAlign="center"; g.fillText(speed, x, CLOUD_HEIGHT-6);
+    });
+    const ratedY=cloudY(100);
+    g.strokeStyle=withAlpha(COLORS.faint,0.6); g.setLineDash([3,3]);
+    g.beginPath(); g.moveTo(CLOUD_LEFT,ratedY); g.lineTo(CLOUD_WIDTH-CLOUD_RIGHT,ratedY); g.stroke();
+    g.setLineDash([]);
+    g.fillStyle=COLORS.faint; g.textAlign="left"; g.fillText("rated", CLOUD_LEFT+2, ratedY-3);
+    g.textAlign="right"; g.fillText("m/s", CLOUD_WIDTH-CLOUD_RIGHT, CLOUD_HEIGHT-6);
+    indices.forEach((index,order)=>{
+      const turbine=FARM.turbines[index];
+      for(let i=0;i<frameCount;i++){
+        const x=cloudX(FARM.site.wind[i]), y=cloudY(turbine.power[i]);
+        const color=faultColor(turbine,i);
+        if(order>0){ g.strokeStyle=withAlpha(color,0.55); g.lineWidth=1; g.beginPath(); g.arc(x,y,1.45,0,TWO_PI); g.stroke(); }
+        else { g.fillStyle=withAlpha(color,0.6); g.beginPath(); g.arc(x,y,1.3,0,TWO_PI); g.fill(); }
+      }
+    });
+    return sprite;
+  }
+
+  function drawStressMarker(g,x,y,hollow,color){
+    if(hollow){ g.strokeStyle=color; g.lineWidth=1.4; g.beginPath(); g.arc(x,y,3,0,TWO_PI); g.stroke(); }
+    else { g.fillStyle=COLORS.text; g.beginPath(); g.arc(x,y,2.6,0,TWO_PI); g.fill(); }
+  }
+  function drawCloudMarker(g,x,y,color){
+    g.save();
+    g.globalCompositeOperation=glowComposite();
+    g.strokeStyle=withAlpha(color,0.95); g.lineWidth=2;
+    g.beginPath(); g.arc(x,y,5,0,TWO_PI); g.stroke();
+    g.restore();
+    g.fillStyle=COLORS.text; g.beginPath(); g.arc(x,y,1.6,0,TWO_PI); g.fill();
+  }
+
+  function paintCardCharts(){
+    if(!card) return;
+    const frameIndex=Math.min(frameCount-1, Math.floor(frame));
+    const sparkContext=card.sparkCanvas.getContext("2d");
+    sparkContext.clearRect(0,0,SPARK_WIDTH,SPARK_HEIGHT);
+    sparkContext.drawImage(card.sparkSprite,0,0);
+    const playheadX=(frame/(frameCount-1))*SPARK_WIDTH;
+    sparkContext.strokeStyle=withAlpha(COLORS.text,0.8); sparkContext.lineWidth=1;
+    sparkContext.beginPath(); sparkContext.moveTo(playheadX,0); sparkContext.lineTo(playheadX,SPARK_HEIGHT); sparkContext.stroke();
+    card.indices.forEach((index,order)=>{
+      drawStressMarker(sparkContext, playheadX, sparkY(sampleTurbine(FARM.turbines[index], frame).stress), order>0, familyColor(FARM.turbines[index].kind));
+    });
+    const cloudContext=card.cloudCanvas.getContext("2d");
+    cloudContext.clearRect(0,0,CLOUD_WIDTH,CLOUD_HEIGHT);
+    cloudContext.drawImage(card.cloudSprite,0,0);
+    const wind=sampleSeries(FARM.site.wind, frame);
+    card.indices.forEach(index=>{
+      const turbine=FARM.turbines[index];
+      drawCloudMarker(cloudContext, cloudX(wind), cloudY(sampleTurbine(turbine, frame).powerShare*100), faultColor(turbine,frameIndex));
+    });
+  }
+
+  function refreshReadouts(){
+    if(selection.length===0) return;
+    if(compareMode && selection.length>1){
+      fillCompareRows();
+      return;
+    }
+    const turbine=FARM.turbines[selection[0]];
+    const sample=sampleTurbine(turbine, frame);
+    const state=stateAt(turbine, frame);
+    setHtml("roPow", `${Math.round(sample.powerShare*FARM.meta.rated_kw)} <small>kW</small>`);
+    setHtml("roRot", `${sample.rotor.toFixed(1)} <small>rpm</small>`);
+    setHtml("roYaw", `${Math.round(sample.yaw)}<small>&deg;</small>`);
+    const status = state.fault===0 ? "healthy" : (state.fault===4 ? "two faults" : FAULT_NAMES[state.fault]);
+    setHtml("roSt", `<span style="color:${state.color}">${status}</span>`);
+    setText("spkNow", `${Math.round(state.intensity*100)}%`);
+  }
+  function fillCompareRows(){
+    document.querySelectorAll("[data-compare-index]").forEach(row=>{
+      const index=Number(row.dataset.compareIndex);
+      const sample=sampleTurbine(FARM.turbines[index], frame);
+      row.querySelector(".cmpPower").textContent=`${Math.round(sample.powerShare*FARM.meta.rated_kw)} kW`;
+      row.querySelector(".cmpRotor").textContent=`${sample.rotor.toFixed(1)} rpm`;
+      row.querySelector(".cmpYaw").textContent=`${Math.round(sample.yaw)}\u00b0`;
+    });
+  }
+
+  canvas.addEventListener("mousemove", event=>{
+    let hit=null;
+    for(const node of turbineNodes){
+      const target=node.hubHit;
+      if(!target) continue;
+      const dx=event.clientX-target.x, dy=event.clientY-target.y;
+      if(dx*dx+dy*dy < target.radius*target.radius) hit=node;
+    }
+    if(hit){ canvas.style.cursor="pointer"; showTooltip(event, hit.turbine.name); }
+    else { canvas.style.cursor="default"; hideTooltip(); }
+  });
+  canvas.addEventListener("click", event=>{
+    for(const node of turbineNodes){
+      const target=node.hubHit;
+      if(!target) continue;
+      const dx=event.clientX-target.x, dy=event.clientY-target.y;
+      if(dx*dx+dy*dy < target.radius*target.radius){ toggleSelection(node.index); return; }
+    }
+  });
+
+  const tooltip=byId("tip");
+  function showTooltip(event,text){ tooltip.textContent=text; tooltip.style.left=event.clientX+"px"; tooltip.style.top=event.clientY+"px"; tooltip.style.opacity=1; }
+  function hideTooltip(){ tooltip.style.opacity=0; }
+
+  const playButton=byId("play");
+  const ICON_PLAY='<svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>';
+  const ICON_PAUSE='<svg viewBox="0 0 24 24" fill="currentColor"><path d="M6 5h4v14H6zM14 5h4v14h-4z"/></svg>';
+  function setPlaying(value){ playing=value; playButton.innerHTML=value?ICON_PAUSE:ICON_PLAY; }
+  playButton.addEventListener("click", ()=>setPlaying(!playing));
+
+  document.querySelectorAll(".spd").forEach(button=>button.addEventListener("click", ()=>{
+    speedMultiplier=parseFloat(button.dataset.s);
+    document.querySelectorAll(".spd").forEach(other=>other.classList.toggle("on", other===button));
+  }));
+
+  const track=byId("track");
+  const trackWrap=track.parentElement;
+  let scrubbing=false;
+  function scrubTo(clientX){
+    const rect=track.getBoundingClientRect();
+    frame=clamp((clientX-rect.left)/rect.width,0,1)*(frameCount-1);
+  }
+  trackWrap.addEventListener("pointerdown", event=>{ scrubbing=true; setPlaying(false); scrubTo(event.clientX); trackWrap.setPointerCapture(event.pointerId); });
+  trackWrap.addEventListener("pointermove", event=>{ if(scrubbing) scrubTo(event.clientX); });
+  trackWrap.addEventListener("pointerup", ()=>{ scrubbing=false; });
+  trackWrap.addEventListener("pointercancel", ()=>{ scrubbing=false; });
+
+  const monthsEl=byId("months");
+  function buildMonths(){
+    MONTH_NAMES.forEach((name,i)=>{
+      const tick=document.createElement("div");
+      tick.className="mtick";
+      tick.style.left=(MONTH_START_DAY[i]-1)/365*100+"%";
+      tick.textContent=name;
+      monthsEl.appendChild(tick);
+    });
+    FARM.events.forEach(event=>{
+      if(event.start==null) return;
+      const color=familyColor(event.type);
+      const marker=document.createElement("div");
+      marker.className="ev";
+      marker.style.left=(event.start/(frameCount-1))*100+"%";
+      marker.style.background=color;
+      marker.style.boxShadow=`0 0 6px ${withAlpha(color,0.8)}`;
+      track.appendChild(marker);
+    });
+  }
+
+  function paintLegend(){
+    const makeSwatch=(id,draw)=>{
+      const host=byId(id); host.innerHTML="";
+      const swatch=document.createElement("canvas");
+      swatch.width=swatch.height=22;
+      draw(swatch.getContext("2d"));
+      host.appendChild(swatch);
+    };
+    makeSwatch("lgSpin",g=>{
+      g.strokeStyle=COLORS.text; g.lineWidth=1.4; g.lineCap="round";
+      for(let blade=0;blade<3;blade++){ const angle=blade*2.09+0.4; g.beginPath(); g.moveTo(11,11); g.lineTo(11+Math.cos(angle)*8,11+Math.sin(angle)*8); g.stroke(); }
+      g.fillStyle=COLORS.text; g.beginPath(); g.arc(11,11,2,0,TWO_PI); g.fill();
+    });
+    makeSwatch("lgHalo",g=>{
+      const gradient=g.createRadialGradient(11,11,0,11,11,11);
+      gradient.addColorStop(0, withAlpha(COLORS.green,0.9)); gradient.addColorStop(1, withAlpha(COLORS.green,0));
+      g.fillStyle=gradient; g.fillRect(0,0,22,22);
+    });
+    makeSwatch("lgWarm",g=>{
+      const gradient=g.createRadialGradient(11,11,0,11,11,11);
+      gradient.addColorStop(0, withAlpha(COLORS.rose,0.95)); gradient.addColorStop(0.5, withAlpha(COLORS.amber,0.5)); gradient.addColorStop(1, withAlpha(COLORS.amber,0));
+      g.fillStyle=gradient; g.fillRect(0,0,22,22);
+    });
+    makeSwatch("lgYaw",g=>{
+      g.strokeStyle=COLORS.yaw; g.lineWidth=1.6; g.lineCap="round";
+      g.save(); g.translate(11,11); g.rotate(0.5);
+      for(let blade=0;blade<3;blade++){ const angle=blade*2.09; g.beginPath(); g.moveTo(0,0); g.lineTo(Math.cos(angle)*8*0.4, Math.sin(angle)*8); g.stroke(); }
+      g.restore();
+    });
+    makeSwatch("lgPitch",g=>{
+      g.strokeStyle=COLORS.blue; g.lineWidth=1.6; g.lineCap="round";
+      for(let blade=0;blade<3;blade++){ const angle=blade*2.09+(blade===1?0.5:0); const length=blade===1?5:8; g.beginPath(); g.moveTo(11,11); g.lineTo(11+Math.cos(angle)*length,11+Math.sin(angle)*length); g.stroke(); }
+    });
+  }
+
+  const THEME_KEY="preferred-theme";
+  const themeToggle=byId("themeToggle");
+  const ICON_SUN='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>';
+  const ICON_MOON='<svg viewBox="0 0 24 24" fill="currentColor"><path d="M21 12.8A9 9 0 1111.2 3a7 7 0 009.8 9.8z"/></svg>';
+  function applyTheme(theme){
+    document.documentElement.setAttribute("data-theme", theme);
+    themeLight = theme!=="dark";
+    themeToggle.innerHTML = themeLight ? ICON_MOON : ICON_SUN;
+    loadColors();
+    glowSpriteCache.clear();
+    paintLegend();
+    if(selection.length>0) updateSelectionUi();
+  }
+  function startingTheme(){
+    const saved=localStorage.getItem(THEME_KEY);
+    if(saved==="light"||saved==="dark") return saved;
+    return window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+  }
+  themeToggle.addEventListener("click", ()=>{
+    const next = document.documentElement.getAttribute("data-theme")==="dark" ? "light" : "dark";
+    localStorage.setItem(THEME_KEY, next);
+    applyTheme(next);
+  });
+  window.addEventListener("storage", event=>{ if(event.key===THEME_KEY) applyTheme(startingTheme()); });
+
+  window.addEventListener("keydown", event=>{
+    if(event.code==="Space"){ event.preventDefault(); setPlaying(!playing); }
+    else if(event.code==="ArrowRight"){ frame=Math.min(frameCount-1, frame + (event.shiftKey?40:8)); }
+    else if(event.code==="ArrowLeft"){ frame=Math.max(0, frame - (event.shiftKey?40:8)); }
+    else if(event.code==="KeyC"){ setCompareMode(!compareMode); }
+  });
+
+  applyTheme(startingTheme());
+  resize();
+  seedParticles();
+  seedStars();
+  buildMonths();
+  setPlaying(true);
+  selection=[0];
+  updateSelectionUi();
+  requestAnimationFrame(render);
+})();
+</script>
+</body>
+</html>
